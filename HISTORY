@@ -1,0 +1,83 @@
+<!-- 
+     page taken from 
+     http://www.mediawiki.org/wiki/Extension:DataTable2/History
+-->
+
+== Version 0.8.3 ==
+
+=== Bugfixes ===
+
+* Fix DataTable2Parser::_parseWiki(), handling gracefully the case that there are more columns than column names.
+* Fix DataTable2DataPager::__construct, now using DataTable2::singleton() instead of a global DataTable2 object.
+
+== Version 0.8.2 ==
+
+=== Bugfixes ===
+
+* [[Manual:$wgExtensionFunctions|$wgExtensionFunctions]] is used so that [[mw-config]] now works.
+
+== Version 0.8.1 ==
+
+=== Configuration changes ===
+
+It is useful to install the [[Extension:Scribunto]] extension together with DataTable2 since DataTable2 provides support for it. It does not matter which one is mentioned first in <code>LocalSettings.php</code>.
+
+=== Bugfixes ===
+
+* The <code>dt2-showtable</code> tag as well as the parser functions <code>dt2-expand</code> and <code>dt2-get</code> now increment the [[Manual:$wgExpensiveParserFunctionLimit|expensive]] function count.
+* <code>dt2-get</code> now returns an enpty string when the requested column is null (thus avoiding warnings in the PHP log).
+
+=== New features ===
+
+The DataTable2 extension now includes a Lua library for [[Extension:Scribunto]], allowing Lua modules to directly access the stored data.
+
+=== New languages ===
+
+Messages are now available in German as well.
+
+== Version 0.8 ==
+
+A number of breaking changes has been introduced which in some circumstances require more work from wiki editors, but which should make the behaviour of the extension (and the php code) easier to understand and align it better with the way most extensions work.
+
+Since a it might take some time to migrate from the old to the new version, the new version has been named DataTable2 (with a tag &lt;datatable2&gt; and all other tags and parser function names prefixed with dt2-) so that it can co-exist with the old version in the same wiki installation.
+
+=== Configuration changes ===
+
+All [[{{NAMESPACE}}:{{BASEPAGENAME}}#Configuration|configuration parameters]] are new.
+
+=== Changes to the data model ===
+
+Data is stored in the table <code>datatable2_data</code> much the same way as it was before in <code>datatable_data</code>. Columns can now be given names, which are stored in the table <code>datatable2_meta</code>.
+
+Since the column <code>dtd_page</code> does not have a NOT NULL constraint any more, you can use the table to make data from sources other than wikipages available within your wiki. To do that, you can either insert other data in the table with any means you like, or create a view as a union of the table with some other table(s) and set the [[{{NAMESPACE}}:{{BASEPAGENAME}}#LocalSettings.php|configuration parameter]] <code>$wgDataTable2Read</code> to the name of that view.
+
+Once you have finished migration of your wiki from DataTable to DataTable2, don't forget to drop the old table <code>datatable_data</code>.
+
+=== Changes to the &lt;datatable2&gt; tag ===
+
+* Attributes are not subject to template replacement any more. This is because the attributes fs and rs are needed in the save triggers, where no frame information is available, and in general it is not common in extensions to apply replacement to tag arguments.
+* An empty <code>&lt;head&gt;</code> tag caused the content to be rendered within a wiki table. Empty <code>&lt;head&gt;</code> tags are now ignored; to force a wrapping table, you need to do one of the following:
+** Supply an nonempty <code>&lt;head&gt;</code> tag.
+** Supply a nonempty <code>class</code> attribute.
+** Do neither supply a <code>template</code> attribute nor a <code>&lt;template&gt;</code> tag.
+* The contents of &lt;head&gt; used to be wrapped between |- items so that they worked even when the user forgot some wiki table markup. This is not the case any more, hence it is now the user's responsibility to write correct wikitext.
+* The attributes <code>p1, p2, p3, p4</code> are not supported any more. Instead, there is a new attribute <code>args</code> which is copied verbatim to the template invocation for each row.
+* When no template was defined (neither as a <code>template</code> attribute nor as a <code>&lt;template&gt;</code> tag), the data used to be rendered using default field and record separators. Now, the data is rendered in a wiki table.
+* In the data, pipe characters within templates or links were interpreted as pipe characters rather than field separators. This implied a rather complex and probably error-prone parsing algorithm which has been abandoned in favor of a simple split by pipe. Hence, you need to replace pipe characters within templates or links with the template <code><nowiki>{{!}}</nowiki></code>, or use a different field separator.
+
+=== Bugfixes ===
+
+The WHERE and ORDER BY clauses are now sanitized to protect against SQL injection.
+
+=== New features ===
+
+Many arguments to [[{{NAMESPACE}}:{{BASEPAGENAME}}#&lt;datatable2&gt;|&lt;datatable2&gt;]] as well as all means to [[{{NAMESPACE}}:{{BASEPAGENAME}}#Retrieving data|retrieve data]] are new.
+
+=== Other changes ===
+
+The code has been reviewed in order to comply better with the guidelines on mediawiki.org.
+
+== Old versions ==
+
+Release numbers lower than 0.8 refer to the old DataTable extension.
+

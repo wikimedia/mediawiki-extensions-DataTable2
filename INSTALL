@@ -1,0 +1,11 @@
+<!-- 
+     page taken from 
+     http://www.mediawiki.org/wiki/Extension:DataTable2/Installation
+-->  
+== Installation ==
+{{ExtensionInstall
+|download-link=[http://sourceforge.net/projects/mwdatatable/files/DataTable2-1.0.3.zip/download Download]
+|db-update=1
+}}
+
+Even though this extension has been tested on MediaWiki 1.23 only, it is likely to work on slightly earlier versions as well.
