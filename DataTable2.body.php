@@ -258,7 +258,8 @@ class DataTable2 {
 	public function onNewRevisionFromEditComplete( $article, Revision $rev,
 		$baseID, User $user ) {
 		/** Call DataTable2Database::save(). */
-		return $this->database_->save( $article, $rev->getText(),
+		return $this->database_->save(
+			$article, $rev->getContent()->getWikitextForTransclusion(),
 			__METHOD__ );
 	}
 
