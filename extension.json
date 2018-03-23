@@ -10,18 +10,18 @@
 	"MediaWiki": ">= 1.30.0"
     },
     "AutoloadClasses": {
-        "DataTable2": "DataTable2.body.php",
-	"DataTable2Database": "DataTable2Database.php",
-	"DataTable2Exception": "DataTable2Exception.php",
-	"DataTable2Parser": "DataTable2Parser.php",
-	"DataTable2ParserWithRecords": "DataTable2Parser.php",
-	"DataTable2SqlTransformer": "DataTable2SqlTransformer.php",
-	"Scribunto_LuaDataTable2Library": "Scribunto_LuaDataTable2Library.php",
-	"SpecialDataTable2": "SpecialDataTable2.php",
-	"DataTable2Pager": "SpecialDataTable2.php",
-	"SpecialDataTable2Data": "SpecialDataTable2Data.php",
-	"SpecialDataTable2Pages": "SpecialDataTable2Pages.php",
-	"SpecialDataTable2Tables": "SpecialDataTable2Tables.php"
+        "DataTable2": "includes/DataTable2.body.php",
+	"DataTable2Database": "includes/DataTable2Database.php",
+	"DataTable2Exception": "includes/DataTable2Exception.php",
+	"DataTable2Parser": "includes/DataTable2Parser.php",
+	"DataTable2ParserWithRecords": "includes/DataTable2Parser.php",
+	"DataTable2SqlTransformer": "includes/DataTable2SqlTransformer.php",
+	"Scribunto_LuaDataTable2Library": "includes/Scribunto_LuaDataTable2Library.php",
+	"SpecialDataTable2": "includes/SpecialDataTable2.php",
+	"DataTable2Pager": "includes/SpecialDataTable2.php",
+	"SpecialDataTable2Data": "includes/SpecialDataTable2Data.php",
+	"SpecialDataTable2Pages": "includes/SpecialDataTable2Pages.php",
+	"SpecialDataTable2Tables": "includes/SpecialDataTable2Tables.php"
     },
     "ExtensionFunctions": [ "DataTable2::init" ],
     "MessagesDirs": {
@@ -30,8 +30,8 @@
 	]
     },
     "ExtensionMessagesFiles": {
-        "DataTable2Alias": "DataTable2.alias.php",
-        "DataTable2Magic": "DataTable2.i18n.magic.php"
+        "DataTable2Alias": "includes/DataTable2.alias.php",
+        "DataTable2Magic": "includes/DataTable2.i18n.magic.php"
     },
     "AvailableRights": [ "datatable2-specialpages" ],
     "GroupPermissions": {
