@@ -1,52 +1,11 @@
-<!-- 
-     page taken from 
+<!--
+     page taken from
      http://www.mediawiki.org/wiki/Extension:DataTable2/Release_notes
--->  
+-->
 == Release notes ==
 
-These are the release notes for version 1.0. See [[{{NAMESPACE}}:{{BASEPAGENAME}}/History]] for older releases.
-
-=== Configuration changes ===
-
-* The configuration variable <code>$wgDataTable2EnableDetailTracking</code> is not used any more. Detail tracking is now enabled by default and can be disabled by setting the message <code>datatable2-consumer-detail-category</code> to a single dash.
-* The messages are now stored in the [[mw:Localisation file format|new JSON format]]. This implies that you need to modify the message <code>datatable2pages-row</code> if you modify <code>$wgSpecialDataTable2PageParSep</code>.
-* The message <code>datatable2data-noresult2</code> is not used any more.
-* The messages <code>datatable2data-noresult, datatable2pages-noresult, datatable2tables-noresult</code> have been simplified and do not take parameters any more.
-* Defaults are now provided for the messages <code>datatable2data-summary, datatable2pages-summary, datatable2tables-summary</code>.
-* The <code>*-legend</code> must not contain wiki markup any more. Any markup such as links should be put into the summary messages.
-
-=== New features ===
-
-* [[Special:DataTable2Tables]] now contains links to tracking categories.
+These are the release notes for version 1.0.4 See [[{{NAMESPACE}}:{{BASEPAGENAME}}/History]] for older releases.
 
 === Bugfixes ===
 
-* Pages using DataTable2 data through the Lua API are now added to the appropriate tracking categories and assigned dependencies the same way as pages using DataTable2 data through tags or parser functions. If you already have such pages, you can fix the categories and dependencies either by performing a [[mw:Manual:Purge#Null_edits|null edit]] on each page or by executing the script <code>maintenance/refreshLinks.php</code>. Note that the latter may take a considerable amount of time.
-* <code>$wgDataTable2ReadSrc</code> is set to <code>$wgDataTable2WriteDest</code> in DataTable2::init() if unset, so that it is sufficient to customize the latter if it is desired to have them equal.
-* Same for <code>$wgDataTable2MetaReadSrc</code> / <code>$wgDataTable2MetaWriteDest</code>.
-* Multiple XML comments within one record are now handled correctly.
-* Improved text of <code>*-noresult</code> messages.
-
-=== Bugfixes in version 1.0.1 ===
-
-* Minor fixes to avoid PHP warnings.
-* Minor fixes to messages.
-
-=== Bugfixes in version 1.0.2 ===
-
-* Removed wrong sorting of data when rendering a table without a template. (Thanks to [[User:Cruickshanks]] for spotting this.)
-
-=== Bugfixes in version 1.0.3 ===
-
-* Removed trailing blank lines in DataTable2.php. (Thanks to [[User:Cruickshanks]] for spotting this.)
-
-=== Languages updated ===
-
-* Support was added for Italian (it).
-
-=== Other Changes ===
-
-* For the messages <code>datatable2tables-row</code> and <code>datatable2pages-row</code>,  the text() [[mw:Manual:Messages_API#Output modes and escaping|output mode]] is now used instead of plain(). This means that all '{{}}' are transformed.
-* The special pages have been re-implemented with common code collected in common base classes.
-* [[Special:DataTable2Data]] is now implemented with html table syntax rather than wiki table syntax.
-
+Removed closing ?> at end of file. Removed backwards-compatibility shim DataTable2.i18n.php.
