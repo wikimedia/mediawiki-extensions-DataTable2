@@ -60,7 +60,8 @@ class Scribunto_LuaDataTable2Library extends Scribunto_LuaLibraryBase {
 			'select' => array( $this, 'select' )
 		);
 
-		$this->getEngine()->registerInterface( __DIR__ . '/lua/DataTable2.lua',
+		$this->getEngine()->registerInterface(
+			__DIR__ . '/../lua/DataTable2.lua',
 			$lib, array() );
 	}
 
