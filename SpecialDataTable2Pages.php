@@ -157,4 +157,3 @@ class SpecialDataTable2Pages extends SpecialDataTable2
 		parent::__construct( 'DataTable2Pages' );
 	}
 }
-?>

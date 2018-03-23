@@ -95,7 +95,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 		$table = Title::makeTitle( NS_MAIN, $row->dtd_table );
 
 
-		$detailCateg = $this->msg( 'datatable2-consumer-detail-category', 
+		$detailCateg = $this->msg( 'datatable2-consumer-detail-category',
 			$table->getText() )->inContentLanguage()->text();
 
 		return $this->msg( 'datatable2tables-row', $table->getText(),
@@ -131,4 +131,3 @@ class SpecialDataTable2Tables extends SpecialDataTable2
 		parent::__construct( 'DataTable2Tables', false );
 	}
 }
-?>

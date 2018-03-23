@@ -23,5 +23,3 @@ $magicWords['en'] = array(
 	'dt2-get' => array( 0, 'dt2-get' ),
 	'dt2-lastget' => array( 0, 'dt2-lastget' )
 );
-
-?>

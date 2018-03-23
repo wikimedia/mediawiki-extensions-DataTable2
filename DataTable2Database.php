@@ -417,5 +417,3 @@ class DataTable2Database {
 		}
 	}
 }
-
-?>

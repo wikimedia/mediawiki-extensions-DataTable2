@@ -191,4 +191,3 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage
 		}
 	}
 }
-?>

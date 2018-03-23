@@ -24,4 +24,3 @@ $specialPageAliases['en'] = array(
 	'DataTable2Pages' => array( 'DataTable2Pages' ),
 	'DataTable2Tables' => array( 'DataTable2Tables' )
 );
-?>

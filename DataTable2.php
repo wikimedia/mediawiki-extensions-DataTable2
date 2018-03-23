@@ -272,4 +272,3 @@ $wgSpecialPages['DataTable2Pages'] = 'SpecialDataTable2Pages';
  * (http://www.mediawiki.org/wiki/Manual:Special pages) DataTable2Tables.
  */
 $wgSpecialPages['DataTable2Tables'] = 'SpecialDataTable2Tables';
-?>

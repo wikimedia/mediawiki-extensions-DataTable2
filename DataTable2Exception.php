@@ -48,5 +48,3 @@ class DataTable2Exception extends MWException {
 		return wfMessage( 'datatable2-error', $this->getMessage() )->text();
 	}
 }
-
-?>

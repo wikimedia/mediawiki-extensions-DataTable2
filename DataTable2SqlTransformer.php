@@ -200,7 +200,7 @@ class DataTable2SqlTransformer {
 
 					$i = $endPos + 2;
 					continue;
-				} elseif ( substr( $sql, $i, 2 ) == '--' )  {
+				} elseif ( substr( $sql, $i, 2 ) == '--' )	{
 					/** Skip anything after an SQL-style comment. */
 					break;
 				}
@@ -262,5 +262,3 @@ class DataTable2SqlTransformer {
 		}
 	}
 }
-
-?>
