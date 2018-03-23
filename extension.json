@@ -10,7 +10,7 @@
 	"MediaWiki": ">= 1.30.0"
     },
     "AutoloadClasses": {
-        "DataTable2": "includes/DataTable2.body.php",
+        "DataTable2": "includes/DataTable2.php",
 	"DataTable2Database": "includes/DataTable2Database.php",
 	"DataTable2Exception": "includes/DataTable2Exception.php",
 	"DataTable2Parser": "includes/DataTable2Parser.php",
