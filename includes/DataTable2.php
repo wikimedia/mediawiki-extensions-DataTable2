@@ -214,9 +214,9 @@ class DataTable2 {
 	 */
 	public function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
 		$updater->addExtensionTable( 'datatable2_data',
-			__DIR__ . '/sql/datatable2_data.sql', true );
+			__DIR__ . '/../sql/datatable2_data.sql', true );
 		$updater->addExtensionTable( 'datatable2_meta',
-			__DIR__ . '/sql/datatable2_meta.sql', true );
+			__DIR__ . '/../sql/datatable2_meta.sql', true );
 
 		return true;
 	}
