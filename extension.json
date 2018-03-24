@@ -1,6 +1,6 @@
 {
     "name": "DataTable2",
-    "version": "1.1.0",
+    "version": "1.1.0-rc1",
     "type": "parserhook",
     "author": "[http://www.mediawiki.org/wiki/User:RV1971 RV1971]",
     "descriptionmsg": "datatable2-desc",
