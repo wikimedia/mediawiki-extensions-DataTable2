@@ -1,14 +1,14 @@
-<!-- 
-     page taken from 
+<!--
+     page taken from
      http://www.mediawiki.org/wiki/Extension:DataTable2/Usage
--->  
+-->
 == Usage ==
 
 === Storing and displaying data ===
 
 Since data are saved to the database using the [[Manual:Hooks/NewRevisionFromEditComplete|NewRevisionFromEditComplete]] hook, no data is stored in the database when the page has not changed. Therefore, you should install the extension before using <code>&lt;datatable2&gt;</code> tags in your wiki pages. Otherwise, after installation, you need to modify each page containing <code>&lt;datatable2&gt;</code> tags in order to get the data actually saved.
 
-All pages storing data in DataTable2 tables are added to the tracking category defined by the [[{{NAMESPACE}}:{{BASEPAGENAME}}#Messages|system message]] <code>datatable2-producer-category</code>. You might decide to add some explanatory text to the category page. 
+All pages storing data in DataTable2 tables are added to the tracking category defined by the [[{{NAMESPACE}}:{{BASEPAGENAME}}#Messages|system message]] <code>datatable2-producer-category</code>. You might decide to add some explanatory text to the category page.
 
 ==== &lt;datatable2&gt; ====
 
@@ -69,11 +69,11 @@ This will display
 
 This time, each record is formatted using template code provided in a <code>&lt;template&gt;</code> tag, the columns have names which can be used in the template code, and the result is not automatically wrapped into a wikitable. You can also combine <code>&lt;head&gt;</code> and <code>&lt;template&gt;</code>, in which case they must be given in this order.
 
-Furthermore, a different field separator has been used, which allows to do without the <code><nowiki>{{!}}</nowiki></code> template. In the data, xml comments (&lt;!-- ... --&gt;) are detected and removed from each row. Comments spanning multiple rows and syntax errors (such as -- appearing inside comments) will not be detected. 
+Furthermore, a different field separator has been used, which allows to do without the <code><nowiki>{{!}}</nowiki></code> template. In the data, xml comments (&lt;!-- ... --&gt;) are detected and removed from each row. Comments spanning multiple rows and syntax errors (such as -- appearing inside comments) will not be detected.
 
 The following gives a complete list of possible arguments to the <code>&lt;datatable2&gt;</code> tag. All of them are optional.
 ; args
-: Additional arguments to pass to the template for each record, in the usual wiki syntax, i.e. pipe-separated. This can be useful if you use the <code>template<code> argument (see below) to use the same template in several tables and want to pass table-specific argument to the template.
+: Additional arguments to pass to the template for each record, in the usual wiki syntax, i.e. pipe-separated. This can be useful if you use the <code>template</code> argument (see below) to use the same template in several tables and want to pass table-specific argument to the template.
 ; class
 : CSS classes for the table. Implies that the data are wrapped into a table, even if no <code>&lt;head&gt;</code> is given.
 ; columns
@@ -92,7 +92,7 @@ The following gives a complete list of possible arguments to the <code>&lt;datat
 
 === Retrieving data ===
 
-When displaying data on a page, all pages where data are taken from are added to the list of used templates. This implies that a page will not be taken from a cache if underlying data have changed, and that the data source pages will be listed as if they were templates used on the page. Hence, in the edit preview, dependencies will be shown as "templates used on this page" (potentially including the page itself), and on the other hand, in the "What links here" page of data source page, all pages using this data will be shown as if they transcluded the page. Unfortunately, there is currently no wiki feature that allows to distinguish this kind of dependency from a normal template dependency. 
+When displaying data on a page, all pages where data are taken from are added to the list of used templates. This implies that a page will not be taken from a cache if underlying data have changed, and that the data source pages will be listed as if they were templates used on the page. Hence, in the edit preview, dependencies will be shown as "templates used on this page" (potentially including the page itself), and on the other hand, in the "What links here" page of data source page, all pages using this data will be shown as if they transcluded the page. Unfortunately, there is currently no wiki feature that allows to distinguish this kind of dependency from a normal template dependency.
 
 All pages using data from DataTable2 tables are added to the [[Help:Tracking_categories|tracking category]] defined by the system message <code>datatable2-consumer-category</code>. Furthermore, these pages will be added to individual tracking categories for each table used. The names of these tracking categories are created from the [[{{NAMESPACE}}:{{BASEPAGENAME}}#Messages|system message]] <code>datatable2-consumer-detail-category</code> (in your wiki's [[Manual:$wgLanguageCode|content language]]). You might decide to add some explanatory text to the category pages.
 
@@ -163,7 +163,7 @@ The parser function takes the following parameters, where the first three are ma
 * The logical ''table'' defined with the <code>&lt;datatable2&gt;</code> tag where the data should be taken from.
 * The ''where'' clause that should select at most one record. If more then one record is found, an error message is displayed.
 * Optionally the ''default'' text to return if no data are found. It is expanded only if needed, so using a complex template here does not lead to performance issues if used for unexpected errors only.
-* Optionally further arguments that are appended as template arguments to the data selected from the database. 
+* Optionally further arguments that are appended as template arguments to the data selected from the database.
 
 ==== dt2-get ====
 
@@ -199,10 +199,10 @@ Three special pages are provided to inspect the stored data:
 
 ; [[Special:DataTable2Tables]]
 : Lists all logical tables defined with the extension. For each table, the number of contributing pages and the number of records are shown. The former links to [[Special:DataTable2Pages]], the latter to [[Special:DataTable2Data]].
-: This special page accepts one parameter, which can either be appended to the URL with a slash (e.g. Special:DataTable2Tables/Employees) or given as the REQUEST parameter <code>tablename</code>. The former takes precedence. The page will display tables whose names are greater or equal to this. 
+: This special page accepts one parameter, which can either be appended to the URL with a slash (e.g. Special:DataTable2Tables/Employees) or given as the REQUEST parameter <code>tablename</code>. The former takes precedence. The page will display tables whose names are greater or equal to this.
 ; [[Special:DataTable2Pages]]
 : Lists all pages contributing to a table, listing for each page the number of contributed records.
-: This special page accepts two parameters, which can either be appended to the URL (e.g. Special:DataTable2Pages/Employees//Kampala) or given as the REQUEST parameters <code>tablename</code> and <code>pagename</code>. The former take precedence. The separator between parameters appended to the URL is configured with the global variable [[{{NAMESPACE}}:{{BASEPAGENAME}}#Configuration|$wgSpecialDataTable2PageParSep]]. The page will display for the given table those pages whose titles are greater or equal to the given one (regardless of the namespace). 
+: This special page accepts two parameters, which can either be appended to the URL (e.g. Special:DataTable2Pages/Employees//Kampala) or given as the REQUEST parameters <code>tablename</code> and <code>pagename</code>. The former take precedence. The separator between parameters appended to the URL is configured with the global variable [[{{NAMESPACE}}:{{BASEPAGENAME}}#Configuration|$wgSpecialDataTable2PageParSep]]. The page will display for the given table those pages whose titles are greater or equal to the given one (regardless of the namespace).
 ; [[Special:DataTable2Data]]
 : Lists the records in a table.
 : This special page accepts three parameters, which can either be appended to the URL (e.g. Special:DataTable2Pages/Employees//Kampala//Smith) or given as the REQUEST parameters <code>tablename, pagename</code> and <code>data</code>. The former take precedence. The separator between parameters appended to the URL is configured with the global variable [[{{NAMESPACE}}:{{BASEPAGENAME}}#Configuration|$wgSpecialDataTable2PageParSep]]. The page will display for the given table and page (if specified) those records where the content of the first field is greater or equal to the given one.
