@@ -867,7 +867,7 @@ class DataTable2 {
 
 			/** Close table, if any. */
 			if ( $isToBeWrapped ) {
-				$wikitext .= '|}';
+				$wikitext .= "\n|}";
 			}
 
 			wfProfileOut( __METHOD__ );
