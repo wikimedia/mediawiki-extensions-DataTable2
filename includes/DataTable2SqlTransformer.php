@@ -176,89 +176,81 @@ class DataTable2SqlTransformer {
 	 *	 configured with @ref $wgDataTable2SqlWhiteList.
 	 */
 	public function transform( $sql, $columns ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		/** Get mapping of logical colum names to database colum
+		 *	names. */
+		$columnMap = array_combine( $columns,
+			DataTable2Database::dataCols( count( $columns ) ) );
 
-			/** Get mapping of logical colum names to database colum
-			 *	names. */
-			$columnMap = array_combine( $columns,
-				DataTable2Database::dataCols( count( $columns ) ) );
+		$result = '';
 
-			$result = '';
+		/** Loop through $sql doing the following steps. */
+		for ( $i = 0; $i < strlen( $sql ); ) {
+			/** Skip C-style comments. */
+			if ( substr( $sql, $i, 2 ) == '/*' ) {
+				$endPos = strpos( $sql, '*/', $i );
 
-			/** Loop through $sql doing the following steps. */
-			for ( $i = 0; $i < strlen( $sql ); ) {
-				/** Skip C-style comments. */
-				if ( substr( $sql, $i, 2 ) == '/*' ) {
-					$endPos = strpos( $sql, '*/', $i );
-
-					if ( $endPos === FALSE ) {
-						throw new DataTable2Exception(
-							'datatable2-error-sql-unterminated-comment',
-							htmlspecialchars( substr( $sql, $i ) ) );
-					}
-
-					$i = $endPos + 2;
-					continue;
-				} elseif ( substr( $sql, $i, 2 ) == '--' )	{
-					/** Skip anything after an SQL-style comment. */
-					break;
-				}
-
-				/** Get the next token. */
-				$token = $this->getToken( $sql, $i );
-
-				if ( $token[0] == self::INVALID ) {
+				if ( $endPos === FALSE ) {
 					throw new DataTable2Exception(
-						'datatable2-error-sql-token',
+						'datatable2-error-sql-unterminated-comment',
 						htmlspecialchars( substr( $sql, $i ) ) );
 				}
 
-				/** If the token is an identifier:
-				 * - replace it by the database column name
-				 *	if it indicates a logical column name
-				 * - otherwise verify if it is legal.
-				 * This is the main purpose of the entire class. */
-				if ( $token[0] == self::IDENTIFIER ) {
-					$identifier = $token[1];
-
-					// remove quotes, if any
-					$quoted = $identifier[0] == '"'
-						|| $identifier[0] == '`';
-
-					if ( $quoted ) {
-						$identifier = substr( $identifier, 1,
-							strlen( $identifier - 2 ) );
-					}
-
-					if ( isset( $columnMap[$identifier] ) ) {
-						$token[1] = $columnMap[$identifier];
-					} else {
-						if ( !$quoted ) {
-							/** Unquoted identifiers <i>which are not
-							 *	column names</i> are
-							 *	case-insensitive. */
-							$identifier = strtoupper( $identifier );
-						}
-
-						if ( !isset( $this->whiteList_[$identifier] ) ) {
-							throw new DataTable2Exception(
-								'datatable2-error-sql-identifier',
-								htmlspecialchars( $identifier ) );
-						}
-					}
-				}
-
-				/** Append the token content to the result. */
-				$result .= $token[1];
+				$i = $endPos + 2;
+				continue;
+			} elseif ( substr( $sql, $i, 2 ) == '--' )	{
+				/** Skip anything after an SQL-style comment. */
+				break;
 			}
 
-			wfProfileOut( __METHOD__ );
+			/** Get the next token. */
+			$token = $this->getToken( $sql, $i );
 
-			return $result;
-		} catch ( Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
+			if ( $token[0] == self::INVALID ) {
+				throw new DataTable2Exception(
+					'datatable2-error-sql-token',
+					htmlspecialchars( substr( $sql, $i ) ) );
+			}
+
+			/** If the token is an identifier:
+			 * - replace it by the database column name
+			 *	if it indicates a logical column name
+			 * - otherwise verify if it is legal.
+			 * This is the main purpose of the entire class. */
+			if ( $token[0] == self::IDENTIFIER ) {
+				$identifier = $token[1];
+
+				// remove quotes, if any
+				$quoted = $identifier[0] == '"'
+					|| $identifier[0] == '`';
+
+				if ( $quoted ) {
+					$identifier = substr( $identifier, 1,
+						strlen( $identifier - 2 ) );
+				}
+
+				if ( isset( $columnMap[$identifier] ) ) {
+					$token[1] = $columnMap[$identifier];
+				} else {
+					if ( !$quoted ) {
+						/** Unquoted identifiers <i>which are not
+						 *	column names</i> are
+						 *	case-insensitive. */
+						$identifier = strtoupper( $identifier );
+					}
+
+					if ( !isset( $this->whiteList_[$identifier] ) ) {
+						throw new DataTable2Exception(
+							'datatable2-error-sql-identifier',
+							htmlspecialchars( $identifier ) );
+					}
+				}
+			}
+
+			/** Append the token content to the result. */
+			$result .= $token[1];
 		}
+
+
+		return $result;
 	}
 }

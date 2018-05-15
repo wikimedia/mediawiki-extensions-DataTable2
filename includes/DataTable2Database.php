@@ -93,58 +93,48 @@ class DataTable2Database {
 	 * meta data are found for the table.
 	 */
 	public function getColumns( $table, $fname = __METHOD__ ) {
-		try {
-			wfProfileIn( __METHOD__ );
-
-			/** If the result is already cached in @ref $columns_, get
-			 *	it from the cache and return. */
-			if ( isset( $this->columns_[$table] ) ) {
-				wfProfileOut( __METHOD__ );
-				return $this->columns_[$table];
-			}
-
-			$dbr = wfGetDB( DB_SLAVE );
-
-			/** The table to select column names from is specified in
-			 *	the global variable @ref $wgDataTable2MetaReadSrc. */
-			global $wgDataTable2MetaReadSrc;
-
-			$res = $dbr->select( $wgDataTable2MetaReadSrc, 'dtm_columns',
-				array( 'dtm_table' => $table ), $fname );
-
-			if ( !$res->numRows() ) {
-				/** If no meta data are found, check whether there are
-				 * records for the table. Silently accept non-existing
-				 * meta data if there are no rows. */
-				global $wgDataTable2ReadSrc;
-
-				$res = $dbr->select( $wgDataTable2ReadSrc, 'dtd_table',
-					array( 'dtd_table' => $table ), $fname,
-					array( 'LIMIT' => 1 ) );
-
-				if ( $res->numRows() ) {
-					throw new DataTable2Exception(
-						'datatable2-error-no-meta',
-						htmlspecialchars( $table ) );
-				} else {
-					$this->columns_[$table] = array();
-
-					wfProfileOut( __METHOD__ );
-					return array();
-				}
-			}
-
-			$columns = explode( '|', $res->fetchObject()->dtm_columns );
-
-			/** Cache the result in @ref $columns_. */
-			$this->columns_[$table] = $columns;
-
-			wfProfileOut( __METHOD__ );
-			return $columns;
-		} catch ( Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
+		/** If the result is already cached in @ref $columns_, get
+		 *	it from the cache and return. */
+		if ( isset( $this->columns_[$table] ) ) {
+			return $this->columns_[$table];
 		}
+
+		$dbr = wfGetDB( DB_SLAVE );
+
+		/** The table to select column names from is specified in
+		 *	the global variable @ref $wgDataTable2MetaReadSrc. */
+		global $wgDataTable2MetaReadSrc;
+
+		$res = $dbr->select( $wgDataTable2MetaReadSrc, 'dtm_columns',
+			array( 'dtm_table' => $table ), $fname );
+
+		if ( !$res->numRows() ) {
+			/** If no meta data are found, check whether there are
+			 * records for the table. Silently accept non-existing
+			 * meta data if there are no rows. */
+			global $wgDataTable2ReadSrc;
+
+			$res = $dbr->select( $wgDataTable2ReadSrc, 'dtd_table',
+				array( 'dtd_table' => $table ), $fname,
+				array( 'LIMIT' => 1 ) );
+
+			if ( $res->numRows() ) {
+				throw new DataTable2Exception(
+					'datatable2-error-no-meta',
+					htmlspecialchars( $table ) );
+			} else {
+				$this->columns_[$table] = array();
+
+				return array();
+			}
+		}
+
+		$columns = explode( '|', $res->fetchObject()->dtm_columns );
+
+		/** Cache the result in @ref $columns_. */
+		$this->columns_[$table] = $columns;
+
+		return $columns;
 	}
 
 	/**
@@ -157,42 +147,34 @@ class DataTable2Database {
 	 * @return *bool* Always TRUE.
 	 */
 	public function delete( $pageId, $fname = __METHOD__ ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		/** The table to delete from is specified in the global
+		 *	variable @ref $wgDataTable2WriteDest. */
+		global $wgDataTable2WriteDest;
 
-			/** The table to delete from is specified in the global
-			 *	variable @ref $wgDataTable2WriteDest. */
-			global $wgDataTable2WriteDest;
+		$dbw = wfGetDB( DB_MASTER );
 
-			$dbw = wfGetDB( DB_MASTER );
+//		$dbw->begin( $fname );
 
-//			$dbw->begin( $fname );
+		/** Delete all data for this page. */
+		$dbw->delete( $wgDataTable2WriteDest,
+			array( 'dtd_page' => $pageId ), $fname );
 
-			/** Delete all data for this page. */
-			$dbw->delete( $wgDataTable2WriteDest,
-				array( 'dtd_page' => $pageId ), $fname );
+		/** The table to delete metadata from is specified in the global
+		 *	variable @ref $wgDataTable2MetaWriteDest. */
+		global $wgDataTable2MetaWriteDest;
 
-			/** The table to delete metadata from is specified in the global
-			 *	variable @ref $wgDataTable2MetaWriteDest. */
-			global $wgDataTable2MetaWriteDest;
+		/** Delete any metadata that has become unused, by this or
+		 *	by any preceding delete operation. */
+		$subquery = $dbw->selectSQLText( $wgDataTable2WriteDest,
+			'dtd_table', '', $fname );
 
-			/** Delete any metadata that has become unused, by this or
-			 *	by any preceding delete operation. */
-			$subquery = $dbw->selectSQLText( $wgDataTable2WriteDest,
-				'dtd_table', '', $fname );
+		$dbw->delete( $wgDataTable2MetaWriteDest,
+			array( "dtm_table not in ($subquery)" ), $fname );
 
-			$dbw->delete( $wgDataTable2MetaWriteDest,
-				array( "dtm_table not in ($subquery)" ), $fname );
+//		$dbw->commit( $fname );
 
-//			$dbw->commit( $fname );
 
-			wfProfileOut( __METHOD__ );
-
-			return true;
-		} catch ( Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
-		}
+		return true;
 	}
 
 	/**
@@ -209,101 +191,91 @@ class DataTable2Database {
 	 * @return *bool* Always TRUE.
 	 */
 	function save( $article, $text, $fname = __METHOD__ ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		/** The table to save to is specified in the global
+		 *	variable @ref $wgDataTable2WriteDest. */
+		global $wgDataTable2WriteDest;
 
-			/** The table to save to is specified in the global
-			 *	variable @ref $wgDataTable2WriteDest. */
-			global $wgDataTable2WriteDest;
+		/** Extract data from all \<datatable2> tags on the
+		 *	page. */
+		Parser::extractTagsAndParams( array( 'datatable2' ),
+			$text, $datatables );
 
-			/** Extract data from all \<datatable2> tags on the
-			 *	page. */
-			Parser::extractTagsAndParams( array( 'datatable2' ),
-				$text, $datatables );
+		/** Invoke Invoke DataTable2::deleteData() to delete all
+		 *	existing data for the page. */
+		$this->delete( $article->getId(), $fname );
 
-			/** Invoke Invoke DataTable2::deleteData() to delete all
-			 *	existing data for the page. */
-			$this->delete( $article->getId(), $fname );
-
-			$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 
 //			$dbw->begin( $fname );
 
-			/** Loop through the \<datatable2> tags found. */
-			foreach ( $datatables as $datatable ) {
-				list( $element, $content, $args ) = $datatable;
+		/** Loop through the \<datatable2> tags found. */
+		foreach ( $datatables as $datatable ) {
+			list( $element, $content, $args ) = $datatable;
 
-				if ( !isset( $args['table'] ) || $args['table'] == '' ) {
-					/** Nothing to do if the `table` argument is not
-					 *	given. */
-					continue;
-				}
-
-				$table = DataTable2Parser::table2title( $args['table'] );
-
-				/** Use DataTable2ParserWithRecords to parse the data
-				 *	in each tag. */
-				$parser = new DataTable2ParserWithRecords( $content, $args,
-					false );
-
-				wfProfileIn( __METHOD__ . '-insertion' );
-
-				foreach( $parser->getRecords() as $record ) {
-					$dbRecord = array_combine(
-						$this->dataCols( count( $record ) ), $record );
-
-					$dbRecord['dtd_table'] = $table->getDBkey();
-					$dbRecord['dtd_page'] = $article->getId();
-
-
-					wfDebug( "**** here\n" );
-					wfDebug( var_export( $dbRecord, true ) );
-
-
-					/** Insert resulting records into the
-					 *	database. Each record must be inserted
-					 *	individually since the number of columns might
-					 *	differ among records. */
-					$dbw->insert( $wgDataTable2WriteDest, $dbRecord, $fname );
-				}
-
-				wfProfileOut( __METHOD__ . '-insertion' );
-
-				/** The table to save metadata to is specified in the
-				 *	global variable @ref
-				 *	$wgDataTable2MetaWriteDest. */
-				global $wgDataTable2MetaWriteDest;
-
-				$metaCond = array( 'dtm_table' => $table->getDBkey() );
-
-				$res = $dbw->select( $wgDataTable2MetaWriteDest, 'dtm_table',
-					$metaCond, $fname );
-
-				if ( $res->numRows() ) {
-					/** Update the metadata record if there is one. */
-					$dbw->update( $wgDataTable2MetaWriteDest,
-						array( 'dtm_columns'
-							=> implode( '|', $parser->getColumns() ) ),
-						$metaCond, $fname );
-				} else {
-					/** Otherwise insert a new one. */
-					$dbw->insert( $wgDataTable2MetaWriteDest,
-						array( 'dtm_table' => $table->getDBkey(),
-							'dtm_columns' =>
-							implode( '|', $parser->getColumns() ) ),
-						$fname );
-				}
+			if ( !isset( $args['table'] ) || $args['table'] == '' ) {
+				/** Nothing to do if the `table` argument is not
+				 *	given. */
+				continue;
 			}
+
+			$table = DataTable2Parser::table2title( $args['table'] );
+
+			/** Use DataTable2ParserWithRecords to parse the data
+			 *	in each tag. */
+			$parser = new DataTable2ParserWithRecords( $content, $args,
+				false );
+
+
+			foreach( $parser->getRecords() as $record ) {
+				$dbRecord = array_combine(
+					$this->dataCols( count( $record ) ), $record );
+
+				$dbRecord['dtd_table'] = $table->getDBkey();
+				$dbRecord['dtd_page'] = $article->getId();
+
+
+				wfDebug( "**** here\n" );
+				wfDebug( var_export( $dbRecord, true ) );
+
+
+				/** Insert resulting records into the
+				 *	database. Each record must be inserted
+				 *	individually since the number of columns might
+				 *	differ among records. */
+				$dbw->insert( $wgDataTable2WriteDest, $dbRecord, $fname );
+			}
+
+
+			/** The table to save metadata to is specified in the
+			 *	global variable @ref
+			 *	$wgDataTable2MetaWriteDest. */
+			global $wgDataTable2MetaWriteDest;
+
+			$metaCond = array( 'dtm_table' => $table->getDBkey() );
+
+			$res = $dbw->select( $wgDataTable2MetaWriteDest, 'dtm_table',
+				$metaCond, $fname );
+
+			if ( $res->numRows() ) {
+				/** Update the metadata record if there is one. */
+				$dbw->update( $wgDataTable2MetaWriteDest,
+					array( 'dtm_columns'
+						=> implode( '|', $parser->getColumns() ) ),
+					$metaCond, $fname );
+			} else {
+				/** Otherwise insert a new one. */
+				$dbw->insert( $wgDataTable2MetaWriteDest,
+					array( 'dtm_table' => $table->getDBkey(),
+						'dtm_columns' =>
+						implode( '|', $parser->getColumns() ) ),
+					$fname );
+			}
+		}
 
 //			$dbw->commit( $fname );
 
-			wfProfileOut( __METHOD__ );
 
-			return true;
-		} catch ( Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
-		}
+		return true;
 	}
 
 	/**
@@ -342,78 +314,69 @@ class DataTable2Database {
 	 */
 	public function select( $table, $where = null, $orderBy = null,
 		&$pages = null, $fname = __METHOD__ ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		/** Work with a static instance of
+		 *	DataTable2SqlTransformer. */
+		static $transformer;
 
-			/** Work with a static instance of
-			 *	DataTable2SqlTransformer. */
-			static $transformer;
-
-			if ( !isset( $transformer ) ) {
-				$transformer = new DataTable2SqlTransformer;
-			}
-
-			/** The table to select from is specified in the global
-			 *	variable @ref $wgDataTable2ReadSrc. */
-			global $wgDataTable2ReadSrc;
-
-			$conds = array( 'dtd_table' => $table->getDBkey() );
-
-			$columns = $this->getColumns( $table->getDBkey() );
-
-			/** If getColumns() returns an empty array without
-			 *	throwing, we know that there is no data and hence
-			 *	return an empty array. */
-			if ( !$columns ) {
-				wfProfileOut( __METHOD__ );
-				return array();
-			}
-
-			$dbColumns = $this->dataCols( count( $columns ) );
-
-			/** Always select page id as __pageId. */
-			$columns[] = '__pageId';
-			$dbColumns['__pageId'] = 'dtd_page';
-
-			if ( isset( $where ) && $where != '' ) {
-				$conds[] = $transformer->transform( $where, $columns );
-			}
-
-			/** If the ORDER BY clause is NULL, sort by the first five
-			 *	columns. */
-			if ( isset( $orderBy ) && $orderBy !== '' ) {
-				if ( $orderBy !== FALSE ) {
-					$orderBy = $transformer->transform( $orderBy, $columns );
-				}
-			} else {
-				$orderBy = $this->dataCols( 5 );
-			}
-
-			/** Get the database records. */
-			$dbr = wfGetDB( DB_SLAVE );
-
-			$res = $dbr->select( $wgDataTable2ReadSrc, $dbColumns, $conds,
-				$fname, $orderBy ? array( 'ORDER BY' => $orderBy ) : array() );
-
-			/** Transform the query result into an array of arrays. */
-			$records = array();
-			$pageIds = array();
-
-			foreach ( $res as $dbRecord ) {
-				$pageIds[$dbRecord->__pageId] = true;
-
-				$records[] = array_combine( $columns,
-					get_object_vars( $dbRecord ) );
-			}
-
-			$pages = array_keys( $pageIds );
-
-			wfProfileOut( __METHOD__ );
-
-			return $records;
-		} catch ( Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
+		if ( !isset( $transformer ) ) {
+			$transformer = new DataTable2SqlTransformer;
 		}
+
+		/** The table to select from is specified in the global
+		 *	variable @ref $wgDataTable2ReadSrc. */
+		global $wgDataTable2ReadSrc;
+
+		$conds = array( 'dtd_table' => $table->getDBkey() );
+
+		$columns = $this->getColumns( $table->getDBkey() );
+
+		/** If getColumns() returns an empty array without
+		 *	throwing, we know that there is no data and hence
+		 *	return an empty array. */
+		if ( !$columns ) {
+			return array();
+		}
+
+		$dbColumns = $this->dataCols( count( $columns ) );
+
+		/** Always select page id as __pageId. */
+		$columns[] = '__pageId';
+		$dbColumns['__pageId'] = 'dtd_page';
+
+		if ( isset( $where ) && $where != '' ) {
+			$conds[] = $transformer->transform( $where, $columns );
+		}
+
+		/** If the ORDER BY clause is NULL, sort by the first five
+		 *	columns. */
+		if ( isset( $orderBy ) && $orderBy !== '' ) {
+			if ( $orderBy !== FALSE ) {
+				$orderBy = $transformer->transform( $orderBy, $columns );
+			}
+		} else {
+			$orderBy = $this->dataCols( 5 );
+		}
+
+		/** Get the database records. */
+		$dbr = wfGetDB( DB_SLAVE );
+
+		$res = $dbr->select( $wgDataTable2ReadSrc, $dbColumns, $conds,
+			$fname, $orderBy ? array( 'ORDER BY' => $orderBy ) : array() );
+
+		/** Transform the query result into an array of arrays. */
+		$records = array();
+		$pageIds = array();
+
+		foreach ( $res as $dbRecord ) {
+			$pageIds[$dbRecord->__pageId] = true;
+
+			$records[] = array_combine( $columns,
+				get_object_vars( $dbRecord ) );
+		}
+
+		$pages = array_keys( $pageIds );
+
+
+		return $records;
 	}
 }

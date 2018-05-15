@@ -139,37 +139,28 @@ class DataTable2Parser {
 	 */
 
 	public function __construct( $input, $args = null ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		global $wgDataTable2Args;
 
-			global $wgDataTable2Args;
+		/** Initialize @ref $args_ with defaults from the global
+		 *	variable @ref $wgDataTable2Args and merge with $args,
+		 *	excluding arguments which are empty or null.*/
+		$this->args_ = array_filter( (array)$args, 'self::isNotEmpty' )
+			+ (array)$wgDataTable2Args;
 
-			/** Initialize @ref $args_ with defaults from the global
-			 *	variable @ref $wgDataTable2Args and merge with $args,
-			 *	excluding arguments which are empty or null.*/
-			$this->args_ = array_filter( (array)$args, 'self::isNotEmpty' )
-				+ (array)$wgDataTable2Args;
-
-			/** Transform the `table`argument to a Title object, if
-			 *	any. */
-			if ( isset( $this->args_['table'] ) ) {
-				$this->args_['table']
-					= self::table2title( $this->args_['table'] );
-			}
-
-			/** Extract \<head> and \<template> tags, if any. */
-			$this->head_ = self::extractTag( $input, 'head' );
-
-			$this->templateText_ = self::extractTag( $input, 'template' );
-
-			/** Assign the remaining $input to @ref $text_. */
-			$this->text_ = $input;
-
-			wfProfileOut( __METHOD__ );
-		} catch ( Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
+		/** Transform the `table`argument to a Title object, if
+		 *	any. */
+		if ( isset( $this->args_['table'] ) ) {
+			$this->args_['table']
+				= self::table2title( $this->args_['table'] );
 		}
+
+		/** Extract \<head> and \<template> tags, if any. */
+		$this->head_ = self::extractTag( $input, 'head' );
+
+		$this->templateText_ = self::extractTag( $input, 'template' );
+
+		/** Assign the remaining $input to @ref $text_. */
+		$this->text_ = $input;
 	}
 
 	/* == accessors == */
@@ -341,18 +332,9 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 * @sa DataTable2Parser::getArg() for a description of valid arguments.
 	 */
 	public function __construct( $input, array $args = null, $assoc = true ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		parent::__construct( $input, $args );
 
-			parent::__construct( $input, $args );
-
-			$this->parseWiki_( $assoc );
-
-			wfProfileOut( __METHOD__ );
-		} catch ( Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
-		}
+		$this->parseWiki_( $assoc );
 	}
 
 	/* == accessors == */
@@ -393,79 +375,70 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 * than provided in the database.
 	 */
 	private function parseWiki_( $assoc ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		/** Parse list of column names, if any. */
+		$this->columns_ = $this->getArg( 'columns' ) === null
+			? array() : explode( '|', $this->getArg( 'columns' ) );
 
-			/** Parse list of column names, if any. */
-			$this->columns_ = $this->getArg( 'columns' ) === null
-				? array() : explode( '|', $this->getArg( 'columns' ) );
+		/** Count column names and save the original count. */
+		$origNameCount = count( $this->columns_ );
+		$nameCount = $origNameCount;
 
-			/** Count column names and save the original count. */
-			$origNameCount = count( $this->columns_ );
-			$nameCount = $origNameCount;
+		/** Split data into rows using split() with the `rs`
+		 *	argument as a delimiter. */
+		$rows = self::split( $this->getArg( 'rs' ),
+			trim( $this->getText() ) );
 
-			/** Split data into rows using split() with the `rs`
-			 *	argument as a delimiter. */
-			$rows = self::split( $this->getArg( 'rs' ),
-				trim( $this->getText() ) );
+		/** Convert rows into records. */
+		foreach ( $rows as $row ) {
+			/** Strip xml comments from each row. */
+			$row = preg_replace( '/<!--.*-->/U', '', $row );
 
-			/** Convert rows into records. */
-			foreach ( $rows as $row ) {
-				/** Strip xml comments from each row. */
-				$row = preg_replace( '/<!--.*-->/U', '', $row );
+			/** Trim whitespace surrounding a row.*/
+			$row = trim( $row );
 
-				/** Trim whitespace surrounding a row.*/
-				$row = trim( $row );
-
-				/** Ignore rows which are empty (after stripping xml
-				 *	comments and trimming surrounding whitespace). */
-				if ( $row == '' ) {
-					continue;
-				}
-
-				/** Split each row into fields using @ref split with
-				 *	the `fs` argument as a delimiter. */
-				$fields = self::split( $this->getArg( 'fs' ), $row );
-
-				$fieldCount = count( $fields );
-
-				if ( $fieldCount > DataTable2Database::MAX_FIELDS ) {
-					throw new DataTable2Exception(
-						'datatable2-error-too-many-columns',
-						htmlspecialchars( $row ),
-						$fieldCount, DataTable2Database::MAX_FIELDS );
-				}
-
-				/** Enlarge names by numeric keys if there are more
-				 * fields than names. */
-				if ( $fieldCount > $nameCount ) {
-					$this->columns_ = array_merge( $this->columns_, range(
-							$nameCount - $origNameCount + 1,
-							$fieldCount - $origNameCount ) );
-
-					$nameCount = $fieldCount;
-				}
-
-				/** If $assoc is true, index fields with column
-				 *	names. */
-				if ( $assoc ) {
-					if ( $fieldCount == $nameCount ) {
-						$fields = array_combine( $this->columns_, $fields );
-					} else {
-						$fields = array_combine(
-							array_slice( $this->columns_, 0, $fieldCount ),
-							$fields );
-					}
-				}
-
-				/** Add the result to @ref $records_. */
-				$this->records_[] = $fields;
+			/** Ignore rows which are empty (after stripping xml
+			 *	comments and trimming surrounding whitespace). */
+			if ( $row == '' ) {
+				continue;
 			}
 
-			wfProfileOut( __METHOD__ );
-		} catch ( Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
+			/** Split each row into fields using @ref split with
+			 *	the `fs` argument as a delimiter. */
+			$fields = self::split( $this->getArg( 'fs' ), $row );
+
+			$fieldCount = count( $fields );
+
+			if ( $fieldCount > DataTable2Database::MAX_FIELDS ) {
+				throw new DataTable2Exception(
+					'datatable2-error-too-many-columns',
+					htmlspecialchars( $row ),
+					$fieldCount, DataTable2Database::MAX_FIELDS );
+			}
+
+			/** Enlarge names by numeric keys if there are more
+			 * fields than names. */
+			if ( $fieldCount > $nameCount ) {
+				$this->columns_ = array_merge( $this->columns_, range(
+						$nameCount - $origNameCount + 1,
+						$fieldCount - $origNameCount ) );
+
+				$nameCount = $fieldCount;
+			}
+
+			/** If $assoc is true, index fields with column
+			 *	names. */
+			if ( $assoc ) {
+				if ( $fieldCount == $nameCount ) {
+					$fields = array_combine( $this->columns_, $fields );
+				} else {
+					$fields = array_combine(
+						array_slice( $this->columns_, 0, $fieldCount ),
+						$fields );
+				}
+			}
+
+			/** Add the result to @ref $records_. */
+			$this->records_[] = $fields;
 		}
 	}
 }

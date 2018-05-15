@@ -142,52 +142,43 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage
 	 * @param string $par Parameter passed to the pager class.
 	 */
 	public function execute( $par ) {
-		try {
-			wfProfileIn( __METHOD__ );
-
-			if ( !$this->including()
-				&& !$this->userCanExecute( $this->getUser() )  ) {
-				$this->displayRestrictionError();
-				return;
-			}
-
-			$this->setHeaders();
-			$this->outputHeader();
-
-			/** Create an instance of a pager class, whose name is
-			 * obtained by appending 'Pager' to the name of the
-			 * special page. */
-			$pagerClass = "{$this->getName()}Pager";
-			$pager = new $pagerClass( $this->getContext(), $par );
-
-			$html = '';
-
-			if ( !$this->including() ) {
-				$html .= $pager->getPageHeader();
-			}
-
-			$body = $pager->getBody();
-
-			if ( $body ) {
-				$html .= $pager->getNavigationBar()
-					. DataTable2::sandboxParse( $body )
-					. $pager->getNavigationBar();
-			} elseif ( isset( $pager->tablename )
-				|| !$this->needsTablename_ ) {
-				/** Show a "no data found" message if no data were
-				 *	found and either a table was specified, or the
-				 *	page could display data even without a table
-				 *	name. */
-				$html .= $this->msg( strtolower( $this->getName() )
-					. '-noresult' )->parseAsBlock();
-			}
-
-			$this->getOutput()->addHTML( $html );
-
-			wfProfileOut( __METHOD__ );
-		} catch ( DataTable2Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
+		if ( !$this->including()
+			&& !$this->userCanExecute( $this->getUser() )  ) {
+			$this->displayRestrictionError();
+			return;
 		}
+
+		$this->setHeaders();
+		$this->outputHeader();
+
+		/** Create an instance of a pager class, whose name is
+		 * obtained by appending 'Pager' to the name of the
+		 * special page. */
+		$pagerClass = "{$this->getName()}Pager";
+		$pager = new $pagerClass( $this->getContext(), $par );
+
+		$html = '';
+
+		if ( !$this->including() ) {
+			$html .= $pager->getPageHeader();
+		}
+
+		$body = $pager->getBody();
+
+		if ( $body ) {
+			$html .= $pager->getNavigationBar()
+				. DataTable2::sandboxParse( $body )
+				. $pager->getNavigationBar();
+		} elseif ( isset( $pager->tablename )
+			|| !$this->needsTablename_ ) {
+			/** Show a "no data found" message if no data were
+			 *	found and either a table was specified, or the
+			 *	page could display data even without a table
+			 *	name. */
+			$html .= $this->msg( strtolower( $this->getName() )
+				. '-noresult' )->parseAsBlock();
+		}
+
+		$this->getOutput()->addHTML( $html );
 	}
 }

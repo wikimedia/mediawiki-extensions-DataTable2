@@ -452,8 +452,6 @@ class DataTable2 {
 	public function renderDataTable( $input, array $args, Parser $parser,
 		PPFrame $frame ) {
 		try {
-			wfProfileIn( __METHOD__ );
-
 			/** Use DataTable2ParserWithRecords to parse the data in
 			 *	$input. */
 			$dataParser = new DataTable2ParserWithRecords( $input, $args );
@@ -482,13 +480,11 @@ class DataTable2 {
 
 			/** Parse the wikitext, or display it verbatim for
 			 *	debugging. */
-			wfProfileOut( __METHOD__ );
 
 			return isset( $args['debug'] )
 				? "<pre>$wikitext</pre>"
 				: $parser->recursiveTagParse( $wikitext, $frame );
 		} catch ( DataTable2Exception $e ) {
-			wfProfileOut( __METHOD__ );
 			return $e->getHTML();
 		}
 	}
@@ -513,8 +509,6 @@ class DataTable2 {
 	public function renderShowTable( $input, array $args, Parser $parser,
 		PPFrame $frame ) {
 		try {
-			wfProfileIn( __METHOD__ );
-
 			/** Increment the [expensive function count]
 			 * (https://www.mediawiki.org/wiki/Manual:$wgExpensiveParserFunctionLimit). */
 			if ( !$parser->incrementExpensiveFunctionCount() ) {
@@ -552,15 +546,12 @@ class DataTable2 {
 						$dataParser->getArg( 'table' ) ) );
 			}
 
-			wfProfileOut( __METHOD__ );
-
 			/** Parse the wikitext, or display it verbatim for
 			 *	debugging. */
 			return isset( $args['debug'] )
 				? "<pre>$wikitext</pre>"
 				: $parser->recursiveTagParse( $wikitext, $frame );
 		} catch ( DataTable2Exception $e ) {
-			wfProfileOut( __METHOD__ );
 			return $e->getHTML();
 		}
 	}
@@ -822,61 +813,52 @@ class DataTable2 {
 	 */
 	public function renderRecords( $records,
 		DataTable2Parser $dataParser, Parser $parser ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		$wikitext = '';
 
-			$wikitext = '';
+		$head = $dataParser->getHead();
 
-			$head = $dataParser->getHead();
+		$isToBeWrapped = $dataParser->isToBeWrapped();
 
-			$isToBeWrapped = $dataParser->isToBeWrapped();
-
-			if ( $isToBeWrapped ) {
-				if ( !isset( $head ) ) {
-					$head = '';
-				} elseif ( substr( $head, -1 ) != "\n" ) {
-					/** If there is a user-supplied head that does not
-					 *	end with a newline, append a newline. */
-					$head .= "\n";
-				}
-
-				$classAttr = $dataParser->getArg( 'class' ) !== null
-					? "class='{$dataParser->getArg( 'class' )}'" : '';
-
-				$wikitext .= "{| $classAttr\n$head";
+		if ( $isToBeWrapped ) {
+			if ( !isset( $head ) ) {
+				$head = '';
+			} elseif ( substr( $head, -1 ) != "\n" ) {
+				/** If there is a user-supplied head that does not
+				 *	end with a newline, append a newline. */
+				$head .= "\n";
 			}
 
-			/** Parse `args` argument, if any. */
-			if ( $dataParser->getArg( 'args' ) !== null ) {
-				$args = Parser::createAssocArgs(
-					explode( '|', $dataParser->getArg( 'args' ) ) );
-			} else {
-				$args = null;
-			}
+			$classAttr = $dataParser->getArg( 'class' ) !== null
+				? "class='{$dataParser->getArg( 'class' )}'" : '';
 
-			/** Call DataTable2::renderRecord() to create wikitext
-			 *	from each record. */
-			if ( isset( $records ) ) {
-					foreach ( $records as $record ) {
-						$wikitext .= $this->renderRecord( $record,
-							$dataParser->getArg( 'template' ),
-							$dataParser->getTemplateText(),
-							$args, $parser );
-					}
-				}
-
-			/** Close table, if any. */
-			if ( $isToBeWrapped ) {
-				$wikitext .= "\n|}";
-			}
-
-			wfProfileOut( __METHOD__ );
-
-			return $wikitext;
-		} catch ( DataTable2Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
+			$wikitext .= "{| $classAttr\n$head";
 		}
+
+		/** Parse `args` argument, if any. */
+		if ( $dataParser->getArg( 'args' ) !== null ) {
+			$args = Parser::createAssocArgs(
+				explode( '|', $dataParser->getArg( 'args' ) ) );
+		} else {
+			$args = null;
+		}
+
+		/** Call DataTable2::renderRecord() to create wikitext
+		 *	from each record. */
+		if ( isset( $records ) ) {
+			foreach ( $records as $record ) {
+				$wikitext .= $this->renderRecord( $record,
+					$dataParser->getArg( 'template' ),
+					$dataParser->getTemplateText(),
+					$args, $parser );
+			}
+		}
+
+		/** Close table, if any. */
+		if ( $isToBeWrapped ) {
+			$wikitext .= "\n|}";
+		}
+
+		return $wikitext;
 	}
 
 	/**
@@ -897,56 +879,47 @@ class DataTable2 {
 	 */
 	public function renderRecord( array $record, $template,
 		$templateText, $args, Parser &$parser ) {
-		try {
-			wfProfileIn( __METHOD__ );
-
-			/** Prepend $args to $record, if set. */
-			if ( isset( $args ) ) {
-				$record = $this->mergeArgs( $args, $record );
-			}
-
-			/** If __pageId is present, create a Title object out of
-			 *	it. */
-			if ( isset( $record['__pageId'] ) ) {
-				$sourceTitle = Title::newFromID( $record['__pageId'] );
-
-				/** If as template name or text is provided, append the
-				 *	data about the source page to the record. */
-				if ( isset( $template ) || isset( $templateText ) ) {
-					$record += $this->title2array( $sourceTitle );
-				}
-			}
-
-			if ( isset( $template ) ) {
-				/** If a template name is given, use that template. */
-				$result = '{{' . "$template|"
-					. $this->implodeArgs( $record ) . '}}';
-			} elseif ( isset( $templateText ) ) {
-				/** Else if a template text is given, use it. */
-				$result = $parser->recursivePreprocess( $templateText,
-					$parser->getPreprocessor()->newCustomFrame( $record ) );
-			} else {
-				/** Else format record as a table row, inserting a
-				 * line break after each pipe character so that wiki
-				 * markup like * etc. can be used within content. */
-
-				$result = "|-\n|\n"
-					. implode( "\n|\n", array_values( $record ) ) . "\n";
-
-				/** Append a link to the source page, if any, as the
-				 *	last field. */
-				if ( isset( $sourceTitle ) ) {
-					$result .= "| [[{$sourceTitle->getPrefixedText()}]]\n";
-				}
-			}
-
-			wfProfileOut( __METHOD__ );
-
-			return $result;
-		} catch ( DataTable2Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
+		/** Prepend $args to $record, if set. */
+		if ( isset( $args ) ) {
+			$record = $this->mergeArgs( $args, $record );
 		}
+
+		/** If __pageId is present, create a Title object out of
+		 *	it. */
+		if ( isset( $record['__pageId'] ) ) {
+			$sourceTitle = Title::newFromID( $record['__pageId'] );
+
+			/** If as template name or text is provided, append the
+			 *	data about the source page to the record. */
+			if ( isset( $template ) || isset( $templateText ) ) {
+				$record += $this->title2array( $sourceTitle );
+			}
+		}
+
+		if ( isset( $template ) ) {
+			/** If a template name is given, use that template. */
+			$result = '{{' . "$template|"
+				. $this->implodeArgs( $record ) . '}}';
+		} elseif ( isset( $templateText ) ) {
+			/** Else if a template text is given, use it. */
+			$result = $parser->recursivePreprocess( $templateText,
+				$parser->getPreprocessor()->newCustomFrame( $record ) );
+		} else {
+			/** Else format record as a table row, inserting a
+			 * line break after each pipe character so that wiki
+			 * markup like * etc. can be used within content. */
+
+			$result = "|-\n|\n"
+				. implode( "\n|\n", array_values( $record ) ) . "\n";
+
+			/** Append a link to the source page, if any, as the
+			 *	last field. */
+			if ( isset( $sourceTitle ) ) {
+				$result .= "| [[{$sourceTitle->getPrefixedText()}]]\n";
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -979,65 +952,56 @@ class DataTable2 {
 	 */
 	public function addDependencies( Parser $parser, array $pages,
 		Title $table ) {
-		try {
-			wfProfileIn( __METHOD__ );
+		/** Add this page to the [tracking category]
+		 * (http://www.mediawiki.org/wiki/Help:Tracking_categories)
+		 * defined by the message `datatable2-consumer-category`.
+		 */
+		$parser->addTrackingCategory( 'datatable2-consumer-category' );
 
-			/** Add this page to the [tracking category]
-			 * (http://www.mediawiki.org/wiki/Help:Tracking_categories)
-			 * defined by the message `datatable2-consumer-category`.
-			 */
-			$parser->addTrackingCategory( 'datatable2-consumer-category' );
+		/** Add to the detail tracking category created from the
+		 *	message `datatable2-consumer-detail-category` unless
+		 *	that message is a single dash. */
+		$detailTrackingCategoryName = wfMessage(
+			'datatable2-consumer-detail-category', $table->getText() )
+			->title( $parser->getTitle() )
+			->inContentLanguage()
+			->text();
 
-			/** Add to the detail tracking category created from the
-			 *	message `datatable2-consumer-detail-category` unless
-			 *	that message is a single dash. */
-			$detailTrackingCategoryName = wfMessage(
-				'datatable2-consumer-detail-category', $table->getText() )
-				->title( $parser->getTitle() )
-				->inContentLanguage()
-				->text();
+		if ( $detailTrackingCategoryName !== '-' ) {
+			$detailTrackingCategory = Title::makeTitleSafe(
+				NS_CATEGORY, $detailTrackingCategoryName );
 
-			if ( $detailTrackingCategoryName !== '-' ) {
-				$detailTrackingCategory = Title::makeTitleSafe(
-					NS_CATEGORY, $detailTrackingCategoryName );
+			if ( $detailTrackingCategory ) {
+				$parser->getOutput()->addCategory(
+					$detailTrackingCategory->getDBkey(),
+					$parser->getDefaultSort() );
+			} else {
+				wfDebug( __METHOD__
+					. ": [[MediaWiki:datatable2-consumer-detail-category]] is not a valid title!\n" );
+			}
+		}
 
-				if ( $detailTrackingCategory ) {
-					$parser->getOutput()->addCategory(
-						$detailTrackingCategory->getDBkey(),
-						$parser->getDefaultSort() );
-				} else {
-					wfDebug( __METHOD__
-						. ": [[MediaWiki:datatable2-consumer-detail-category]] is not a valid title!\n" );
-				}
+		/** Add [dependencies]
+		 * (http://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F)
+		 * on those pages where data is taken from. */
+		foreach ( $pages as $pageId ) {
+			/** Disable caching completely if the page uses data
+			 *	from a non-wiki source. */
+			if ( !is_int( $pageId ) ) {
+				$parser->disableCache();
+				continue;
 			}
 
-			/** Add [dependencies]
-			 * (http://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F)
-			 * on those pages where data is taken from. */
-			foreach ( $pages as $pageId ) {
-				/** Disable caching completely if the page uses data
-				 *	from a non-wiki source. */
-				if ( !is_int( $pageId ) ) {
-					$parser->disableCache();
-					continue;
-				}
+			$page = WikiPage::newFromID( $pageId );
 
-				$page = WikiPage::newFromID( $pageId );
+			if ( isset( $page ) ) {
+				$revision = Revision::newFromPageId( $pageId );
 
-				if ( isset( $page ) ) {
-					$revision = Revision::newFromPageId( $pageId );
-
-					if ( isset( $revision ) ) {
-						$parser->getOutput()->AddTemplate( $page->getTitle(), $pageId,
-							$revision->getId() );
-					}
+				if ( isset( $revision ) ) {
+					$parser->getOutput()->AddTemplate( $page->getTitle(), $pageId,
+						$revision->getId() );
 				}
 			}
-
-			wfProfileOut( __METHOD__ );
-		} catch ( DataTable2Exception $e ) {
-			wfProfileOut( __METHOD__ );
-			throw $e;
 		}
 	}
 }
