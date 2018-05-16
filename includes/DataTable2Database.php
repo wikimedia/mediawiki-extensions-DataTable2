@@ -14,7 +14,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup Extensions
  * @ingroup Extensions-DataTable2
  *
- * @author [RV1971](http://www.mediawiki.org/wiki/User:RV1971)
+ * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  *
  */
 
@@ -25,7 +25,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup Extensions-DataTable2
  *
  * @sa [MediaWiki Manual:Database_access]
- * (http://www.mediawiki.org/wiki/Manual:Database_access)
+ * (https://www.mediawiki.org/wiki/Manual:Database_access)
  */
 class DataTable2Database {
 	/* == constants == */

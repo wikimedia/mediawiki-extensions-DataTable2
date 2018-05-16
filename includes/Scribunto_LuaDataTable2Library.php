@@ -6,7 +6,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 }
 
 /**
- * @brief [Scribunto](http://www.mediawiki.org/wiki/Extension:Scribunto)
+ * @brief [Scribunto](https://www.mediawiki.org/wiki/Extension:Scribunto)
  * Lua library for the @ref Extensions-DataTable2.
  *
  * @file
@@ -14,11 +14,11 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup Extensions
  * @ingroup Extensions-DataTable2
  *
- * @author [RV1971](http://www.mediawiki.org/wiki/User:RV1971)
+ * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  */
 
 /**
- * @brief [Scribunto](http://www.mediawiki.org/wiki/Extension:Scribunto)
+ * @brief [Scribunto](https://www.mediawiki.org/wiki/Extension:Scribunto)
  * Lua library for the @ref Extensions-DataTable2.
  *
  * @ingroup Extensions-DataTable2

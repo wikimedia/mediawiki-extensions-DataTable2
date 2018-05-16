@@ -1,4 +1,4 @@
--- see http://www.mediawiki.org/wiki/Manual:Coding_conventions/Database
+-- see https://www.mediawiki.org/wiki/Manual:Coding_conventions/Database
 
 --
 -- Data saved from <datatable2> tags.

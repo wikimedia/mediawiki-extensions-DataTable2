@@ -13,7 +13,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup Extensions
  * @ingroup Extensions-DataTable2
  *
- * @author [RV1971](http://www.mediawiki.org/wiki/User:RV1971)
+ * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  */
 
 /**
@@ -125,7 +125,7 @@ class DataTable2 {
 
 	/**
 	 * @brief [Workaround #1]
-	 * (http://www.mediawiki.org/wiki/Manual:Special_pages#workaround_.231)
+	 * (https://www.mediawiki.org/wiki/Manual:Special_pages#workaround_.231)
 	 * for parsing included special pages.
 	 *
 	 * Tests have shown that in MW 1.21.1, this workaround is still
@@ -179,7 +179,7 @@ class DataTable2 {
 
 	/**
 	 * @brief [ArticleDelete]
-	 * (http://www.mediawiki.org/wiki/Manual:Hooks/ArticleDelete) hook.
+	 * (https://www.mediawiki.org/wiki/Manual:Hooks/ArticleDelete) hook.
 	 *
 	 * When an article is deleted, delete related data.
 	 *
@@ -202,7 +202,7 @@ class DataTable2 {
 
 	/**
 	 * @brief [LoadExtensionSchemaUpdates]
-	 * (http://www.mediawiki.org/wiki/Manual:Hooks/LoadExtensionSchemaUpdates)
+	 * (https://www.mediawiki.org/wiki/Manual:Hooks/LoadExtensionSchemaUpdates)
 	 * hook.
 	 *
 	 * Add the tables used to store DataTable2 data and metadata to
@@ -223,13 +223,13 @@ class DataTable2 {
 
 	/**
 	 * @brief [NewRevisionFromEditComplete]
-	 * (http://www.mediawiki.org/wiki/Manual:Hooks/NewRevisionFromEditComplete)
+	 * (https://www.mediawiki.org/wiki/Manual:Hooks/NewRevisionFromEditComplete)
 	 * hook.
 	 *
 	 * Save data and potentially metadata to the database when a
 	 * revision is saved. This hook has been preferred over
 	 * [ArticleSaveComplete]
-	 * (http://www.mediawiki.org/wiki/Manual:Hooks/ArticleSaveComplete)
+	 * (https://www.mediawiki.org/wiki/Manual:Hooks/ArticleSaveComplete)
 	 * because the latter is not executed when importing data from xml
 	 * files.
 	 *
@@ -247,7 +247,7 @@ class DataTable2 {
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation"
 	 * Since data are <b>saved to the database</b> using the <a
-	 * href="http://www.mediawiki.org/wiki/Manual:Hooks/NewRevisionFromEditComplete">NewRevisionFromEditComplete</a>
+	 * href="https://www.mediawiki.org/wiki/Manual:Hooks/NewRevisionFromEditComplete">NewRevisionFromEditComplete</a>
 	 * hook, no data is stored in the database when the page has not
 	 * changed. Therefore, you should install this extension
 	 * <i>before</i> creating \<datatable2> tags in your wiki
@@ -265,7 +265,7 @@ class DataTable2 {
 
 	/**
 	 * @brief [ParserFirstCallInit]
-	 * (http://www.mediawiki.org/wiki/Manual:Hooks/ParserFirstCallInit) hook.
+	 * (https://www.mediawiki.org/wiki/Manual:Hooks/ParserFirstCallInit) hook.
 	 *
 	 * @param[in,out] Parser &$parser Parser object being cleared.
 	 *
@@ -275,9 +275,9 @@ class DataTable2 {
 	public function onParserFirstCallInit( Parser &$parser ) {
 		global $wgExtensionCredits, $wgHooks;
 
-		/** Set [tag hooks](http://www.mediawiki.org/wiki/Manual:Tag
+		/** Set [tag hooks](https://www.mediawiki.org/wiki/Manual:Tag
 		 * extensions) and [parser function hooks]
-		 * (http://www.mediawiki.org/wiki/Manual:Parser functions). */
+		 * (https://www.mediawiki.org/wiki/Manual:Parser functions). */
 		$parser->setHook( 'datatable2', array( $this, 'renderDataTable' ) );
 		$parser->setHook( 'dt2-showtable', array( $this, 'renderShowTable' ) );
 
@@ -295,7 +295,7 @@ class DataTable2 {
 
 		/**
 		 * Add Scribunto support if the [Scribunto
-		 * Extension](http://www.mediawiki.org/wiki/Extension:Scribunto) is
+		 * Extension](https://www.mediawiki.org/wiki/Extension:Scribunto) is
 		 * installed.
 		 */
 		if ( isset( $wgExtensionCredits['parserhook']['Scribunto'] ) )
@@ -306,7 +306,7 @@ class DataTable2 {
 
 	/**
 	 * @brief [ParserTestTables]
-	 * (http://www.mediawiki.org/wiki/Manual:Hooks/ParserTestTables) hook.
+	 * (https://www.mediawiki.org/wiki/Manual:Hooks/ParserTestTables) hook.
 	 *
 	 * Add the tables used to store DataTable2 data and metadata to
 	 * the tables required for parser tests.
@@ -414,7 +414,7 @@ class DataTable2 {
 
 	/**
 	 * @brief Render a \<datatable2>
-	 * [tag](http://www.mediawiki.org/wiki/Manual:Tag extensions).
+	 * [tag](https://www.mediawiki.org/wiki/Manual:Tag extensions).
 	 *
 	 * @param string $input Text between the \<datatable2> and
 	 * \</datatable2> tags.
@@ -457,13 +457,13 @@ class DataTable2 {
 			$dataParser = new DataTable2ParserWithRecords( $input, $args );
 
 			/** Add the page to the [tracking category]
-			 * (http://www.mediawiki.org/wiki/Help:Tracking_categories)
+			 * (https://www.mediawiki.org/wiki/Help:Tracking_categories)
 			 * `datatable2-producer-category` if the data are saved.
 			 *
 			 * @xrefitem userdoc "User Documentation" "User Documentation"
 			 * All pages storing data in DataTable2 tables are added
 			 * to the <a
-			 * href="http://www.mediawiki.org/wiki/Help:Tracking_categories">tracking
+			 * href="https://www.mediawiki.org/wiki/Help:Tracking_categories">tracking
 			 * category</a> defined by the system message
 			 * <tt>datatable2-producer-category</tt>. You might decide
 			 * to add some explanatory text to the category page.
@@ -491,7 +491,7 @@ class DataTable2 {
 
 	/**
 	 * @brief Render a \<dt2-showtable>
-	 * [tag](http://www.mediawiki.org/wiki/Manual:Tag extensions).
+	 * [tag](https://www.mediawiki.org/wiki/Manual:Tag extensions).
 	 *
 	 * @param string $input Input between the \<dt2-showtable> and
 	 * \</dt2-showtable> tags.
@@ -558,7 +558,7 @@ class DataTable2 {
 
 	/**
 	 * @brief Render a dt2-expand [parser function]
-	 * (http://www.mediawiki.org/wiki/Manual:Parser functions).
+	 * (https://www.mediawiki.org/wiki/Manual:Parser functions).
 	 *
 	 * @param Parser &$parser Parent parser.
 	 *
@@ -647,7 +647,7 @@ class DataTable2 {
 
 	/**
 	 * @brief Render a dt2-get [parser function]
-	 * (http://www.mediawiki.org/wiki/Manual:Parser functions).
+	 * (https://www.mediawiki.org/wiki/Manual:Parser functions).
 	 *
 	 * @param Parser &$parser Parent parser.
 	 *
@@ -748,7 +748,7 @@ class DataTable2 {
 
 	/**
 	 * @brief Render a dt2-lastget [parser function]
-	 * (http://www.mediawiki.org/wiki/Manual:Parser functions).
+	 * (https://www.mediawiki.org/wiki/Manual:Parser functions).
 	 *
 	 * @param Parser &$parser Parent parser.
 	 *
@@ -928,7 +928,7 @@ class DataTable2 {
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation" All
 	 * pages using data from DataTable2 tables are added to the <a
-	 * href="http://www.mediawiki.org/wiki/Help:Tracking_categories">tracking
+	 * href="https://www.mediawiki.org/wiki/Help:Tracking_categories">tracking
 	 * category</a> defined by the system message
 	 * <tt>datatable2-consumer-category</tt>. Furthermore, these pages
 	 * will be added to individual tracking categories for each table
@@ -953,7 +953,7 @@ class DataTable2 {
 	public function addDependencies( Parser $parser, array $pages,
 		Title $table ) {
 		/** Add this page to the [tracking category]
-		 * (http://www.mediawiki.org/wiki/Help:Tracking_categories)
+		 * (https://www.mediawiki.org/wiki/Help:Tracking_categories)
 		 * defined by the message `datatable2-consumer-category`.
 		 */
 		$parser->addTrackingCategory( 'datatable2-consumer-category' );
@@ -982,7 +982,7 @@ class DataTable2 {
 		}
 
 		/** Add [dependencies]
-		 * (http://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F)
+		 * (https://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F)
 		 * on those pages where data is taken from. */
 		foreach ( $pages as $pageId ) {
 			/** Disable caching completely if the page uses data

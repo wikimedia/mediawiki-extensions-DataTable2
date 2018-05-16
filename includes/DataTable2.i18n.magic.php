@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @brief [Magic words](http://www.mediawiki.org/wiki/Manual:Magic_words)
+ * @brief [Magic words](https://www.mediawiki.org/wiki/Manual:Magic_words)
  * for the @ref Extensions-DataTable2.
  *
  * @file

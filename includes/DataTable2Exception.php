@@ -13,7 +13,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup Extensions
  * @ingroup Extensions-DataTable2
  *
- * @author [RV1971](http://www.mediawiki.org/wiki/User:RV1971)
+ * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  *
  */
 
@@ -31,7 +31,7 @@ class DataTable2Exception extends MWException {
 	 * @param ... Further parameters to wfMessage().
 	 *
 	 * @sa [MediaWiki Manual:Messages API]
-	 * (http://www.mediawiki.org/wiki/Manual:Messages_API)
+	 * (https://www.mediawiki.org/wiki/Manual:Messages_API)
 	 */
 	public function __construct( $message ) {
 		parent::__construct( wfMessage( $message,

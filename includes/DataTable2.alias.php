@@ -2,7 +2,7 @@
 
 /**
  * @brief [Aliases]
- * (http://www.mediawiki.org/wiki/Manual:Special_pages#The_Aliases_File) for
+ * (https://www.mediawiki.org/wiki/Manual:Special_pages#The_Aliases_File) for
  * the @ref Extensions-DataTable2.
  *
  * @file

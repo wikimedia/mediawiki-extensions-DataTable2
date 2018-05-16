@@ -14,7 +14,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup Extensions
  * @ingroup Extensions-DataTable2
  *
- * @author [RV1971](http://www.mediawiki.org/wiki/User:RV1971)
+ * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  *
  * @sa Largely inspired by SpecialListusers.php.
  */
@@ -25,7 +25,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
  * @ingroup Extensions-DataTable2
  *
  * @sa [MediaWiki Manual:Pager.php]
- * (http://www.mediawiki.org/wiki/Manual:Pager.php)
+ * (https://www.mediawiki.org/wiki/Manual:Pager.php)
  */
 abstract class DataTable2Pager extends AlphabeticPager {
 
@@ -80,7 +80,7 @@ abstract class DataTable2Pager extends AlphabeticPager {
 	 * @return *string* html code.
 	 *
 	 * @sa [MediaWiki Manual:$wgScript]
-	 * (http://www.mediawiki.org/wiki/$wgScript)
+	 * (https://www.mediawiki.org/wiki/$wgScript)
 	 */
 	public function buildPageHeader( $suffix, $content ) {
 		global $wgScript;
