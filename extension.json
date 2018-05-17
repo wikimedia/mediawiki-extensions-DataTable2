@@ -20,8 +20,11 @@
 	"SpecialDataTable2": "includes/SpecialDataTable2.php",
 	"DataTable2Pager": "includes/SpecialDataTable2.php",
 	"SpecialDataTable2Data": "includes/SpecialDataTable2Data.php",
+	"DataTable2DataPager": "includes/SpecialDataTable2Data.php",
 	"SpecialDataTable2Pages": "includes/SpecialDataTable2Pages.php",
-	"SpecialDataTable2Tables": "includes/SpecialDataTable2Tables.php"
+	"DataTable2PagesPager": "includes/SpecialDataTable2Pages.php",
+	"SpecialDataTable2Tables": "includes/SpecialDataTable2Tables.php",
+	"DataTable2TablesPager": "includes/SpecialDataTable2Tables.php"
     },
     "ExtensionFunctions": [ "DataTable2::init" ],
     "MessagesDirs": {
