@@ -298,8 +298,9 @@ class DataTable2 {
 		 * Extension](https://www.mediawiki.org/wiki/Extension:Scribunto) is
 		 * installed.
 		 */
-		if ( isset( $wgExtensionCredits['parserhook']['Scribunto'] ) )
+		if ( isset( $wgExtensionCredits['parserhook']['Scribunto'] ) ) {
 			$wgHooks['ScribuntoExternalLibraries'][] = $this;
+		}
 
 		return true;
 	}
