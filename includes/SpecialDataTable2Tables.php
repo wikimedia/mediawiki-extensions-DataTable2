@@ -60,7 +60,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 
 		$conds = [];
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		if ( $this->tablename != '' ) {
 			$conds[] = 'dtd_table >= '

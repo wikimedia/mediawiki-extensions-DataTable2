@@ -99,7 +99,7 @@ class DataTable2Database {
 			return $this->columns_[$table];
 		}
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		/** The table to select column names from is specified in
 		 *	the global variable @ref $wgDataTable2MetaReadSrc. */
@@ -358,7 +358,7 @@ class DataTable2Database {
 		}
 
 		/** Get the database records. */
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		$res = $dbr->select( $wgDataTable2ReadSrc, $dbColumns, $conds,
 			$fname, $orderBy ? [ 'ORDER BY' => $orderBy ] : [] );

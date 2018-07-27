@@ -17,7 +17,6 @@
 		<exclude name="MediaWiki.Commenting.FunctionComment.WrongStyle" />
 		<exclude name="MediaWiki.Files.ClassMatchesFilename.NotMatch" />
 		<exclude name="MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName" />
-		<exclude name="MediaWiki.Usage.DeprecatedConstantUsage.DB_SLAVE" />
 		<exclude name="MediaWiki.VariableAnalysis.ForbiddenGlobalVariables.ForbiddenGlobal$wgTitle" />
 		<exclude name="MediaWiki.VariableAnalysis.UnusedGlobalVariables.UnusedGlobal$wgSpecialDataTable2PageParSep" />
 		<exclude name="MediaWiki.WhiteSpace.DisallowEmptyLineFunctions.NoEmptyLine" />

@@ -78,7 +78,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 		$conds = [ 'dtd_table' => $this->tableDbKey,
 			'dtd_page = page_id' ];
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		if ( $this->pagename != '' ) {
 			$title = Title::newFromText( $this->pagename );
