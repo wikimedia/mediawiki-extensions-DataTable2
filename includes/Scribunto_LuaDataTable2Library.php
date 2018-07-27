@@ -80,7 +80,7 @@ class Scribunto_LuaDataTable2Library extends Scribunto_LuaLibraryBase {
 	 * starting at 1) of associative arrays, each of which represents
 	 * a record. False if the table does not exist.
 	 */
-	public function select( $table, $where, $orderBy = NULL ) {
+	public function select( $table, $where, $orderBy = null ) {
 		/** Increment the expensive function count. */
 		$this->incrementExpensiveFunctionCount();
 

@@ -113,7 +113,7 @@ class DataTable2SqlTransformer {
 	 */
 	public function getType( $c ) {
 		foreach ( self::$tokenTypes_ as $type => $charset ) {
-			if ( strpos( $charset, $c ) !== FALSE ) {
+			if ( strpos( $charset, $c ) !== false ) {
 				return $type;
 			}
 		}
@@ -189,7 +189,7 @@ class DataTable2SqlTransformer {
 			if ( substr( $sql, $i, 2 ) == '/*' ) {
 				$endPos = strpos( $sql, '*/', $i );
 
-				if ( $endPos === FALSE ) {
+				if ( $endPos === false ) {
 					throw new DataTable2Exception(
 						'datatable2-error-sql-unterminated-comment',
 						htmlspecialchars( substr( $sql, $i ) ) );

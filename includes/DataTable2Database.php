@@ -350,7 +350,7 @@ class DataTable2Database {
 		/** If the ORDER BY clause is NULL, sort by the first five
 		 *	columns. */
 		if ( isset( $orderBy ) && $orderBy !== '' ) {
-			if ( $orderBy !== FALSE ) {
+			if ( $orderBy !== false ) {
 				$orderBy = $transformer->transform( $orderBy, $columns );
 			}
 		} else {
