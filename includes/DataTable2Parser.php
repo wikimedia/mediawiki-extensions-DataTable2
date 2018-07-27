@@ -377,7 +377,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	private function parseWiki_( $assoc ) {
 		/** Parse list of column names, if any. */
 		$this->columns_ = $this->getArg( 'columns' ) === null
-			? array() : explode( '|', $this->getArg( 'columns' ) );
+			? [] : explode( '|', $this->getArg( 'columns' ) );
 
 		/** Count column names and save the original count. */
 		$origNameCount = count( $this->columns_ );

@@ -106,7 +106,7 @@ class DataTable2Database {
 		global $wgDataTable2MetaReadSrc;
 
 		$res = $dbr->select( $wgDataTable2MetaReadSrc, 'dtm_columns',
-			array( 'dtm_table' => $table ), $fname );
+			[ 'dtm_table' => $table ], $fname );
 
 		if ( !$res->numRows() ) {
 			/** If no meta data are found, check whether there are
@@ -115,17 +115,17 @@ class DataTable2Database {
 			global $wgDataTable2ReadSrc;
 
 			$res = $dbr->select( $wgDataTable2ReadSrc, 'dtd_table',
-				array( 'dtd_table' => $table ), $fname,
-				array( 'LIMIT' => 1 ) );
+				[ 'dtd_table' => $table ], $fname,
+				[ 'LIMIT' => 1 ] );
 
 			if ( $res->numRows() ) {
 				throw new DataTable2Exception(
 					'datatable2-error-no-meta',
 					htmlspecialchars( $table ) );
 			} else {
-				$this->columns_[$table] = array();
+				$this->columns_[$table] = [];
 
-				return array();
+				return [];
 			}
 		}
 
@@ -157,7 +157,7 @@ class DataTable2Database {
 
 		/** Delete all data for this page. */
 		$dbw->delete( $wgDataTable2WriteDest,
-			array( 'dtd_page' => $pageId ), $fname );
+			[ 'dtd_page' => $pageId ], $fname );
 
 		/** The table to delete metadata from is specified in the global
 		 *	variable @ref $wgDataTable2MetaWriteDest. */
@@ -169,7 +169,7 @@ class DataTable2Database {
 			'dtd_table', '', $fname );
 
 		$dbw->delete( $wgDataTable2MetaWriteDest,
-			array( "dtm_table not in ($subquery)" ), $fname );
+			[ "dtm_table not in ($subquery)" ], $fname );
 
 //		$dbw->commit( $fname );
 
@@ -197,7 +197,7 @@ class DataTable2Database {
 
 		/** Extract data from all \<datatable2> tags on the
 		 *	page. */
-		Parser::extractTagsAndParams( array( 'datatable2' ),
+		Parser::extractTagsAndParams( [ 'datatable2' ],
 			$text, $datatables );
 
 		/** Invoke Invoke DataTable2::deleteData() to delete all
@@ -251,7 +251,7 @@ class DataTable2Database {
 			 *	$wgDataTable2MetaWriteDest. */
 			global $wgDataTable2MetaWriteDest;
 
-			$metaCond = array( 'dtm_table' => $table->getDBkey() );
+			$metaCond = [ 'dtm_table' => $table->getDBkey() ];
 
 			$res = $dbw->select( $wgDataTable2MetaWriteDest, 'dtm_table',
 				$metaCond, $fname );
@@ -259,15 +259,15 @@ class DataTable2Database {
 			if ( $res->numRows() ) {
 				/** Update the metadata record if there is one. */
 				$dbw->update( $wgDataTable2MetaWriteDest,
-					array( 'dtm_columns'
-						=> implode( '|', $parser->getColumns() ) ),
+					[ 'dtm_columns'
+						=> implode( '|', $parser->getColumns() ) ],
 					$metaCond, $fname );
 			} else {
 				/** Otherwise insert a new one. */
 				$dbw->insert( $wgDataTable2MetaWriteDest,
-					array( 'dtm_table' => $table->getDBkey(),
+					[ 'dtm_table' => $table->getDBkey(),
 						'dtm_columns' =>
-						implode( '|', $parser->getColumns() ) ),
+						implode( '|', $parser->getColumns() ) ],
 					$fname );
 			}
 		}
@@ -326,7 +326,7 @@ class DataTable2Database {
 		 *	variable @ref $wgDataTable2ReadSrc. */
 		global $wgDataTable2ReadSrc;
 
-		$conds = array( 'dtd_table' => $table->getDBkey() );
+		$conds = [ 'dtd_table' => $table->getDBkey() ];
 
 		$columns = $this->getColumns( $table->getDBkey() );
 
@@ -334,7 +334,7 @@ class DataTable2Database {
 		 *	throwing, we know that there is no data and hence
 		 *	return an empty array. */
 		if ( !$columns ) {
-			return array();
+			return [];
 		}
 
 		$dbColumns = $this->dataCols( count( $columns ) );
@@ -361,11 +361,11 @@ class DataTable2Database {
 		$dbr = wfGetDB( DB_SLAVE );
 
 		$res = $dbr->select( $wgDataTable2ReadSrc, $dbColumns, $conds,
-			$fname, $orderBy ? array( 'ORDER BY' => $orderBy ) : array() );
+			$fname, $orderBy ? [ 'ORDER BY' => $orderBy ] : [] );
 
 		/** Transform the query result into an array of arrays. */
-		$records = array();
-		$pageIds = array();
+		$records = [];
+		$pageIds = [];
 
 		foreach ( $res as $dbRecord ) {
 			$pageIds[$dbRecord->__pageId] = true;

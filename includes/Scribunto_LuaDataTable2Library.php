@@ -56,13 +56,13 @@ class Scribunto_LuaDataTable2Library extends Scribunto_LuaLibraryBase {
 
 	/// Register this library.
 	public function register() {
-		$lib = array(
-			'select' => array( $this, 'select' )
-		);
+		$lib = [
+			'select' => [ $this, 'select' ]
+		];
 
 		$this->getEngine()->registerInterface(
 			__DIR__ . '/../lua/DataTable2.lua',
-			$lib, array() );
+			$lib, [] );
 	}
 
 	/* == functions to be called from Lua == */
@@ -101,6 +101,6 @@ class Scribunto_LuaDataTable2Library extends Scribunto_LuaLibraryBase {
 		DataTable2::singleton()->addDependencies(
 			$this->getParser(), $pages, $tableObj );
 
-		return array( $records );
+		return [ $records ];
 	}
 }

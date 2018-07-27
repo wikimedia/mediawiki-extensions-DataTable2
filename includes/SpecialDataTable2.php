@@ -91,9 +91,9 @@ abstract class DataTable2Pager extends AlphabeticPager {
 			$this->getTitle()->getPrefixedDBkey(), 2 );
 
 		return Xml::openElement( 'form',
-			array( 'method' => 'get',
+			[ 'method' => 'get',
 				'action' => $wgScript,
-				'id' => "mw-datatable2$suffix-form" ) )
+				'id' => "mw-datatable2$suffix-form" ] )
 			. Xml::fieldset( $this->msg( "datatable2$suffix-legend" )->text() )
 			. Html::hidden( 'title', $title )
 			. Html::hidden( 'limit', $this->mLimit )

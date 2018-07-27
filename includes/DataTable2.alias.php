@@ -12,15 +12,15 @@
  */
 
 /// Aliases for special pages.
-$specialPageAliases	 = array();
+$specialPageAliases	 = [];
 
 /**
  * @brief English
  *
  * @author RV1971
  */
-$specialPageAliases['en'] = array(
-	'DataTable2Data' => array( 'DataTable2Data' ),
-	'DataTable2Pages' => array( 'DataTable2Pages' ),
-	'DataTable2Tables' => array( 'DataTable2Tables' )
-);
+$specialPageAliases['en'] = [
+	'DataTable2Data' => [ 'DataTable2Data' ],
+	'DataTable2Pages' => [ 'DataTable2Pages' ],
+	'DataTable2Tables' => [ 'DataTable2Tables' ]
+];

@@ -278,19 +278,19 @@ class DataTable2 {
 		/** Set [tag hooks](https://www.mediawiki.org/wiki/Manual:Tag
 		 * extensions) and [parser function hooks]
 		 * (https://www.mediawiki.org/wiki/Manual:Parser functions). */
-		$parser->setHook( 'datatable2', array( $this, 'renderDataTable' ) );
-		$parser->setHook( 'dt2-showtable', array( $this, 'renderShowTable' ) );
+		$parser->setHook( 'datatable2', [ $this, 'renderDataTable' ] );
+		$parser->setHook( 'dt2-showtable', [ $this, 'renderShowTable' ] );
 
 		/** All parser functions get their arguments as PPNode
 		 *	objects, so that arguments are expanded only when
 		 *	needed. This is particularly useful if default values are
 		 *	complex expressions and rarely needed. */
 		$parser->setFunctionHook( 'dt2-expand',
-			array( $this, 'renderExpand' ), SFH_OBJECT_ARGS );
-		$parser->setFunctionHook( 'dt2-get', array( $this, 'renderGet' ),
+			[ $this, 'renderExpand' ], SFH_OBJECT_ARGS );
+		$parser->setFunctionHook( 'dt2-get', [ $this, 'renderGet' ],
 			SFH_OBJECT_ARGS );
 		$parser->setFunctionHook( 'dt2-lastget',
-			array( $this, 'renderLastGet' ),
+			[ $this, 'renderLastGet' ],
 			SFH_OBJECT_ARGS );
 
 		/**
@@ -350,7 +350,7 @@ class DataTable2 {
 	 * @return *string* Wikitext as used in template invocations.
 	 */
 	public function implodeArgs( $data ) {
-		$result = array();
+		$result = [];
 
 		/** If $array is not an array (e.g. NULL), the return value is
 		 * an empty string. */
@@ -376,7 +376,7 @@ class DataTable2 {
 		 * appended.*/
 		$tmp = array_merge( $array1, $array2 );
 
-		$result = array();
+		$result = [];
 
 		/** The numeric keys are re-indexed starting at 1. */
 		foreach ( $tmp as $key => $value ) {
@@ -407,9 +407,9 @@ class DataTable2 {
 	 * {{SUBPAGENAME:{{{dt2-src-fullpagename}}}}}.
 	 */
 	public function title2array( Title $title ) {
-		return array(
+		return [
 			'dt2-src-fullpagename' => $title->getPrefixedText(),
-			'dt2-src-pagename' => $title->getText() );
+			'dt2-src-pagename' => $title->getText() ];
 	}
 
 	/**
@@ -635,11 +635,11 @@ class DataTable2 {
 			}
 
 			/** Return preprocessed template with these arguments. */
-			return array( $parser->recursivePreprocess(
+			return [ $parser->recursivePreprocess(
 					$parser->fetchTemplate(
 						Title::newFromText( $template, NS_TEMPLATE ) ),
 					$parser->getPreprocessor()->newCustomFrame(
-						$templateArgs ) ), 'noparse' => false );
+						$templateArgs ) ), 'noparse' => false ];
 		} catch ( DataTable2Exception $e ) {
 			return $e->getText();
 		}
@@ -733,8 +733,8 @@ class DataTable2 {
 				$column = $frame->expand( $args[1] );
 
 				if ( isset( $this->lastGet_[$column] ) ) {
-					return array( $this->lastGet_[$column],
-						'noparse' => false );
+					return [ $this->lastGet_[$column],
+						'noparse' => false ];
 				} else {
 					return '';
 				}
@@ -791,8 +791,8 @@ class DataTable2 {
 
 			/** Otherwise return the specified column. No check is
 			 *	performed whether the column exists. */
-			return array( $this->lastGet_[$frame->expand( $args[0] )],
-				'noparse' => false );
+			return [ $this->lastGet_[$frame->expand( $args[0] )],
+				'noparse' => false ];
 		} catch ( DataTable2Exception $e ) {
 			return $e->getText();
 		}

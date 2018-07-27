@@ -51,7 +51,7 @@ class DataTable2SqlTransformer {
 	 * Any character not mentioned in any of these introduced an @ref
 	 * INVALID token.
 	 */
-	static private $tokenTypes_ = array(
+	static private $tokenTypes_ = [
 		self::SPACE => " \t\n\r",
 		self::NUMBER => '0123456789.',
 		self::STRING => '\'',
@@ -59,7 +59,7 @@ class DataTable2SqlTransformer {
 		=> '"ABCDEFGHIJKLMNOPQRSTUVWXYZ_`abcdefghijklmnopqrstuvwxyz',
 		self::MATH => '!()*+-/<=>|',
 		self::COMMA => ','
-	);
+	];
 
 	/**
 	 * @brief Array mapping each token type to the regular expression
@@ -70,7 +70,7 @@ class DataTable2SqlTransformer {
 	 * legal unquoted identifier. Case-insensitive matching is used to
 	 * simplify the regexp.
 	 */
-	static private $tokenRegexps_ = array(
+	static private $tokenRegexps_ = [
 		self::SPACE => '/\s+/',
 		self::NUMBER => '/[0-9]+(\.[0-9]*)?|\.[0-9]+/',
 		self::STRING => "/'[^']*'/",
@@ -78,7 +78,7 @@ class DataTable2SqlTransformer {
 		=> '/`[^`]*`|"[^"]*"|[A-Z_]+[\.0-9A-Z_]*/i',
 		self::MATH => '/[\(\)*+-\/<=>]|<=|>=|<>|!=|\|\|/',
 		self::COMMA => '/,/'
-	);
+	];
 
 	/* == private data members == */
 
@@ -142,18 +142,18 @@ class DataTable2SqlTransformer {
 		if ( $type == self::INVALID ) {
 			/** If the next character is invalid, the token consists
 			 *	of the next character. */
-			return array( $type, $input[$offset++] );
+			return [ $type, $input[$offset++] ];
 		}
 
 		if ( !preg_match( self::$tokenRegexps_[$type], $input, $matches, 0,
 				$offset ) ) {
 			/** If the regexp cannot be matched, return an invalid
 			 *	token without content. */
-			return array( self::INVALID, null );
+			return [ self::INVALID, null ];
 		}
 
 		$offset += strlen( $matches[0] );
-		return array( $type, $matches[0] );
+		return [ $type, $matches[0] ];
 	}
 
 	/**

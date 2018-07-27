@@ -58,7 +58,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 	public function getQueryInfo() {
 		global $wgDataTable2ReadSrc;
 
-		$conds = array();
+		$conds = [];
 
 		$dbr = wfGetDB( DB_SLAVE );
 
@@ -68,15 +68,15 @@ class DataTable2TablesPager extends DataTable2Pager {
 		}
 
 		$table = $dbr->selectSQLText( $wgDataTable2ReadSrc,
-			array( 'dtd_table', 'dtd_page', 'records' => 'count(*)' ),
+			[ 'dtd_table', 'dtd_page', 'records' => 'count(*)' ],
 			$conds, __METHOD__,
-			array( 'GROUP BY' => array( 'dtd_table', 'dtd_page' ) ) );
+			[ 'GROUP BY' => [ 'dtd_table', 'dtd_page' ] ] );
 
-		return array( 'tables' => array( 'd' => "($table)" ),
-			'fields' => array( 'dtd_table', 'pages' => 'count(*)',
-				'records' => 'sum(records)' ),
-			'options' => array( 'GROUP BY' => 'dtd_table' )
-		);
+		return [ 'tables' => [ 'd' => "($table)" ],
+			'fields' => [ 'dtd_table', 'pages' => 'count(*)',
+				'records' => 'sum(records)' ],
+			'options' => [ 'GROUP BY' => 'dtd_table' ]
+		];
 	}
 
 	/// Specify `dtd_table` as the index field for AlphabeticPager.
@@ -109,10 +109,10 @@ class DataTable2TablesPager extends DataTable2Pager {
 	 */
 	public function getPageHeader( ) {
 		$content = Html::rawElement( 'label',
-			array( 'for' => 'tablename' ),
+			[ 'for' => 'tablename' ],
 			$this->msg( 'datatable2tables-from' )->parse() ) . '&#160'
 			. Xml::input( 'tablename', 25, $this->tablename,
-				array( 'id' => 'tablename' ) ) . ' ';
+				[ 'id' => 'tablename' ] ) . ' ';
 
 		return $this->buildPageHeader( 'tables', $content );
 	}
