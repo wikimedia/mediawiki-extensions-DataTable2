@@ -12,7 +12,7 @@
  */
 
 /// Aliases for special pages.
-$specialPageAliases	 = [];
+$specialPageAliases = [];
 
 /**
  * @brief English
