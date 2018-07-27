@@ -30,7 +30,6 @@
 		<exclude name="MediaWiki.WhiteSpace.SpaceyParenthesis.UnnecessarySpaceBetweenParentheses" />
 		<exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
 		<exclude name="Squiz.Scope.MethodScope.Missing" />
-		<exclude name="Zend.Files.ClosingTag.NotAllowed" />
 	</rule>
 	<file>.</file>
 	<arg name="extensions" value="php,php5,inc"/>

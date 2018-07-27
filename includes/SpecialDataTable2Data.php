@@ -219,4 +219,3 @@ class SpecialDataTable2Data extends SpecialDataTable2
 		parent::__construct( 'DataTable2Data' );
 	}
 }
-?>
