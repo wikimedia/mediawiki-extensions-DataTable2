@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ruleset>
+	<rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki">
+		<exclude name="Generic.Arrays.DisallowLongArraySyntax.Found" />
+		<exclude name="Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed" />
+		<exclude name="Generic.ControlStructures.InlineControlStructure.NotAllowed" />
+		<exclude name="Generic.Files.OneObjectStructurePerFile.MultipleFound" />
+		<exclude name="Generic.Formatting.MultipleStatementAlignment.IncorrectWarning" />
+		<exclude name="Generic.PHP.LowerCaseConstant.Found" />
+		<exclude name="MediaWiki.Commenting.FunctionAnnotations.UnrecognizedAnnotation" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.DefaultNullTypeParam" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.DirectionParam" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.MissingParamName" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.MissingParamTag" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.MissingReturn" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.NotPunctuationReturn" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.NotShortBoolParam" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.ParamNameNoMatch" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.SpacingAfter" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.SpacingDocStar" />
+		<exclude name="MediaWiki.Commenting.FunctionComment.WrongStyle" />
+		<exclude name="MediaWiki.Files.ClassMatchesFilename.NotMatch" />
+		<exclude name="MediaWiki.NamingConventions.LowerCamelFunctionsName.FunctionName" />
+		<exclude name="MediaWiki.Usage.DeprecatedConstantUsage.DB_SLAVE" />
+		<exclude name="MediaWiki.VariableAnalysis.ForbiddenGlobalVariables.ForbiddenGlobal$wgTitle" />
+		<exclude name="MediaWiki.VariableAnalysis.UnusedGlobalVariables.UnusedGlobal$wgSpecialDataTable2PageParSep" />
+		<exclude name="MediaWiki.WhiteSpace.DisallowEmptyLineFunctions.NoEmptyLine" />
+		<exclude name="MediaWiki.WhiteSpace.MultipleEmptyLines.MultipleEmptyLines" />
+		<exclude name="MediaWiki.WhiteSpace.SpaceAfterControlStructure.Incorrect" />
+		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeClassBrace.BraceNotOnSameLine" />
+		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeControlStructureBrace.SpaceBeforeControl" />
+		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.NewLineComment" />
+		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.SingleSpaceBeforeSingleLineComment" />
+		<exclude name="MediaWiki.WhiteSpace.SpaceyParenthesis.SingleSpaceBeforeCloseParenthesis" />
+		<exclude name="MediaWiki.WhiteSpace.SpaceyParenthesis.UnnecessarySpaceBetweenParentheses" />
+		<exclude name="Squiz.Classes.ValidClassName.NotCamelCaps" />
+		<exclude name="Squiz.Scope.MethodScope.Missing" />
+		<exclude name="Zend.Files.ClosingTag.NotAllowed" />
+	</rule>
+	<file>.</file>
+	<arg name="extensions" value="php,php5,inc"/>
+	<arg name="encoding" value="UTF-8"/>
+</ruleset>
