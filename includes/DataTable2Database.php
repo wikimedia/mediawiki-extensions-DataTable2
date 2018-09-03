@@ -153,7 +153,7 @@ class DataTable2Database {
 
 		$dbw = wfGetDB( DB_MASTER );
 
-//		$dbw->begin( $fname );
+		// $dbw->begin( $fname );
 
 		/** Delete all data for this page. */
 		$dbw->delete( $wgDataTable2WriteDest,
@@ -171,8 +171,7 @@ class DataTable2Database {
 		$dbw->delete( $wgDataTable2MetaWriteDest,
 			[ "dtm_table not in ($subquery)" ], $fname );
 
-//		$dbw->commit( $fname );
-
+		// $dbw->commit( $fname );
 
 		return true;
 	}
@@ -206,7 +205,7 @@ class DataTable2Database {
 
 		$dbw = wfGetDB( DB_MASTER );
 
-//			$dbw->begin( $fname );
+		// $dbw->begin( $fname );
 
 		/** Loop through the \<datatable2> tags found. */
 		foreach ( $datatables as $datatable ) {
@@ -225,18 +224,15 @@ class DataTable2Database {
 			$parser = new DataTable2ParserWithRecords( $content, $args,
 				false );
 
-
-			foreach( $parser->getRecords() as $record ) {
+			foreach ( $parser->getRecords() as $record ) {
 				$dbRecord = array_combine(
 					$this->dataCols( count( $record ) ), $record );
 
 				$dbRecord['dtd_table'] = $table->getDBkey();
 				$dbRecord['dtd_page'] = $article->getId();
 
-
 				wfDebug( "**** here\n" );
 				wfDebug( var_export( $dbRecord, true ) );
-
 
 				/** Insert resulting records into the
 				 *	database. Each record must be inserted
@@ -244,7 +240,6 @@ class DataTable2Database {
 				 *	differ among records. */
 				$dbw->insert( $wgDataTable2WriteDest, $dbRecord, $fname );
 			}
-
 
 			/** The table to save metadata to is specified in the
 			 *	global variable @ref
@@ -272,8 +267,7 @@ class DataTable2Database {
 			}
 		}
 
-//			$dbw->commit( $fname );
-
+		// $dbw->commit( $fname );
 
 		return true;
 	}
@@ -285,11 +279,11 @@ class DataTable2Database {
 	 *
 	 * @param string|null $where WHERE clause or null.
 	 *
-	 * @param string|boolean|null $orderBy ORDER BY clause, FALSE (to
+	 * @param string|bool|null $orderBy ORDER BY clause, FALSE (to
 	 * return results unsorted), or NULL (to sort by the first
 	 * five columns).
 	 *
-	 * @param[out] array &$pages Is returned as an array of distinct
+	 * @param array|null &$pages Is returned as an array of distinct
 	 * IDs of the pages where data was taken from.
 	 *
 	 * @param string $fname Name of the calling function.
@@ -375,7 +369,6 @@ class DataTable2Database {
 		}
 
 		$pages = array_keys( $pageIds );
-
 
 		return $records;
 	}

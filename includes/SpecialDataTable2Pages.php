@@ -40,9 +40,9 @@ class DataTable2PagesPager extends DataTable2Pager {
 	/**
 	 * @brief Constructor.
 	 *
-	 * @param IContextSource $context Context.
+	 * @param IContextSource|null $context Context.
 	 *
-	 * @param string $par Parameters of the form
+	 * @param string|null $par Parameters of the form
 	 * *table*[//<i>page</i>] so that pages are selected for *table*
 	 * and shown starting with *page*.
 	 *
@@ -120,7 +120,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 	 *
 	 * @return string html code.
 	 */
-	public function getPageHeader( ) {
+	public function getPageHeader() {
 		global $wgSpecialDataTable2PageParSep;
 
 		$content = Html::rawElement( 'label',
@@ -150,8 +150,7 @@ class DataTable2PagesPager extends DataTable2Pager {
  *
  * @ingroup Extensions-DataTable2
  */
-class SpecialDataTable2Pages extends SpecialDataTable2
-{
+class SpecialDataTable2Pages extends SpecialDataTable2 {
 	/// Constructor.
 	public function __construct() {
 		parent::__construct( 'DataTable2Pages' );

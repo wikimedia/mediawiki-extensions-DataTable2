@@ -34,9 +34,9 @@ class DataTable2TablesPager extends DataTable2Pager {
 	/**
 	 * @brief Constructor.
 	 *
-	 * @param IContextSource $context Context.
+	 * @param IContextSource|null $context Context.
 	 *
-	 * @param string $par Table name to start from.
+	 * @param string|null $par Table name to start from.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation" The
 	 * special page <b>DataTable2Tables</b> accepts one parameter,
@@ -48,7 +48,6 @@ class DataTable2TablesPager extends DataTable2Pager {
 	 */
 	public function __construct( IContextSource $context = null,
 		$tablename = null ) {
-
 		parent::__construct( $context, $tablename );
 	}
 
@@ -94,7 +93,6 @@ class DataTable2TablesPager extends DataTable2Pager {
 	public function formatRow( $row ) {
 		$table = Title::makeTitle( NS_MAIN, $row->dtd_table );
 
-
 		$detailCateg = $this->msg( 'datatable2-consumer-detail-category',
 			$table->getText() )->inContentLanguage()->text();
 
@@ -107,7 +105,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 	 *
 	 * @return string html code.
 	 */
-	public function getPageHeader( ) {
+	public function getPageHeader() {
 		$content = Html::rawElement( 'label',
 			[ 'for' => 'tablename' ],
 			$this->msg( 'datatable2tables-from' )->parse() ) . '&#160'
@@ -124,8 +122,7 @@ class DataTable2TablesPager extends DataTable2Pager {
  *
  * @ingroup Extensions-DataTable2
  */
-class SpecialDataTable2Tables extends SpecialDataTable2
-{
+class SpecialDataTable2Tables extends SpecialDataTable2 {
 	/// Constructor.
 	public function __construct() {
 		parent::__construct( 'DataTable2Tables', false );

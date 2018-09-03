@@ -128,7 +128,7 @@ class DataTable2SqlTransformer {
 	 *
 	 * @param string $input Input string.
 	 *
-	 * @param[in,out] int $offset Current offset in the input
+	 * @param int $offset Current offset in the input
 	 * string. Updated to the position just after the extracted
 	 * token. When extraction fails, the position is unchanged.
 	 *
@@ -173,7 +173,7 @@ class DataTable2SqlTransformer {
 	 * - an unterminated SQL comment;
 	 * - an invalid token;
 	 * - an identifier that is neither a column name nor on the whitelist
-	 *	 configured with @ref $wgDataTable2SqlWhiteList.
+	 *   configured with @ref $wgDataTable2SqlWhiteList.
 	 */
 	public function transform( $sql, $columns ) {
 		/** Get mapping of logical colum names to database colum
@@ -197,7 +197,7 @@ class DataTable2SqlTransformer {
 
 				$i = $endPos + 2;
 				continue;
-			} elseif ( substr( $sql, $i, 2 ) == '--' )	{
+			} elseif ( substr( $sql, $i, 2 ) == '--' ) {
 				/** Skip anything after an SQL-style comment. */
 				break;
 			}
@@ -249,7 +249,6 @@ class DataTable2SqlTransformer {
 			/** Append the token content to the result. */
 			$result .= $token[1];
 		}
-
 
 		return $result;
 	}

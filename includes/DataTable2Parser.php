@@ -71,7 +71,7 @@ class DataTable2Parser {
 	 * Extract content of $tag at beginning of $input, if any, and
 	 * remove it from $input.
 	 *
-	 * @param[in,out] string &$input Input text.
+	 * @param string &$input Input text.
 	 *
 	 * @param string $tag Tag name to look for.
 	 *
@@ -326,7 +326,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 * @param array|null $args Associative array of arguments indexed
 	 * by attribute name.
 	 *
-	 * @param boolean $assoc Whether the records returned by
+	 * @param bool $assoc Whether the records returned by
 	 * getRecords() should be indexed by column names.
 	 *
 	 * @sa DataTable2Parser::getArg() for a description of valid arguments.

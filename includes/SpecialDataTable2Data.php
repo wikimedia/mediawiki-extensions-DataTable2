@@ -52,9 +52,9 @@ class DataTable2DataPager extends DataTable2Pager {
 	/**
 	 * @brief Constructor.
 	 *
-	 * @param IContextSource $context Context.
+	 * @param IContextSource|null $context Context.
 	 *
-	 * @param string $par Parameters of the form
+	 * @param string|null $par Parameters of the form
 	 * *table*[//<i>page</i>[//<i>data</i>]] so that data are selected
 	 * for *table* and *page* starting at *data*.
 	 *
@@ -185,7 +185,7 @@ class DataTable2DataPager extends DataTable2Pager {
 	 *
 	 * @return string html code.
 	 */
-	public function getPageHeader( ) {
+	public function getPageHeader() {
 		$content = Html::rawElement( 'label',
 			[ 'for' => 'data' ],
 			$this->msg( 'datatable2data-from' )->parse() ) . '&#160'
@@ -212,8 +212,7 @@ class DataTable2DataPager extends DataTable2Pager {
  *
  * @ingroup Extensions-DataTable2
  */
-class SpecialDataTable2Data extends SpecialDataTable2
-{
+class SpecialDataTable2Data extends SpecialDataTable2 {
 	/// Constructor.
 	public function __construct() {
 		parent::__construct( 'DataTable2Data' );

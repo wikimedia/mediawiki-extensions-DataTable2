@@ -41,13 +41,12 @@ abstract class DataTable2Pager extends AlphabeticPager {
 	/**
 	 * @brief Constructor.
 	 *
-	 * @param IContextSource $context Context.
+	 * @param IContextSource|null $context Context.
 	 *
-	 * @param string $tablename Logical table name.
+	 * @param string|null $tablename Logical table name.
 	 */
 	public function __construct( IContextSource $context = null,
 		$tablename = null ) {
-
 		if ( isset( $context ) ) {
 			$this->setContext( $context );
 		}
@@ -110,8 +109,7 @@ abstract class DataTable2Pager extends AlphabeticPager {
  *
  * @ingroup Extensions-DataTable2
  */
-abstract class SpecialDataTable2 extends IncludableSpecialPage
-{
+abstract class SpecialDataTable2 extends IncludableSpecialPage {
 	/* == private data members == */
 
 	/// Whether this page needs a tablename to display data.
@@ -125,7 +123,7 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage
 	 * @param string $name Name of the special page, as seen in links
 	 * and URLs.
 	 *
-	 * @param boolean $needsTablename Whether this page needs a
+	 * @param bool $needsTablename Whether this page needs a
 	 * tablename to display data.
 	 */
 	public function __construct( $name, $needsTablename = true ) {
@@ -143,7 +141,7 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage
 	 */
 	public function execute( $par ) {
 		if ( !$this->including()
-			&& !$this->userCanExecute( $this->getUser() )  ) {
+			&& !$this->userCanExecute( $this->getUser() ) ) {
 			$this->displayRestrictionError();
 			return;
 		}

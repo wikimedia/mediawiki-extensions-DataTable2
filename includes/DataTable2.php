@@ -267,7 +267,7 @@ class DataTable2 {
 	 * @brief [ParserFirstCallInit]
 	 * (https://www.mediawiki.org/wiki/Manual:Hooks/ParserFirstCallInit) hook.
 	 *
-	 * @param[in,out] Parser &$parser Parser object being cleared.
+	 * @param Parser &$parser Parser object being cleared.
 	 *
 	 * @return bool Always TRUE.
 	 */
@@ -312,7 +312,7 @@ class DataTable2 {
 	 * Add the tables used to store DataTable2 data and metadata to
 	 * the tables required for parser tests.
 	 *
-	 * @param[in,out] array &$tables Tables needed to run parser tests.
+	 * @param array &$tables Tables needed to run parser tests.
 	 *
 	 * @return bool Always TRUE.
 	 */
@@ -334,7 +334,6 @@ class DataTable2 {
 	 */
 	public function onScribuntoExternalLibraries( $engine,
 		array &$extraLibraries ) {
-
 		$extraLibraries['mw.ext.datatable2']
 			= 'Scribunto_LuaDataTable2Library';
 
