@@ -163,7 +163,6 @@ class DataTable2 {
 
 	/* == magic methods == */
 
-	/// Constructor.
 	public function __construct() {
 		$this->database_ = new DataTable2Database;
 	}

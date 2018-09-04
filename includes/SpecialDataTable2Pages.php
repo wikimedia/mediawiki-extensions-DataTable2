@@ -151,7 +151,6 @@ class DataTable2PagesPager extends DataTable2Pager {
  * @ingroup Extensions-DataTable2
  */
 class SpecialDataTable2Pages extends SpecialDataTable2 {
-	/// Constructor.
 	public function __construct() {
 		parent::__construct( 'DataTable2Pages' );
 	}
