@@ -31,7 +31,7 @@ class DataTable2Parser {
 	 *
 	 * @param mixed $s Argument.
 	 *
-	 * @return *bool* FALSE if $s is unset or an empty string, else TRUE.
+	 * @return bool FALSE if $s is unset or an empty string, else TRUE.
 	 */
 	public static function isNotEmpty( $s ) {
 		return isset( $s ) && $s !== '';
@@ -42,7 +42,7 @@ class DataTable2Parser {
 	 *
 	 * @param $table Table name.
 	 *
-	 * @return *Title* Title object.
+	 * @return Title Title object.
 	 *
 	 * @exception DataTable2Exception if $table is not a valid table
 	 * name.
@@ -75,7 +75,7 @@ class DataTable2Parser {
 	 *
 	 * @param string $tag Tag name to look for.
 	 *
-	 * @return *string|null* Tag content, if any; NULL if no such
+	 * @return string|null Tag content, if any; NULL if no such
 	 * tag or if tag is empty.
 	 *
 	 * @exception DataTable2Exception if an unterminated tag is
@@ -168,7 +168,7 @@ class DataTable2Parser {
 	/**
 	 * @brief Get normalized arguments.
 	 *
-	 * @return *array* Arguments, including defaults where applicable.
+	 * @return array Arguments, including defaults where applicable.
 	 */
 	public function getArgs() {
 		return $this->args_;
@@ -234,7 +234,7 @@ class DataTable2Parser {
 	 *
 	 * @param string $key Argument key.
 	 *
-	 * @return *mixed* Argument value. May be a default value if no
+	 * @return mixed Argument value. May be a default value if no
 	 * explicit non-empty argument was given. NULL if there is no such
 	 * argument.
 	 */
@@ -245,7 +245,7 @@ class DataTable2Parser {
 	/**
 	 * @brief Get content of the \<head> tag, if any.
 	 *
-	 * @return *string|null* Content of \<head> tag, if any;
+	 * @return string|null Content of \<head> tag, if any;
 	 * NULL if no such tag.
 	 */
 	public function getHead() {
@@ -255,7 +255,7 @@ class DataTable2Parser {
 	/**
 	 * @brief Get content of the \<template> tag, if any.
 	 *
-	 * @return *string|null* Content of \<template> tag, if any;
+	 * @return string|null Content of \<template> tag, if any;
 	 * NULL if no such tag.
 	 */
 	public function getTemplateText() {
@@ -265,7 +265,7 @@ class DataTable2Parser {
 	/**
 	 * @brief Get remaining text content.
 	 *
-	 * @return *string* Text with leading tags removed.
+	 * @return string Text with leading tags removed.
 	 */
 	public function getText() {
 		return $this->text_;
@@ -292,7 +292,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 *
 	 * @param string $input Input text.
 	 *
-	 * @return *array* Components.
+	 * @return array Components.
 	 */
 	public static function split( $delim, $input ) {
 	  if ( $delim[0] == '/' ) {
@@ -342,7 +342,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	/**
 	 * @brief Get column names.
 	 *
-	 * @return *array* Column names, eventually including additional
+	 * @return array Column names, eventually including additional
 	 * numeric keys if there are more fields than names.
 	 */
 
@@ -353,7 +353,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	/**
 	 * @brief Get data records.
 	 *
-	 * @return *array* Numerically-indexed array of associative
+	 * @return array Numerically-indexed array of associative
 	 * arrays, each of which represents a record.
 	 */
 

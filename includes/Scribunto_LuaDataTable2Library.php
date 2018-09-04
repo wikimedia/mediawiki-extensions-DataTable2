@@ -76,7 +76,7 @@ class Scribunto_LuaDataTable2Library extends Scribunto_LuaLibraryBase {
 	 *
 	 * @param string|null $orderBy ORDER BY clause or null.
 	 *
-	 * @return *array* Numerically-indexed array (with indexes
+	 * @return array Numerically-indexed array (with indexes
 	 * starting at 1) of associative arrays, each of which represents
 	 * a record. False if the table does not exist.
 	 */

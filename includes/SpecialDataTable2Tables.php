@@ -89,7 +89,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 	 *
 	 * @param stdClass $row Database row object.
 	 *
-	 * @return *string* Wikitext.
+	 * @return string Wikitext.
 	 */
 	public function formatRow( $row ) {
 		$table = Title::makeTitle( NS_MAIN, $row->dtd_table );
@@ -105,7 +105,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 	/**
 	 * @brief Provide the page header, which contains a form to select data.
 	 *
-	 * @return *string* html code.
+	 * @return string html code.
 	 */
 	public function getPageHeader( ) {
 		$content = Html::rawElement( 'label',

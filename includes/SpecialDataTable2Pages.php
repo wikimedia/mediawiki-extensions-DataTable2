@@ -106,7 +106,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 	 *
 	 * @param stdClass $row Database row object.
 	 *
-	 * @return *string* Wikitext.
+	 * @return string Wikitext.
 	 */
 	public function formatRow( $row ) {
 		return $this->msg( 'datatable2pages-row',
@@ -118,7 +118,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 	/**
 	 * @brief Provide the page header, which contains a form to select data.
 	 *
-	 * @return *string* html code.
+	 * @return string html code.
 	 */
 	public function getPageHeader( ) {
 		global $wgSpecialDataTable2PageParSep;

@@ -133,7 +133,7 @@ class DataTable2 {
 	 *
 	 * @param string $wikiText Wiki text to parse.
 	 *
-	 * @return *string* HTML code.
+	 * @return string HTML code.
 	 */
 
 	public static function sandboxParse( $wikiText ) {
@@ -192,7 +192,7 @@ class DataTable2 {
 	 * @param string &$error If the requested article deletion was
 	 * prohibited, the (raw HTML) error message to display.
 	 *
-	 * @return *bool|string* Success or failure.
+	 * @return bool|string Success or failure.
 	 */
 	public function onArticleDelete( WikiPage &$article, User &$user,
 		&$reason, &$error ) {
@@ -210,7 +210,7 @@ class DataTable2 {
 	 *
 	 * @param DatabaseUpdater $updater Object that updates the database.
 	 *
-	 * @return *bool* Always TRUE.
+	 * @return bool Always TRUE.
 	 */
 	public function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
 		$updater->addExtensionTable( 'datatable2_data',
@@ -243,7 +243,7 @@ class DataTable2 {
 	 *
 	 * @param User $user The revision author.
 	 *
-	 * @return *bool* Always true.
+	 * @return bool Always true.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation"
 	 * Since data are <b>saved to the database</b> using the <a
@@ -269,7 +269,7 @@ class DataTable2 {
 	 *
 	 * @param[in,out] Parser &$parser Parser object being cleared.
 	 *
-	 * @return *bool* Always TRUE.
+	 * @return bool Always TRUE.
 	 */
 
 	public function onParserFirstCallInit( Parser &$parser ) {
@@ -314,7 +314,7 @@ class DataTable2 {
 	 *
 	 * @param[in,out] array &$tables Tables needed to run parser tests.
 	 *
-	 * @return *bool* Always TRUE.
+	 * @return bool Always TRUE.
 	 */
 	public function onParserTestTables( &$tables ) {
 		$tables[] = 'datatable2_data';
@@ -330,7 +330,7 @@ class DataTable2 {
 	 *
 	 * @param array $extraLibraries Libraries to register.
 	 *
-	 * @return *bool* Always TRUE.
+	 * @return bool Always TRUE.
 	 */
 	public function onScribuntoExternalLibraries( $engine,
 		array &$extraLibraries ) {
@@ -348,7 +348,7 @@ class DataTable2 {
 	 *
 	 * @param array|null $data Input data. Numerical indexes must start at 1.
 	 *
-	 * @return *string* Wikitext as used in template invocations.
+	 * @return string Wikitext as used in template invocations.
 	 */
 	public function implodeArgs( $data ) {
 		$result = [];
@@ -369,7 +369,7 @@ class DataTable2 {
 	 *
 	 * @param array $array1,$array2 Arrays to merge.
 	 *
-	 * @return *array* Result.
+	 * @return array Result.
 	 */
 	public function mergeArgs( $array1, $array2 ) {
 		/** Items with non-numeric index in $array2 override the
@@ -396,7 +396,7 @@ class DataTable2 {
 	 *
 	 * @param Title $title Page title.
 	 *
-	 * @return *array* Associative array.
+	 * @return array Associative array.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation" The
 	 * <b>\<dt2-showtable></b> tag provides for each record also
@@ -428,7 +428,7 @@ class DataTable2 {
 	 *
 	 * @param PPFrame $frame The parent frame.
 	 *
-	 * @return *string* HTML text.
+	 * @return string HTML text.
 	 *
 	 * @bug If several \<datatable2> tags provide data for the
 	 * same table and have different values for the <tt>columns</tt>
@@ -505,7 +505,7 @@ class DataTable2 {
 	 *
 	 * @param PPFrame $frame The parent frame.
 	 *
-	 * @return *string* HTML text.
+	 * @return string HTML text.
 	 */
 	public function renderShowTable( $input, array $args, Parser $parser,
 		PPFrame $frame ) {
@@ -567,7 +567,7 @@ class DataTable2 {
 	 *
 	 * @param array $args PPNode objects for the template arguments.
 	 *
-	 * @return *string* Wikitext containing a template with data as
+	 * @return string Wikitext containing a template with data as
 	 * arguments.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation" The
@@ -656,7 +656,7 @@ class DataTable2 {
 	 *
 	 * @param array $args PPNode objects for the template arguments.
 	 *
-	 * @return *string* Content of the selected column.
+	 * @return string Content of the selected column.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation" The
 	 * <b>dt2-get</b> parser function returns the content of the
@@ -757,7 +757,7 @@ class DataTable2 {
 	 *
 	 * @param array $args PPNode objects for the template arguments.
 	 *
-	 * @return *string* Content of the selected column.
+	 * @return string Content of the selected column.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation" The
 	 * <b>dt2-lastget</b> parser function returns the content of the
@@ -810,7 +810,7 @@ class DataTable2 {
 	 *
 	 * @param Parser $parser The parent parser.
 	 *
-	 * @return *string* Wikitext.
+	 * @return string Wikitext.
 	 */
 	public function renderRecords( $records,
 		DataTable2Parser $dataParser, Parser $parser ) {
@@ -876,7 +876,7 @@ class DataTable2 {
 	 *
 	 * @param Parser $parser The parent parser.
 	 *
-	 * @return *string* Wikitext.
+	 * @return string Wikitext.
 	 */
 	public function renderRecord( array $record, $template,
 		$templateText, $args, Parser &$parser ) {

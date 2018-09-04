@@ -136,7 +136,7 @@ class DataTable2DataPager extends DataTable2Pager {
 	 *
 	 * @param stdClass $row Database row object.
 	 *
-	 * @return *string* Wikitext.
+	 * @return string Wikitext.
 	 */
 	public function formatRow( $row ) {
 		$text = '';
@@ -172,7 +172,7 @@ class DataTable2DataPager extends DataTable2Pager {
 	/**
 	 * @brief Provide wikitext to close the table.
 	 *
-	 * @return *string* Wikitext.
+	 * @return string Wikitext.
 	 */
 	public function getEndBody() {
 	 /* Return an empty string if still at first row, i.e. the
@@ -183,7 +183,7 @@ class DataTable2DataPager extends DataTable2Pager {
 	/**
 	 * @brief Provide the page header, which contains a form to select data.
 	 *
-	 * @return *string* html code.
+	 * @return string html code.
 	 */
 	public function getPageHeader( ) {
 		$content = Html::rawElement( 'label',

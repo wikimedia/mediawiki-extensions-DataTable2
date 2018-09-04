@@ -109,7 +109,7 @@ class DataTable2SqlTransformer {
 	 *
 	 * @param string $c Character.
 	 *
-	 * @return *int* One of the [class constants](@ref INVALID).
+	 * @return int One of the [class constants](@ref INVALID).
 	 */
 	public function getType( $c ) {
 		foreach ( self::$tokenTypes_ as $type => $charset ) {
@@ -132,7 +132,7 @@ class DataTable2SqlTransformer {
 	 * string. Updated to the position just after the extracted
 	 * token. When extraction fails, the position is unchanged.
 	 *
-	 * @return *array* Pair consisting of token type and token value.
+	 * @return array Pair consisting of token type and token value.
 	 */
 	public function getToken( $input, &$offset ) {
 		/** Invoke DataTable2SqlTransformer::getType() to obtain the
@@ -167,7 +167,7 @@ class DataTable2SqlTransformer {
 	 * @param array $columns Numerically-indexed array of logical
 	 * column names.
 	 *
-	 * @return *string* Transformed SQL.
+	 * @return string Transformed SQL.
 	 *
 	 * @exception DataTable2Exception if one of the following is found:
 	 * - an unterminated SQL comment;

@@ -59,7 +59,7 @@ class DataTable2Database {
 	 *
 	 * @param $i Field index (1 .. @ref MAX_FIELDS).
 	 *
-	 * @return *string* The column name in the database.
+	 * @return string The column name in the database.
 	 */
 	public static function dataCol( $i ) {
 		return sprintf( 'dtd_%02d', $i );
@@ -86,7 +86,7 @@ class DataTable2Database {
 	 *
 	 * @param string $fname Caller function name.
 	 *
-	 * @return *array* Column names. Empty array if the table does not
+	 * @return array Column names. Empty array if the table does not
 	 * exist.
 	 *
 	 * @exception DataTable2Exception if the table has records but no
@@ -144,7 +144,7 @@ class DataTable2Database {
 	 *
 	 * @param string $fname Name of the calling function.
 	 *
-	 * @return *bool* Always TRUE.
+	 * @return bool Always TRUE.
 	 */
 	public function delete( $pageId, $fname = __METHOD__ ) {
 		/** The table to delete from is specified in the global
@@ -188,7 +188,7 @@ class DataTable2Database {
 	 *
 	 * @param string $fname Name of the calling function.
 	 *
-	 * @return *bool* Always TRUE.
+	 * @return bool Always TRUE.
 	 */
 	function save( $article, $text, $fname = __METHOD__ ) {
 		/** The table to save to is specified in the global
@@ -294,7 +294,7 @@ class DataTable2Database {
 	 *
 	 * @param string $fname Name of the calling function.
 	 *
-	 * @return *array* Numerically-indexed array of associative
+	 * @return array Numerically-indexed array of associative
 	 * arrays, each of which represents a record. Empty array if the
 	 * table does not exist.
 	 *

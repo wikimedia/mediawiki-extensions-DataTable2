@@ -77,7 +77,7 @@ abstract class DataTable2Pager extends AlphabeticPager {
 	 *
 	 * @param string $content HTML code to put into the selection form.
 	 *
-	 * @return *string* html code.
+	 * @return string html code.
 	 *
 	 * @sa [MediaWiki Manual:$wgScript]
 	 * (https://www.mediawiki.org/wiki/$wgScript)
