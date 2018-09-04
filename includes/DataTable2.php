@@ -237,7 +237,7 @@ class DataTable2 {
 	 *
 	 * @param Revision $rev The new revision.
 	 *
-	 * @param $baseID The revision ID this was based off, if any. For
+	 * @param int $baseID The revision ID this was based off, if any. For
 	 * example, for a rollback, this will be the rev_id that is being
 	 * rolled back to.
 	 *

@@ -40,7 +40,7 @@ class DataTable2Parser {
 	/**
 	 * @brief Transform a table name to a Title object.
 	 *
-	 * @param $table Table name.
+	 * @param string $table Table name.
 	 *
 	 * @return Title Title object.
 	 *

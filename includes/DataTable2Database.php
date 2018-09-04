@@ -57,7 +57,7 @@ class DataTable2Database {
 	/**
 	 * @brief Return the database column name for a field index.
 	 *
-	 * @param $i Field index (1 .. @ref MAX_FIELDS).
+	 * @param int $i Field index (1 .. @ref MAX_FIELDS).
 	 *
 	 * @return string The column name in the database.
 	 */
@@ -70,7 +70,7 @@ class DataTable2Database {
 	 *
 	 * @param int $num Desired number of columns.
 	 *
-	 * @return Array of column names, consisting of values
+	 * @return string[] Array of column names, consisting of values
 	 * dtd_<i>nn</i> with *nn* ranging from 1 to $num.
 	 */
 	public static function dataCols( $num ) {
