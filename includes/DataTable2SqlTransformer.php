@@ -51,7 +51,7 @@ class DataTable2SqlTransformer {
 	 * Any character not mentioned in any of these introduced an @ref
 	 * INVALID token.
 	 */
-	static private $tokenTypes_ = [
+	private static $tokenTypes_ = [
 		self::SPACE => " \t\n\r",
 		self::NUMBER => '0123456789.',
 		self::STRING => '\'',
@@ -70,7 +70,7 @@ class DataTable2SqlTransformer {
 	 * legal unquoted identifier. Case-insensitive matching is used to
 	 * simplify the regexp.
 	 */
-	static private $tokenRegexps_ = [
+	private static $tokenRegexps_ = [
 		self::SPACE => '/\s+/',
 		self::NUMBER => '/[0-9]+(\.[0-9]*)?|\.[0-9]+/',
 		self::STRING => "/'[^']*'/",
