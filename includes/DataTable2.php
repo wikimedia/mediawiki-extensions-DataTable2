@@ -830,7 +830,7 @@ class DataTable2 {
 
 		/** Parse `args` argument, if any. */
 		if ( $dataParser->getArg( 'args' ) !== null ) {
-			$args = Parser::createAssocArgs(
+			$args = self::createAssocArgs(
 				explode( '|', $dataParser->getArg( 'args' ) ) );
 		} else {
 			$args = null;
@@ -853,6 +853,36 @@ class DataTable2 {
 		}
 
 		return $wikitext;
+	}
+
+	/**
+	 * Clean up argument array - borrowed from a deprecated/unused function
+	 * in core's Parser.php.
+	 *
+	 * @param array $args
+	 *
+	 * @return array
+	 */
+	private static function createAssocArgs( $args ) {
+		$assocArgs = [];
+		$index = 1;
+		foreach ( $args as $arg ) {
+			$eqpos = strpos( $arg, '=' );
+			if ( $eqpos === false ) {
+				$assocArgs[$index++] = $arg;
+			} else {
+				$name = trim( substr( $arg, 0, $eqpos ) );
+				$value = trim( substr( $arg, $eqpos + 1 ) );
+				if ( $value === false ) {
+					$value = '';
+				}
+				if ( $name !== false ) {
+					$assocArgs[$name] = $value;
+				}
+			}
+		}
+
+		return $assocArgs;
 	}
 
 	/**
