@@ -1012,7 +1012,7 @@ class DataTable2 {
 			/** Disable caching completely if the page uses data
 			 *	from a non-wiki source. */
 			if ( !is_int( $pageId ) ) {
-				$parser->disableCache();
+				$parser->getOutput()->updateCacheExpiry( 0 );
 				continue;
 			}
 
