@@ -127,12 +127,13 @@ class DataTable2 {
 	 * necessary.
 	 *
 	 * @param string $wikiText Wiki text to parse.
+	 * @param User $user User for parser options
 	 *
 	 * @return string HTML code.
 	 */
 
-	public static function sandboxParse( $wikiText ) {
-		global $wgTitle, $wgUser;
+	public static function sandboxParse( $wikiText, User $user ) {
+		global $wgTitle;
 
 		static $myParser;
 		static $myParserOptions;
@@ -142,7 +143,7 @@ class DataTable2 {
 		}
 
 		if ( !isset( $myParserOptions ) ) {
-			$myParserOptions = ParserOptions::newFromUser( $wgUser );
+			$myParserOptions = ParserOptions::newFromUser( $user );
 		}
 
 		$result = $myParser->parse( $wikiText, $wgTitle, $myParserOptions );

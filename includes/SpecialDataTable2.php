@@ -160,7 +160,7 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage {
 
 		if ( $body ) {
 			$html .= $pager->getNavigationBar()
-				. DataTable2::sandboxParse( $body )
+				. DataTable2::sandboxParse( $body, $this->getUser() )
 				. $pager->getNavigationBar();
 		} elseif ( isset( $pager->tablename )
 			|| !$this->needsTablename_ ) {
