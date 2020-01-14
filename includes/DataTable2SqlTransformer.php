@@ -114,7 +114,8 @@ class DataTable2SqlTransformer {
 		}
 
 		/** If no correspondig token type can be found, the type is
-		 *	invalid. */
+		 *	invalid.
+		 */
 		return self::INVALID;
 	}
 
@@ -131,19 +132,22 @@ class DataTable2SqlTransformer {
 	 */
 	public function getToken( $input, &$offset ) {
 		/** Invoke DataTable2SqlTransformer::getType() to obtain the
-		 *	type of the next token. */
+		 *	type of the next token.
+		 */
 		$type = $this->getType( $input[$offset] );
 
 		if ( $type == self::INVALID ) {
 			/** If the next character is invalid, the token consists
-			 *	of the next character. */
+			 *	of the next character.
+			 */
 			return [ $type, $input[$offset++] ];
 		}
 
 		if ( !preg_match( self::$tokenRegexps_[$type], $input, $matches, 0,
 				$offset ) ) {
 			/** If the regexp cannot be matched, return an invalid
-			 *	token without content. */
+			 *	token without content.
+			 */
 			return [ self::INVALID, null ];
 		}
 
@@ -172,7 +176,8 @@ class DataTable2SqlTransformer {
 	 */
 	public function transform( $sql, $columns ) {
 		/** Get mapping of logical colum names to database colum
-		 *	names. */
+		 *	names.
+		 */
 		$columnMap = array_combine( $columns,
 			DataTable2Database::dataCols( count( $columns ) ) );
 
@@ -210,7 +215,8 @@ class DataTable2SqlTransformer {
 			 * - replace it by the database column name
 			 *	if it indicates a logical column name
 			 * - otherwise verify if it is legal.
-			 * This is the main purpose of the entire class. */
+			 * This is the main purpose of the entire class.
+			 */
 			if ( $token[0] == self::IDENTIFIER ) {
 				$identifier = $token[1];
 
@@ -229,7 +235,8 @@ class DataTable2SqlTransformer {
 					if ( !$quoted ) {
 						/** Unquoted identifiers <i>which are not
 						 *	column names</i> are
-						 *	case-insensitive. */
+						 *	case-insensitive.
+						 */
 						$identifier = strtoupper( $identifier );
 					}
 

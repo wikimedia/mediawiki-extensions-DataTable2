@@ -89,7 +89,8 @@ class DataTable2Database {
 	 */
 	public function getColumns( $table, $fname = __METHOD__ ) {
 		/** If the result is already cached in @ref $columns_, get
-		 *	it from the cache and return. */
+		 *	it from the cache and return.
+		 */
 		if ( isset( $this->columns_[$table] ) ) {
 			return $this->columns_[$table];
 		}
@@ -97,7 +98,8 @@ class DataTable2Database {
 		$dbr = wfGetDB( DB_REPLICA );
 
 		/** The table to select column names from is specified in
-		 *	the global variable @ref $wgDataTable2MetaReadSrc. */
+		 *	the global variable @ref $wgDataTable2MetaReadSrc.
+		 */
 		global $wgDataTable2MetaReadSrc;
 
 		$res = $dbr->select( $wgDataTable2MetaReadSrc, 'dtm_columns',
@@ -106,7 +108,8 @@ class DataTable2Database {
 		if ( !$res->numRows() ) {
 			/** If no meta data are found, check whether there are
 			 * records for the table. Silently accept non-existing
-			 * meta data if there are no rows. */
+			 * meta data if there are no rows.
+			 */
 			global $wgDataTable2ReadSrc;
 
 			$res = $dbr->select( $wgDataTable2ReadSrc, 'dtd_table',
@@ -143,7 +146,8 @@ class DataTable2Database {
 	 */
 	public function delete( $pageId, $fname = __METHOD__ ) {
 		/** The table to delete from is specified in the global
-		 *	variable @ref $wgDataTable2WriteDest. */
+		 *	variable @ref $wgDataTable2WriteDest.
+		 */
 		global $wgDataTable2WriteDest;
 
 		$dbw = wfGetDB( DB_MASTER );
@@ -155,11 +159,13 @@ class DataTable2Database {
 			[ 'dtd_page' => $pageId ], $fname );
 
 		/** The table to delete metadata from is specified in the global
-		 *	variable @ref $wgDataTable2MetaWriteDest. */
+		 *	variable @ref $wgDataTable2MetaWriteDest.
+		 */
 		global $wgDataTable2MetaWriteDest;
 
 		/** Delete any metadata that has become unused, by this or
-		 *	by any preceding delete operation. */
+		 *	by any preceding delete operation.
+		 */
 		$subquery = $dbw->selectSQLText( $wgDataTable2WriteDest,
 			'dtd_table', '', $fname );
 
@@ -186,16 +192,19 @@ class DataTable2Database {
 	 */
 	function save( $article, $text, $fname = __METHOD__ ) {
 		/** The table to save to is specified in the global
-		 *	variable @ref $wgDataTable2WriteDest. */
+		 *	variable @ref $wgDataTable2WriteDest.
+		 */
 		global $wgDataTable2WriteDest;
 
 		/** Extract data from all \<datatable2> tags on the
-		 *	page. */
+		 *	page.
+		 */
 		Parser::extractTagsAndParams( [ 'datatable2' ],
 			$text, $datatables );
 
 		/** Invoke Invoke DataTable2::deleteData() to delete all
-		 *	existing data for the page. */
+		 *	existing data for the page.
+		 */
 		$this->delete( $article->getId(), $fname );
 
 		$dbw = wfGetDB( DB_MASTER );
@@ -208,14 +217,16 @@ class DataTable2Database {
 
 			if ( !isset( $args['table'] ) || $args['table'] == '' ) {
 				/** Nothing to do if the `table` argument is not
-				 *	given. */
+				 *	given.
+				 */
 				continue;
 			}
 
 			$table = DataTable2Parser::table2title( $args['table'] );
 
 			/** Use DataTable2ParserWithRecords to parse the data
-			 *	in each tag. */
+			 *	in each tag.
+			 */
 			$parser = new DataTable2ParserWithRecords( $content, $args,
 				false );
 
@@ -232,13 +243,15 @@ class DataTable2Database {
 				/** Insert resulting records into the
 				 *	database. Each record must be inserted
 				 *	individually since the number of columns might
-				 *	differ among records. */
+				 *	differ among records.
+				 */
 				$dbw->insert( $wgDataTable2WriteDest, $dbRecord, $fname );
 			}
 
 			/** The table to save metadata to is specified in the
 			 *	global variable @ref
-			 *	$wgDataTable2MetaWriteDest. */
+			 *	$wgDataTable2MetaWriteDest.
+			 */
 			global $wgDataTable2MetaWriteDest;
 
 			$metaCond = [ 'dtm_table' => $table->getDBkey() ];
@@ -304,7 +317,8 @@ class DataTable2Database {
 	public function select( $table, $where = null, $orderBy = null,
 		&$pages = null, $fname = __METHOD__ ) {
 		/** Work with a static instance of
-		 *	DataTable2SqlTransformer. */
+		 *	DataTable2SqlTransformer.
+		 */
 		static $transformer;
 
 		if ( !isset( $transformer ) ) {
@@ -312,7 +326,8 @@ class DataTable2Database {
 		}
 
 		/** The table to select from is specified in the global
-		 *	variable @ref $wgDataTable2ReadSrc. */
+		 *	variable @ref $wgDataTable2ReadSrc.
+		 */
 		global $wgDataTable2ReadSrc;
 
 		$conds = [ 'dtd_table' => $table->getDBkey() ];
@@ -321,7 +336,8 @@ class DataTable2Database {
 
 		/** If getColumns() returns an empty array without
 		 *	throwing, we know that there is no data and hence
-		 *	return an empty array. */
+		 *	return an empty array.
+		 */
 		if ( !$columns ) {
 			return [];
 		}
@@ -337,7 +353,8 @@ class DataTable2Database {
 		}
 
 		/** If the ORDER BY clause is NULL, sort by the first five
-		 *	columns. */
+		 *	columns.
+		 */
 		if ( isset( $orderBy ) && $orderBy !== '' ) {
 			if ( $orderBy !== false ) {
 				$orderBy = $transformer->transform( $orderBy, $columns );

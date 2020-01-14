@@ -138,12 +138,14 @@ class DataTable2Parser {
 
 		/** Initialize @ref $args_ with defaults from the global
 		 *	variable @ref $wgDataTable2Args and merge with $args,
-		 *	excluding arguments which are empty or null.*/
+		 *	excluding arguments which are empty or null.
+		 */
 		$this->args_ = array_filter( (array)$args, 'self::isNotEmpty' )
 			+ (array)$wgDataTable2Args;
 
 		/** Transform the `table`argument to a Title object, if
-		 *	any. */
+		 *	any.
+		 */
 		if ( isset( $this->args_['table'] ) ) {
 			$this->args_['table']
 				= self::table2title( $this->args_['table'] );
@@ -363,7 +365,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 *
 	 * Other input formats might be implemented in the future.
 	 *
-	 * @param boolean $assoc Whether the records returned by
+	 * @param bool $assoc Whether the records returned by
 	 * getRecords() should be indexed by column names.
 	 *
 	 * @exception DataTable2Exception if the data need more columns
@@ -379,7 +381,8 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 		$nameCount = $origNameCount;
 
 		/** Split data into rows using split() with the `rs`
-		 *	argument as a delimiter. */
+		 *	argument as a delimiter.
+		 */
 		$rows = self::split( $this->getArg( 'rs' ),
 			trim( $this->getText() ) );
 
@@ -388,17 +391,19 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 			/** Strip xml comments from each row. */
 			$row = preg_replace( '/<!--.*-->/U', '', $row );
 
-			/** Trim whitespace surrounding a row.*/
+			/** Trim whitespace surrounding a row. */
 			$row = trim( $row );
 
 			/** Ignore rows which are empty (after stripping xml
-			 *	comments and trimming surrounding whitespace). */
+			 *	comments and trimming surrounding whitespace).
+			 */
 			if ( $row == '' ) {
 				continue;
 			}
 
 			/** Split each row into fields using @ref split with
-			 *	the `fs` argument as a delimiter. */
+			 *	the `fs` argument as a delimiter.
+			 */
 			$fields = self::split( $this->getArg( 'fs' ), $row );
 
 			$fieldCount = count( $fields );
@@ -411,7 +416,8 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 			}
 
 			/** Enlarge names by numeric keys if there are more
-			 * fields than names. */
+			 * fields than names.
+			 */
 			if ( $fieldCount > $nameCount ) {
 				$this->columns_ = array_merge( $this->columns_, range(
 						$nameCount - $origNameCount + 1,
@@ -421,7 +427,8 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 			}
 
 			/** If $assoc is true, index fields with column
-			 *	names. */
+			 *	names.
+			 */
 			if ( $assoc ) {
 				if ( $fieldCount == $nameCount ) {
 					$fields = array_combine( $this->columns_, $fields );

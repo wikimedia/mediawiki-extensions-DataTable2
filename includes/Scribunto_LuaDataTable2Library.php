@@ -86,7 +86,8 @@ class Scribunto_LuaDataTable2Library extends Scribunto_LuaLibraryBase {
 			$pages, __METHOD__ );
 
 		/** Renumber the records starting with 1, to match the Lua
-		 * convention. */
+		 * convention.
+		 */
 		if ( $records ) {
 			$records = array_combine( range( 1, count( $records ) ),
 				$records );

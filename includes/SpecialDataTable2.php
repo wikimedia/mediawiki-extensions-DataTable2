@@ -27,7 +27,8 @@ abstract class DataTable2Pager extends AlphabeticPager {
 	/* == public data members == */
 
 	/** @brief First parameter appended to the special page URL, or
-	 * REQUEST variable 'tablename'. */
+	 * REQUEST variable 'tablename'.
+	 */
 	public $tablename;
 	public $tableDbKey; ///< @ref $tablename as db key.
 
@@ -80,7 +81,8 @@ abstract class DataTable2Pager extends AlphabeticPager {
 		global $wgScript;
 
 		/** Include a hidden field with the page title, needed as a
-		 *	GET parameter to index.php. */
+		 *	GET parameter to index.php.
+		 */
 		list( $title ) = explode( '/',
 			$this->getTitle()->getPrefixedDBkey(), 2 );
 
@@ -146,7 +148,8 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage {
 
 		/** Create an instance of a pager class, whose name is
 		 * obtained by appending 'Pager' to the name of the
-		 * special page. */
+		 * special page.
+		 */
 		$pagerClass = "{$this->getName()}Pager";
 		$pager = new $pagerClass( $this->getContext(), $par );
 
@@ -167,7 +170,8 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage {
 			/** Show a "no data found" message if no data were
 			 *	found and either a table was specified, or the
 			 *	page could display data even without a table
-			 *	name. */
+			 *	name.
+			 */
 			$html .= $this->msg( strtolower( $this->getName() )
 				. '-noresult' )->parseAsBlock();
 		}

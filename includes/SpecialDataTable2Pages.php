@@ -27,7 +27,8 @@ class DataTable2PagesPager extends DataTable2Pager {
 	/* == public data members == */
 
 	/** @brief Second parameter appended to the special page URL, or
-	 * REQUEST variable 'pagename'. */
+	 * REQUEST variable 'pagename'.
+	 */
 	public $pagename;
 
 	/* == magic methods == */

@@ -27,11 +27,13 @@ class DataTable2DataPager extends DataTable2Pager {
 	/* == public data members == */
 
 	/** @brief Second parameter appended to the special page URL, or
-	 * REQUEST variable 'pagename'. */
+	 * REQUEST variable 'pagename'.
+	 */
 	public $pagename;
 
 	/** @brief Third parameter appended to the special page URL, or
-	 * REQUEST variable 'data'. */
+	 * REQUEST variable 'data'.
+	 */
 	public $dataFrom;
 
 	/* == private data members == */
@@ -87,7 +89,8 @@ class DataTable2DataPager extends DataTable2Pager {
 			$this->tableDbKey );
 
 		/** Cache count( @ref $columns_ ) in @ref $columnCount_ since
-		 *	it is needed in formatRow(). */
+		 *	it is needed in formatRow().
+		 */
 		$this->columnCount_ = count( $this->columns_ );
 	}
 

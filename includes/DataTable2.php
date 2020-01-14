@@ -40,34 +40,34 @@
  * difference when using the preview.
  *
  * @dot
-digraph dataflow {
-  nodesep=.5;
-  node [shape="box",fontsize=10,fixedsize=true,height=.25,width=2,color="#c4cfe5"];
-
-  page [label="Page (wikitext)"];
-  php [label="PHP code (array)"];
-  database [label="Database (dtd_01, ...)"];
-  output [label="Output (HTML)"];
-  wikitext [label="Output (wikitext)"];
-
-  node [shape="ellipse",height=.5,fillcolor="#f9fafc",style=filled,fontcolor="#3d578c"];
-
-  parse [label="DataTable2ParserWithRecords"];
-  render [label="renderRecords"];
-  render2 [label="renderExpand,\nrenderGet, renderLastGet"];
-
-  subgraph db {
-	rank="same";
-	select [label="select"];
-	save [label="save"];
-  }
-
-  page -> parse -> php;
-  database -> select -> php;
-  php -> save -> database;
-  php -> render -> output;
-  php -> render2 -> wikitext;
-}
+ * digraph dataflow {
+ * nodesep=.5;
+ * node [shape="box",fontsize=10,fixedsize=true,height=.25,width=2,color="#c4cfe5"];
+ *
+ * page [label="Page (wikitext)"];
+ * php [label="PHP code (array)"];
+ * database [label="Database (dtd_01, ...)"];
+ * output [label="Output (HTML)"];
+ * wikitext [label="Output (wikitext)"];
+ *
+ * node [shape="ellipse",height=.5,fillcolor="#f9fafc",style=filled,fontcolor="#3d578c"];
+ *
+ * parse [label="DataTable2ParserWithRecords"];
+ * render [label="renderRecords"];
+ * render2 [label="renderExpand,\nrenderGet, renderLastGet"];
+ *
+ * subgraph db {
+ * rank="same";
+ * select [label="select"];
+ * save [label="save"];
+ * }
+ *
+ * page -> parse -> php;
+ * database -> select -> php;
+ * php -> save -> database;
+ * php -> render -> output;
+ * php -> render2 -> wikitext;
+ * }
  * @enddot
  */
 
@@ -91,7 +91,8 @@ class DataTable2 {
 		global $wgDataTable2WriteDest;
 
 		/** Set @ref $wgDataTable2ReadSrc to @ref
-		 *	$wgDataTable2WriteDest if unset. */
+		 *	$wgDataTable2WriteDest if unset.
+		 */
 		if ( !isset( $wgDataTable2ReadSrc ) ) {
 			$wgDataTable2ReadSrc = $wgDataTable2WriteDest;
 		}
@@ -100,7 +101,8 @@ class DataTable2 {
 		global $wgDataTable2MetaWriteDest;
 
 		/** Set @ref $wgDataTable2MetaReadSrc to @ref
-		 *	$wgDataTable2MetaWriteDest if unset. */
+		 *	$wgDataTable2MetaWriteDest if unset.
+		 */
 		if ( !isset( $wgDataTable2MetaReadSrc ) ) {
 			$wgDataTable2MetaReadSrc = $wgDataTable2MetaWriteDest;
 		}
@@ -272,14 +274,16 @@ class DataTable2 {
 
 		/** Set [tag hooks](https://www.mediawiki.org/wiki/Manual:Tag
 		 * extensions) and [parser function hooks]
-		 * (https://www.mediawiki.org/wiki/Manual:Parser functions). */
+		 * (https://www.mediawiki.org/wiki/Manual:Parser functions).
+		 */
 		$parser->setHook( 'datatable2', [ $this, 'renderDataTable' ] );
 		$parser->setHook( 'dt2-showtable', [ $this, 'renderShowTable' ] );
 
 		/** All parser functions get their arguments as PPNode
 		 *	objects, so that arguments are expanded only when
 		 *	needed. This is particularly useful if default values are
-		 *	complex expressions and rarely needed. */
+		 *	complex expressions and rarely needed.
+		 */
 		$parser->setFunctionHook( 'dt2-expand',
 			[ $this, 'renderExpand' ], SFH_OBJECT_ARGS );
 		$parser->setFunctionHook( 'dt2-get', [ $this, 'renderGet' ],
@@ -348,7 +352,8 @@ class DataTable2 {
 		$result = [];
 
 		/** If $array is not an array (e.g. NULL), the return value is
-		 * an empty string. */
+		 * an empty string.
+		 */
 		if ( is_array( $data ) ) {
 			foreach ( $data as $key => $value ) {
 				$result[] = "$key=$value";
@@ -368,7 +373,8 @@ class DataTable2 {
 	public function mergeArgs( $array1, $array2 ) {
 		/** Items with non-numeric index in $array2 override the
 		 * corresponding ones in $array1, items with numeric keys are
-		 * appended.*/
+		 * appended.
+		 */
 		$tmp = array_merge( $array1, $array2 );
 
 		$result = [];
@@ -448,7 +454,8 @@ class DataTable2 {
 		PPFrame $frame ) {
 		try {
 			/** Use DataTable2ParserWithRecords to parse the data in
-			 *	$input. */
+			 *	$input.
+			 */
 			$dataParser = new DataTable2ParserWithRecords( $input, $args );
 
 			/** Add the page to the [tracking category]
@@ -469,12 +476,14 @@ class DataTable2 {
 			}
 
 			/** Call DataTable2::renderRecords() to create
-			 *	wikitext from the records. */
+			 *	wikitext from the records.
+			 */
 			$wikitext = $this->renderRecords( $dataParser->getRecords(),
 				$dataParser, $parser );
 
 			/** Parse the wikitext, or display it verbatim for
-			 *	debugging. */
+			 *	debugging.
+			 */
 
 			return isset( $args['debug'] )
 				? "<pre>$wikitext</pre>"
@@ -505,7 +514,8 @@ class DataTable2 {
 		PPFrame $frame ) {
 		try {
 			/** Increment the [expensive function count]
-			 * (https://www.mediawiki.org/wiki/Manual:$wgExpensiveParserFunctionLimit). */
+			 * (https://www.mediawiki.org/wiki/Manual:$wgExpensiveParserFunctionLimit).
+			 */
 			if ( !$parser->incrementExpensiveFunctionCount() ) {
 				throw new DataTable2Exception(
 					'datatable2-error-expensive-function' );
@@ -518,11 +528,13 @@ class DataTable2 {
 			}
 
 			/** Use DataTable2Parser to parse the tag content, which
-			 *	may contain a \<head> and/or a \<template> tag. */
+			 *	may contain a \<head> and/or a \<template> tag.
+			 */
 			$dataParser = new DataTable2Parser( $input, $args );
 
 			/** Call DataTable2Database::select() to select the records
-			 *	from the database. */
+			 *	from the database.
+			 */
 			$records = $this->database_->select(
 				$dataParser->getArg( 'table' ),
 				$dataParser->getArg( 'where' ),
@@ -530,7 +542,8 @@ class DataTable2 {
 				$pages, __METHOD__ );
 
 			/** Call DataTable2::renderRecords() to create wikitext
-			 *	from the records. */
+			 *	from the records.
+			 */
 			$wikitext = $this->renderRecords( $records, $dataParser,
 				$parser );
 
@@ -542,7 +555,8 @@ class DataTable2 {
 			}
 
 			/** Parse the wikitext, or display it verbatim for
-			 *	debugging. */
+			 *	debugging.
+			 */
 			return isset( $args['debug'] )
 				? "<pre>$wikitext</pre>"
 				: $parser->recursiveTagParse( $wikitext, $frame );
@@ -580,7 +594,8 @@ class DataTable2 {
 	public function renderExpand( Parser &$parser, PPFrame $frame, $args ) {
 		try {
 			/** Return error message if less then 3 arguments are
-			 *	provided. */
+			 *	provided.
+			 */
 			if ( count( $args ) < 3 ) {
 				throw new DataTable2Exception(
 					'datatable2-error-too-few-args',
@@ -588,7 +603,8 @@ class DataTable2 {
 			}
 
 			/** Increment the [expensive function count]
-			 * (https://www.mediawiki.org/wiki/Manual:$wgExpensiveParserFunctionLimit). */
+			 * (https://www.mediawiki.org/wiki/Manual:$wgExpensiveParserFunctionLimit).
+			 */
 			if ( !$parser->incrementExpensiveFunctionCount() ) {
 				throw new DataTable2Exception(
 					'datatable2-error-expensive-function' );
@@ -612,7 +628,8 @@ class DataTable2 {
 			}
 
 			/** Return default if no record is selected; empty string if
-			 *	default is unset. */
+			 *	default is unset.
+			 */
 			if ( !count( $data ) ) {
 				return isset( $args[3] ) ? $frame->expand( $args[3] ) : '';
 			}
@@ -622,7 +639,8 @@ class DataTable2 {
 
 			/** Compose array of template arguments, appending further
 			 *	parser function arguments (if any) to the dtaa got
-			 *	from the database. */
+			 *	from the database.
+			 */
 			$templateArgs = current( $data );
 
 			for ( $i = 4; array_key_exists( $i, $args ); $i++ ) {
@@ -678,7 +696,8 @@ class DataTable2 {
 	public function renderGet( Parser &$parser, PPFrame $frame, $args ) {
 		try {
 			/** Return error message if less then 3 arguments are
-			 *	provided. */
+			 *	provided.
+			 */
 			if ( count( $args ) < 3 ) {
 				throw new DataTable2Exception(
 					'datatable2-error-too-few-args',
@@ -686,7 +705,8 @@ class DataTable2 {
 			}
 
 			/** Increment the [expensive function count]
-			 * (https://www.mediawiki.org/wiki/Manual:$wgExpensiveParserFunctionLimit). */
+			 * (https://www.mediawiki.org/wiki/Manual:$wgExpensiveParserFunctionLimit).
+			 */
 			if ( !$parser->incrementExpensiveFunctionCount() ) {
 				throw new DataTable2Exception(
 					'datatable2-error-expensive-function' );
@@ -710,7 +730,8 @@ class DataTable2 {
 
 			/** If no record is selected, clear @ref
 			 *	$lastGet_ and return default; return
-			 *	empty string if default is unset. */
+			 *	empty string if default is unset.
+			 */
 			if ( !count( $data ) ) {
 				$this->lastGet_ = null;
 				return isset( $args[3] ) ? $frame->expand( $args[3] ) : '';
@@ -723,7 +744,8 @@ class DataTable2 {
 			$this->lastGet_ = current( $data );
 
 			/** If a column was specified, return its content. No
-			 *	check is performed whether the column exists. */
+			 *	check is performed whether the column exists.
+			 */
 			if ( $args[1] != '' ) {
 				$column = $frame->expand( $args[1] );
 
@@ -779,13 +801,15 @@ class DataTable2 {
 			}
 
 			/** Return default if there is no record available; empty
-			 *	string if default is unset. */
+			 *	string if default is unset.
+			 */
 			if ( !isset( $this->lastGet_ ) ) {
 				return isset( $args[1] ) ? $frame->expand( $args[1] ) : '';
 			}
 
 			/** Otherwise return the specified column. No check is
-			 *	performed whether the column exists. */
+			 *	performed whether the column exists.
+			 */
 			return [ $this->lastGet_[$frame->expand( $args[0] )],
 				'noparse' => false ];
 		} catch ( DataTable2Exception $e ) {
@@ -819,7 +843,8 @@ class DataTable2 {
 				$head = '';
 			} elseif ( substr( $head, -1 ) != "\n" ) {
 				/** If there is a user-supplied head that does not
-				 *	end with a newline, append a newline. */
+				 *	end with a newline, append a newline.
+				 */
 				$head .= "\n";
 			}
 
@@ -838,7 +863,8 @@ class DataTable2 {
 		}
 
 		/** Call DataTable2::renderRecord() to create wikitext
-		 *	from each record. */
+		 *	from each record.
+		 */
 		if ( isset( $records ) ) {
 			foreach ( $records as $record ) {
 				$wikitext .= $this->renderRecord( $record,
@@ -910,12 +936,14 @@ class DataTable2 {
 		}
 
 		/** If __pageId is present, create a Title object out of
-		 *	it. */
+		 *	it.
+		 */
 		if ( isset( $record['__pageId'] ) ) {
 			$sourceTitle = Title::newFromID( $record['__pageId'] );
 
 			/** If as template name or text is provided, append the
-			 *	data about the source page to the record. */
+			 *	data about the source page to the record.
+			 */
 			if ( isset( $template ) || isset( $templateText ) ) {
 				$record += $this->title2array( $sourceTitle );
 			}
@@ -932,13 +960,15 @@ class DataTable2 {
 		} else {
 			/** Else format record as a table row, inserting a
 			 * line break after each pipe character so that wiki
-			 * markup like * etc. can be used within content. */
+			 * markup like * etc. can be used within content.
+			 */
 
 			$result = "|-\n|\n"
 				. implode( "\n|\n", array_values( $record ) ) . "\n";
 
 			/** Append a link to the source page, if any, as the
-			 *	last field. */
+			 *	last field.
+			 */
 			if ( isset( $sourceTitle ) ) {
 				$result .= "| [[{$sourceTitle->getPrefixedText()}]]\n";
 			}
@@ -985,7 +1015,8 @@ class DataTable2 {
 
 		/** Add to the detail tracking category created from the
 		 *	message `datatable2-consumer-detail-category` unless
-		 *	that message is a single dash. */
+		 *	that message is a single dash.
+		 */
 		$detailTrackingCategoryName = wfMessage(
 			'datatable2-consumer-detail-category', $table->getText() )
 			->title( $parser->getTitle() )
@@ -1008,10 +1039,12 @@ class DataTable2 {
 
 		/** Add [dependencies]
 		 * (https://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F)
-		 * on those pages where data is taken from. */
+		 * on those pages where data is taken from.
+		 */
 		foreach ( $pages as $pageId ) {
 			/** Disable caching completely if the page uses data
-			 *	from a non-wiki source. */
+			 *	from a non-wiki source.
+			 */
 			if ( !is_int( $pageId ) ) {
 				$parser->getOutput()->updateCacheExpiry( 0 );
 				continue;
