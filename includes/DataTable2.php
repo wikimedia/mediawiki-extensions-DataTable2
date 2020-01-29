@@ -649,8 +649,8 @@ class DataTable2 {
 
 			/** Return preprocessed template with these arguments. */
 			return [ $parser->recursivePreprocess(
-					$parser->fetchTemplate(
-						Title::newFromText( $template, NS_TEMPLATE ) ),
+					$parser->fetchTemplateAndTitle(
+						Title::newFromText( $template, NS_TEMPLATE ) )[0],
 					$parser->getPreprocessor()->newCustomFrame(
 						$templateArgs ) ), 'noparse' => false ];
 		} catch ( DataTable2Exception $e ) {
