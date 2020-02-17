@@ -11,6 +11,8 @@
  * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  */
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @brief Class implementing the @ref Extensions-DataTable2.
  *
@@ -141,7 +143,7 @@ class DataTable2 {
 		static $myParserOptions;
 
 		if ( !isset( $myParser ) ) {
-			$myParser = new Parser();
+			$myParser = MediaWikiServices::getInstance()->getParserFactory()->create();
 		}
 
 		if ( !isset( $myParserOptions ) ) {
