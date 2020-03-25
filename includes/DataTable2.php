@@ -1043,6 +1043,7 @@ class DataTable2 {
 		 * (https://www.mediawiki.org/wiki/Manual:Tag_extensions#How_do_I_disable_caching_for_pages_using_my_extension.3F)
 		 * on those pages where data is taken from.
 		 */
+		$revisionLookup = MediaWikiServices::getInstance()->getRevisionLookup();
 		foreach ( $pages as $pageId ) {
 			/** Disable caching completely if the page uses data
 			 *	from a non-wiki source.
@@ -1055,11 +1056,13 @@ class DataTable2 {
 			$page = WikiPage::newFromID( $pageId );
 
 			if ( isset( $page ) ) {
-				$revision = Revision::newFromPageId( $pageId );
-
-				if ( isset( $revision ) ) {
-					$parser->getOutput()->AddTemplate( $page->getTitle(), $pageId,
-						$revision->getId() );
+				$revisionRecord = $revisionLookup->getRevisionByPageId( $pageId );
+				if ( $revisionRecord !== null ) {
+					$parser->getOutput()->AddTemplate(
+						$page->getTitle(),
+						$pageId,
+						$revisionRecord->getId()
+					);
 				}
 			}
 		}
