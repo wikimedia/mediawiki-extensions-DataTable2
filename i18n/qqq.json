@@ -6,7 +6,7 @@
 	},
 	"datatable2-desc": "{{desc}}",
 	"action-datatable2-specialpages": "{{Doc-action|action-datatable2-specialpages}}",
-	"right-datatable2-specialpages": "{{doc-right|datatable2-specialpages}}\nRight to use the [https://www.mediawiki.org/wiki/Extension:DataTable2 DataTable2] special pages.",
+	"right-datatable2-specialpages": "{{doc-right|datatable2-specialpages}}\nRight to use the [[mw:Special:MyLanguage/Extension:DataTable2|DataTable2]] special pages.",
 	"datatable2-error": "Wikitext used to format an error message. Parameters:\n* $1: error message.",
 	"datatable2-error-expensive-function": "Error message indicating that the expensive function limit has been exceeded.",
 	"datatable2-error-multiple-records": "Error message indicating that multiple records where found where a single one was expected. Parameters:\n* $1: table name\n* $2: WHERE clause\n* $3: actual number of records found.",
@@ -39,7 +39,7 @@
 	"datatable2tables-noresult": "Text displayed when no records are found.",
 	"datatable2tables-row": "Wikitext to format a data row. Parameters:\n* $1: table name\n* $2: number of contributing pages\n* $3: number of records\n* $4: Name of detail tracking category created from message datatable2-consumer-detail-category",
 	"datatable2tables-summary": "{{doc-specialpagesummary|datatable2tables}}",
-	"datatable2-producer-category": "Name of the [[mw:Help:Tracking categories|tracking category]] where pages defining [https://www.mediawiki.org/wiki/Extension:DataTable2 DataTable2] data are listed.",
-	"datatable2-consumer-category": "Name of the [[mw:Help:Tracking categories|tracking category]] where pages using [https://www.mediawiki.org/wiki/Extension:DataTable2 DataTable2] data are listed.",
-	"datatable2-consumer-detail-category": "Message used to generate the name of a [[mw:Help:Tracking categories|tracking category]] where pages using [https://www.mediawiki.org/wiki/Extension:DataTable2 DataTable2] data in a particular table are listed. Parameters:\n* $1: table name"
+	"datatable2-producer-category": "Name of the [[mw:Special:MyLanguage/Help:Tracking categories|tracking category]] where pages defining [[mw:Special:MyLanguage/Extension:DataTable2|DataTable2]] data are listed.",
+	"datatable2-consumer-category": "Name of the [[mw:Special:MyLanguage/Help:Tracking categories|tracking category]] where pages using [[mw:Special:MyLanguage/Extension:DataTable2|DataTable2]] data are listed.",
+	"datatable2-consumer-detail-category": "Message used to generate the name of a [[mw:Special:MyLanguage/Help:Tracking categories|tracking category]] where pages using [[mw:Special:MyLanguage/Extension:DataTable2|DataTable2]] data in a particular table are listed. Parameters:\n* $1: table name"
 }
