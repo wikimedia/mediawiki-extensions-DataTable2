@@ -31,7 +31,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 	 *
 	 * @param IContextSource|null $context Context.
 	 *
-	 * @param string|null $par Table name to start from.
+	 * @param string|null $tablename Table name to start from.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation" The
 	 * special page <b>DataTable2Tables</b> accepts one parameter,

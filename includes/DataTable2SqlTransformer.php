@@ -124,7 +124,7 @@ class DataTable2SqlTransformer {
 	 *
 	 * @param string $input Input string.
 	 *
-	 * @param int $offset Current offset in the input
+	 * @param int &$offset Current offset in the input
 	 * string. Updated to the position just after the extracted
 	 * token. When extraction fails, the position is unchanged.
 	 *

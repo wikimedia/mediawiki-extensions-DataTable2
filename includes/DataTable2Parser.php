@@ -132,7 +132,6 @@ class DataTable2Parser {
 	 *
 	 * @sa DataTable2Parser::getArg() for a description of valid arguments.
 	 */
-
 	public function __construct( $input, $args = null ) {
 		global $wgDataTable2Args;
 
@@ -182,6 +181,8 @@ class DataTable2Parser {
 	 * ... \</head> as the first thing in the \<datatable2> or
 	 * \<dt2-showtable>. Do not include the opening {| into your head;
 	 * this is automatically inserted by the extension.
+	 *
+	 * @return bool
 	 */
 	public function isToBeWrapped() {
 		return isset( $this->head_ )
@@ -342,7 +343,6 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 * @return array Column names, eventually including additional
 	 * numeric keys if there are more fields than names.
 	 */
-
 	public function getColumns() {
 		return $this->columns_;
 	}
@@ -353,7 +353,6 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 * @return array Numerically-indexed array of associative
 	 * arrays, each of which represents a record.
 	 */
-
 	public function getRecords() {
 		return $this->records_;
 	}

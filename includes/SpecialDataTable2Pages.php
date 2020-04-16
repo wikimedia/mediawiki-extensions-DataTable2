@@ -117,8 +117,6 @@ class DataTable2PagesPager extends DataTable2Pager {
 	 * @return string html code.
 	 */
 	public function getPageHeader() {
-		global $wgSpecialDataTable2PageParSep;
-
 		$content = Html::rawElement( 'label',
 			[ 'for' => 'pagename' ],
 			$this->msg( 'datatable2pages-from' )->parse() ) . '&#160'

@@ -135,7 +135,6 @@ class DataTable2 {
 	 *
 	 * @return string HTML code.
 	 */
-
 	public static function sandboxParse( $wikiText, User $user ) {
 		global $wgTitle;
 
@@ -270,7 +269,6 @@ class DataTable2 {
 	 *
 	 * @return bool Always TRUE.
 	 */
-
 	public function onParserFirstCallInit( Parser &$parser ) {
 		global $wgExtensionCredits, $wgHooks;
 
@@ -329,7 +327,7 @@ class DataTable2 {
 	 *
 	 * @param Scribunto_LuaEngine $engine Scribunto engine.
 	 *
-	 * @param array $extraLibraries Libraries to register.
+	 * @param array &$extraLibraries Libraries to register.
 	 *
 	 * @return bool Always TRUE.
 	 */
@@ -368,7 +366,9 @@ class DataTable2 {
 	/**
 	 * @brief Merge argument arrays, re-indexing numeric keys.
 	 *
-	 * @param array $array1,$array2 Arrays to merge.
+	 * @param array $array1 Array to merge.
+	 *
+	 * @param array $array2 Array to merge.
 	 *
 	 * @return array Result.
 	 */
@@ -931,7 +931,7 @@ class DataTable2 {
 	 * @return string Wikitext.
 	 */
 	public function renderRecord( array $record, $template,
-		$templateText, $args, Parser &$parser ) {
+		$templateText, $args, Parser $parser ) {
 		/** Prepend $args to $record, if set. */
 		if ( isset( $args ) ) {
 			$record = $this->mergeArgs( $args, $record );
