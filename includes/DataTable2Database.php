@@ -84,7 +84,7 @@ class DataTable2Database {
 	 * @return array Column names. Empty array if the table does not
 	 * exist.
 	 *
-	 * @exception DataTable2Exception if the table has records but no
+	 * @throws DataTable2Exception if the table has records but no
 	 * meta data are found for the table.
 	 */
 	public function getColumns( $table, $fname = __METHOD__ ) {

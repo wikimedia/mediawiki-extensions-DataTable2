@@ -168,7 +168,7 @@ class DataTable2SqlTransformer {
 	 *
 	 * @return string Transformed SQL.
 	 *
-	 * @exception DataTable2Exception if one of the following is found:
+	 * @throws DataTable2Exception if one of the following is found:
 	 * - an unterminated SQL comment;
 	 * - an invalid token;
 	 * - an identifier that is neither a column name nor on the whitelist

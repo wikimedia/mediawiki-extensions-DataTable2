@@ -39,7 +39,7 @@ class DataTable2Parser {
 	 *
 	 * @return Title Title object.
 	 *
-	 * @exception DataTable2Exception if $table is not a valid table
+	 * @throws DataTable2Exception if $table is not a valid table
 	 * name.
 	 */
 	public static function table2title( $table ) {
@@ -73,7 +73,7 @@ class DataTable2Parser {
 	 * @return string|null Tag content, if any; NULL if no such
 	 * tag or if tag is empty.
 	 *
-	 * @exception DataTable2Exception if an unterminated tag is
+	 * @throws DataTable2Exception if an unterminated tag is
 	 * encountered.
 	 */
 	public static function extractTag( &$input, $tag ) {
@@ -367,7 +367,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 * @param bool $assoc Whether the records returned by
 	 * getRecords() should be indexed by column names.
 	 *
-	 * @exception DataTable2Exception if the data need more columns
+	 * @throws DataTable2Exception if the data need more columns
 	 * than provided in the database.
 	 */
 	private function parseWiki_( $assoc ) {
