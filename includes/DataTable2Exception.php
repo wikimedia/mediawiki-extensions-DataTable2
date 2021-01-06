@@ -23,14 +23,13 @@ class DataTable2Exception extends MWException {
 	 *
 	 * @param string $message Message ID.
 	 *
-	 * @param ... Further parameters to wfMessage().
+	 * @param mixed ...$params Further parameters to wfMessage().
 	 *
 	 * @sa [MediaWiki Manual:Messages API]
 	 * (https://www.mediawiki.org/wiki/Manual:Messages_API)
 	 */
-	public function __construct( $message ) {
-		parent::__construct( wfMessage( $message,
-				array_slice( func_get_args(), 1 ) )->text() );
+	public function __construct( $message, ...$params ) {
+		parent::__construct( wfMessage( $message, $params )->text() );
 	}
 
 	/// Return formatted message as html.
