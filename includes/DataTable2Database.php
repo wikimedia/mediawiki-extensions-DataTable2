@@ -150,7 +150,7 @@ class DataTable2Database {
 		 */
 		global $wgDataTable2WriteDest;
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 
 		// $dbw->begin( $fname );
 
@@ -207,7 +207,7 @@ class DataTable2Database {
 		 */
 		$this->delete( $article->getId(), $fname );
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 
 		// $dbw->begin( $fname );
 
