@@ -12,6 +12,7 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Revision\{RevisionRecord, SlotRecord};
 
 /**
  * @brief Class implementing the @ref Extensions-DataTable2.
@@ -115,7 +116,7 @@ class DataTable2 {
 
 		$wgHooks['LoadExtensionSchemaUpdates'][] = self::singleton();
 
-		$wgHooks['NewRevisionFromEditComplete'][] = self::singleton();
+		$wgHooks['RevisionFromEditComplete'][] = self::singleton();
 
 		$wgHooks['ParserFirstCallInit'][] = self::singleton();
 
@@ -220,8 +221,8 @@ class DataTable2 {
 	}
 
 	/**
-	 * @brief [NewRevisionFromEditComplete]
-	 * (https://www.mediawiki.org/wiki/Manual:Hooks/NewRevisionFromEditComplete)
+	 * @brief [RevisionFromEditComplete]
+	 * (https://www.mediawiki.org/wiki/Manual:Hooks/RevisionFromEditComplete)
 	 * hook.
 	 *
 	 * Save data and potentially metadata to the database when a
@@ -245,7 +246,7 @@ class DataTable2 {
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation"
 	 * Since data are <b>saved to the database</b> using the <a
-	 * href="https://www.mediawiki.org/wiki/Manual:Hooks/NewRevisionFromEditComplete">NewRevisionFromEditComplete</a>
+	 * href="https://www.mediawiki.org/wiki/Manual:Hooks/RevisionFromEditComplete">RevisionFromEditComplete</a>
 	 * hook, no data is stored in the database when the page has not
 	 * changed. Therefore, you should install this extension
 	 * <i>before</i> creating \<datatable2> tags in your wiki
@@ -253,11 +254,11 @@ class DataTable2 {
 	 * modify each page containing \<datatable2> tags in order to
 	 * get the data actually saved.
 	 */
-	public function onNewRevisionFromEditComplete( $article, Revision $rev,
+	public function onRevisionFromEditComplete( $article, RevisionRecord $rev,
 		$baseID, User $user ) {
 		/** Call DataTable2Database::save(). */
 		return $this->database_->save(
-			$article, $rev->getContent()->getWikitextForTransclusion(),
+                    $article, $rev->getContent(SlotRecord::MAIN)->getWikitextForTransclusion(),
 			__METHOD__ );
 	}
 
