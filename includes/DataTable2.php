@@ -12,7 +12,8 @@
  */
 
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Revision\{RevisionRecord, SlotRecord};
+use MediaWiki\Revision\RevisionRecord;
+use MediaWiki\Revision\SlotRecord;
 
 /**
  * @brief Class implementing the @ref Extensions-DataTable2.
@@ -254,12 +255,14 @@ class DataTable2 {
 	 * modify each page containing \<datatable2> tags in order to
 	 * get the data actually saved.
 	 */
-	public function onRevisionFromEditComplete( $article, RevisionRecord $rev,
-		$baseID, User $user ) {
+	public function onRevisionFromEditComplete(
+		$article, RevisionRecord $rev, $baseID, User $user
+	) {
 		/** Call DataTable2Database::save(). */
 		return $this->database_->save(
-                    $article, $rev->getContent(SlotRecord::MAIN)->getWikitextForTransclusion(),
-			__METHOD__ );
+			$article, $rev->getContent( SlotRecord::MAIN )->getWikitextForTransclusion(),
+			__METHOD__
+		);
 	}
 
 	/**
