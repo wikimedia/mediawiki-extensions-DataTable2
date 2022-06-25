@@ -1048,6 +1048,12 @@ class DataTable2 {
 		 * on those pages where data is taken from.
 		 */
 		$revisionLookup = MediaWikiServices::getInstance()->getRevisionLookup();
+		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+			// MediaWiki 1.36+
+			$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
+		} else {
+			$wikiPageFactory = null;
+		}
 		foreach ( $pages as $pageId ) {
 			/** Disable caching completely if the page uses data
 			 *	from a non-wiki source.
@@ -1057,7 +1063,12 @@ class DataTable2 {
 				continue;
 			}
 
-			$page = WikiPage::newFromID( $pageId );
+			if ( $wikiPageFactory !== null ) {
+				// MediaWiki 1.36+
+				$page = $wikiPageFactory->newFromID( $pageId );
+			} else {
+				$page = WikiPage::newFromID( $pageId );
+			}
 
 			if ( isset( $page ) ) {
 				$revisionRecord = $revisionLookup->getRevisionByPageId( $pageId );
