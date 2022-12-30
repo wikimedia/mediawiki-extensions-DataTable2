@@ -1034,9 +1034,16 @@ class DataTable2 {
 				NS_CATEGORY, $detailTrackingCategoryName );
 
 			if ( $detailTrackingCategory ) {
-				$parser->getOutput()->addCategory(
+				$parserOutput = $parser->getOutput();
+				if ( method_exists( $parserOutput, 'getPageProperty' ) ) {
+					// MW 1.38+
+					$defaultSort = $parserOutput->getPageProperty( 'defaultsort' ) ?? '';
+				} else {
+					$defaultSort = $parserOutput->getProperty( 'defaultsort' ) ?: '';
+				}
+				$parserOutput->addCategory(
 					$detailTrackingCategory->getDBkey(),
-					$parser->getDefaultSort() );
+					$defaultSort );
 			} else {
 				wfDebug( __METHOD__
 					. ": [[MediaWiki:datatable2-consumer-detail-category]] is not a valid title!\n" );
