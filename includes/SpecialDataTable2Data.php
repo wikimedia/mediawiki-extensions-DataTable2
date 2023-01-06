@@ -191,7 +191,7 @@ class DataTable2DataPager extends DataTable2Pager {
 			. Html::rawElement( 'label',
 				[ 'for' => 'tablename' ],
 				$this->msg( 'datatable2data-table' )->parse() ) . '&#160'
-			. Xml::input( 'tablename', 20, $this->tablename,
+			. Xml::input( 'tablename', 20, $this->tablename ?? '',
 				[ 'id' => 'tablename' ] ) . ' '
 			. Html::rawElement( 'label',
 				[ 'for' => 'pagename' ],

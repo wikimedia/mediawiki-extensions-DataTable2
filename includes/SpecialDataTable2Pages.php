@@ -125,7 +125,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 			. Html::rawElement( 'label',
 				[ 'for' => 'tablename' ],
 				$this->msg( 'datatable2pages-table' )->parse() ) . '&#160'
-			. Xml::input( 'tablename', 25, $this->tablename,
+			. Xml::input( 'tablename', 25, $this->tablename ?? '',
 				[ 'id' => 'tablename' ] );
 
 		return $this->buildPageHeader( 'pages', $content );
