@@ -120,8 +120,6 @@ class DataTable2 {
 		$wgHooks['RevisionFromEditComplete'][] = self::singleton();
 
 		$wgHooks['ParserFirstCallInit'][] = self::singleton();
-
-		$wgHooks['ParserTestTables'][] = self::singleton();
 	}
 
 	/**
@@ -304,24 +302,6 @@ class DataTable2 {
 		if ( isset( $wgExtensionCredits['parserhook']['Scribunto'] ) ) {
 			$wgHooks['ScribuntoExternalLibraries'][] = $this;
 		}
-
-		return true;
-	}
-
-	/**
-	 * @brief [ParserTestTables]
-	 * (https://www.mediawiki.org/wiki/Manual:Hooks/ParserTestTables) hook.
-	 *
-	 * Add the tables used to store DataTable2 data and metadata to
-	 * the tables required for parser tests.
-	 *
-	 * @param array &$tables Tables needed to run parser tests.
-	 *
-	 * @return bool Always TRUE.
-	 */
-	public function onParserTestTables( &$tables ) {
-		$tables[] = 'datatable2_data';
-		$tables[] = 'datatable2_meta';
 
 		return true;
 	}
