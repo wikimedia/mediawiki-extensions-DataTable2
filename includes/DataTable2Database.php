@@ -69,7 +69,7 @@ class DataTable2Database {
 	 * dtd_<i>nn</i> with *nn* ranging from 1 to $num.
 	 */
 	public static function dataCols( $num ) {
-		return array_map( 'self::dataCol', range( 1, $num ) );
+		return array_map( [ self::class, 'dataCol' ], range( 1, $num ) );
 	}
 
 	/* == public functions == */
