@@ -332,7 +332,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	public function __construct( $input, array $args = null, $assoc = true ) {
 		parent::__construct( $input, $args );
 
-		$this->parseWiki_( $assoc );
+		$this->parseWiki( $assoc );
 	}
 
 	/* == accessors == */
@@ -370,7 +370,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 * @throws DataTable2Exception if the data need more columns
 	 * than provided in the database.
 	 */
-	private function parseWiki_( $assoc ) {
+	private function parseWiki( $assoc ) {
 		/** Parse list of column names, if any. */
 		$this->columns_ = $this->getArg( 'columns' ) === null
 			? [] : explode( '|', $this->getArg( 'columns' ) );

@@ -27,15 +27,15 @@
  * @ingroup Extensions-DataTable2
  */
 class DataTable2SqlTransformer {
-	/* == public constants == */
+	/* == private constants == */
 
-	const INVALID = -1;	  ///< Token is invalid.
-	const SPACE = 0;	  ///< Token is whitespace.
-	const NUMBER = 1;	  ///< Token is a number.
-	const STRING = 2;	  ///< Token is a quoted string.
-	const IDENTIFIER = 3; ///< Token is (possibly quoted) identifier.
-	const MATH = 4;		  ///< Token is a math character.
-	const COMMA = 5;	  ///< Token is a comma.
+	private const INVALID = -1;   ///< Token is invalid.
+	private const SPACE = 0;      ///< Token is whitespace.
+	private const NUMBER = 1;     ///< Token is a number.
+	private const STRING = 2;     ///< Token is a quoted string.
+	private const IDENTIFIER = 3; ///< Token is (possibly quoted) identifier.
+	private const MATH = 4;       ///< Token is a math character.
+	private const COMMA = 5;      ///< Token is a comma.
 
 	/* == private static data members == */
 
@@ -45,6 +45,8 @@ class DataTable2SqlTransformer {
 	 *
 	 * Any character not mentioned in any of these introduced an @ref
 	 * INVALID token.
+	 *
+	 * @var array<int,string>
 	 */
 	private static $tokenTypes_ = [
 		self::SPACE => " \t\n\r",
@@ -64,6 +66,8 @@ class DataTable2SqlTransformer {
 	 * style) or quoted with backquotes (default MySQL style) or is a
 	 * legal unquoted identifier. Case-insensitive matching is used to
 	 * simplify the regexp.
+	 *
+	 * @var array<int,string>
 	 */
 	private static $tokenRegexps_ = [
 		self::SPACE => '/\s+/',
@@ -81,6 +85,8 @@ class DataTable2SqlTransformer {
 	 * @brief Flipped @ref $wgDataTable2SqlWhiteList.
 	 *
 	 * Used for fast test whether an identifier is on the white list.
+	 *
+	 * @var array<string,int>
 	 */
 	private $whiteList_;
 

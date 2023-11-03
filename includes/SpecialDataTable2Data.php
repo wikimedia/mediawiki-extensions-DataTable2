@@ -28,11 +28,15 @@ class DataTable2DataPager extends DataTable2Pager {
 
 	/** @brief Second parameter appended to the special page URL, or
 	 * REQUEST variable 'pagename'.
+	 *
+	 * @var string
 	 */
 	public $pagename;
 
 	/** @brief Third parameter appended to the special page URL, or
 	 * REQUEST variable 'data'.
+	 *
+	 * @var string
 	 */
 	public $dataFrom;
 

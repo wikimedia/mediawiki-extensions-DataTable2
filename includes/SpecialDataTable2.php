@@ -28,9 +28,17 @@ abstract class DataTable2Pager extends AlphabeticPager {
 
 	/** @brief First parameter appended to the special page URL, or
 	 * REQUEST variable 'tablename'.
+	 *
+	 * @var string|null
 	 */
 	public $tablename;
-	public $tableDbKey; ///< @ref $tablename as db key.
+
+	/**
+	 * @ref $tablename as db key.
+	 *
+	 * @var string
+	 */
+	public $tableDbKey;
 
 	/* == magic methods == */
 
@@ -78,8 +86,6 @@ abstract class DataTable2Pager extends AlphabeticPager {
 	 * (https://www.mediawiki.org/wiki/$wgScript)
 	 */
 	public function buildPageHeader( $suffix, $content ) {
-		global $wgScript;
-
 		/** Include a hidden field with the page title, needed as a
 		 *	GET parameter to index.php.
 		 */
@@ -88,7 +94,7 @@ abstract class DataTable2Pager extends AlphabeticPager {
 
 		return Xml::openElement( 'form',
 			[ 'method' => 'get',
-				'action' => $wgScript,
+				'action' => $this->getConfig()->get( 'Script' ),
 				'id' => "mw-datatable2$suffix-form" ] )
 			. Xml::fieldset( $this->msg( "datatable2$suffix-legend" )->text() )
 			. Html::hidden( 'title', $title )

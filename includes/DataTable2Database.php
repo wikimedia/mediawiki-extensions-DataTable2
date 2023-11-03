@@ -41,7 +41,7 @@ class DataTable2Database {
 	 * more (or less) columns</b>, you need to create (or drop)
 	 * indexes; see file <tt>datatable2_data.sql</tt>.
 	 */
-	const MAX_FIELDS = 30;
+	public const MAX_FIELDS = 30;
 
 	/* == private data members == */
 
@@ -190,7 +190,7 @@ class DataTable2Database {
 	 *
 	 * @return bool Always TRUE.
 	 */
-	function save( $article, $text, $fname = __METHOD__ ) {
+	public function save( $article, $text, $fname = __METHOD__ ) {
 		/** The table to save to is specified in the global
 		 *	variable @ref $wgDataTable2WriteDest.
 		 */
