@@ -111,15 +111,12 @@ class DataTable2 {
 			$wgDataTable2MetaReadSrc = $wgDataTable2MetaWriteDest;
 		}
 
-		global $wgHooks;
-
-		$wgHooks['ArticleDelete'][] = self::singleton();
-
-		$wgHooks['LoadExtensionSchemaUpdates'][] = self::singleton();
-
-		$wgHooks['RevisionFromEditComplete'][] = self::singleton();
-
-		$wgHooks['ParserFirstCallInit'][] = self::singleton();
+		$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
+		$handler = self::singleton();
+		$hookContainer->register( 'ArticleDelete', [ $handler, 'onArticleDelete' ] );
+		$hookContainer->register( 'LoadExtensionSchemaUpdates', [ $handler, 'onLoadExtensionSchemaUpdates' ] );
+		$hookContainer->register( 'RevisionFromEditComplete', [ $handler, 'onRevisionFromEditComplete' ] );
+		$hookContainer->register( 'ParserFirstCallInit', [ $handler, 'onParserFirstCallInit' ] );
 	}
 
 	/**
