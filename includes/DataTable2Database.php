@@ -321,9 +321,7 @@ class DataTable2Database {
 		 */
 		static $transformer;
 
-		if ( !isset( $transformer ) ) {
-			$transformer = new DataTable2SqlTransformer;
-		}
+		$transformer ??= new DataTable2SqlTransformer;
 
 		/** The table to select from is specified in the global
 		 *	variable @ref $wgDataTable2ReadSrc.
@@ -348,14 +346,14 @@ class DataTable2Database {
 		$columns[] = '__pageId';
 		$dbColumns['__pageId'] = 'dtd_page';
 
-		if ( isset( $where ) && $where != '' ) {
+		if ( $where !== null && $where != '' ) {
 			$conds[] = $transformer->transform( $where, $columns );
 		}
 
 		/** If the ORDER BY clause is NULL, sort by the first five
 		 *	columns.
 		 */
-		if ( isset( $orderBy ) && $orderBy !== '' ) {
+		if ( $orderBy !== null && $orderBy !== '' ) {
 			if ( $orderBy !== false ) {
 				$orderBy = $transformer->transform( $orderBy, $columns );
 			}

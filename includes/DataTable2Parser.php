@@ -22,17 +22,6 @@ class DataTable2Parser {
 	/* == public static methods == */
 
 	/**
-	 * @brief Non-emptiness test for use in array_filter().
-	 *
-	 * @param mixed $s Argument.
-	 *
-	 * @return bool FALSE if $s is unset or an empty string, else TRUE.
-	 */
-	public static function isNotEmpty( $s ) {
-		return isset( $s ) && $s !== '';
-	}
-
-	/**
 	 * @brief Transform a table name to a Title object.
 	 *
 	 * @param string $table Table name.
@@ -139,7 +128,7 @@ class DataTable2Parser {
 		 *	variable @ref $wgDataTable2Args and merge with $args,
 		 *	excluding arguments which are empty or null.
 		 */
-		$this->args_ = array_filter( (array)$args, [ self::class, 'isNotEmpty' ] )
+		$this->args_ = array_filter( (array)$args, static fn ( $s ): bool => $s !== null && $s !== '' )
 			+ (array)$wgDataTable2Args;
 
 		/** Transform the `table`argument to a Title object, if
@@ -237,7 +226,7 @@ class DataTable2Parser {
 	 * argument.
 	 */
 	public function getArg( $key ) {
-		return isset( $this->args_[$key] ) ? $this->args_[$key] : null;
+		return $this->args_[$key] ?? null;
 	}
 
 	/**
@@ -350,7 +339,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	/**
 	 * @brief Get data records.
 	 *
-	 * @return array Numerically-indexed array of associative
+	 * @return array[] Numerically-indexed array of associative
 	 * arrays, each of which represents a record.
 	 */
 	public function getRecords() {

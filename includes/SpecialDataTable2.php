@@ -51,18 +51,18 @@ abstract class DataTable2Pager extends AlphabeticPager {
 	 */
 	public function __construct( IContextSource $context = null,
 		$tablename = null ) {
-		if ( isset( $context ) ) {
+		if ( $context ) {
 			$this->setContext( $context );
 		}
 
-		$this->tablename = isset( $tablename ) && $tablename != ''
+		$this->tablename = $tablename !== null && $tablename !== ''
 			? $tablename : $this->getRequest()->getText( 'tablename' );
 
 		if ( $this->tablename == '' ) {
 			$this->tablename = null;
 		}
 
-		if ( isset( $this->tablename ) ) {
+		if ( $this->tablename !== null ) {
 			$this->tableDbKey = DataTable2Parser::table2title(
 				$this->tablename )->getDBkey();
 		}
@@ -157,6 +157,7 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage {
 		 * special page.
 		 */
 		$pagerClass = "{$this->getName()}Pager";
+		/** @var DataTable2Pager $pager */
 		$pager = new $pagerClass( $this->getContext(), $par );
 
 		$html = '';

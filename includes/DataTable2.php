@@ -82,9 +82,7 @@ class DataTable2 {
 	public static function &singleton() {
 		static $instance;
 
-		if ( !isset( $instance ) ) {
-			$instance = new static;
-		}
+		$instance ??= new static;
 
 		return $instance;
 	}
@@ -138,13 +136,9 @@ class DataTable2 {
 		static $myParser;
 		static $myParserOptions;
 
-		if ( !isset( $myParser ) ) {
-			$myParser = MediaWikiServices::getInstance()->getParserFactory()->create();
-		}
+		$myParser ??= MediaWikiServices::getInstance()->getParserFactory()->create();
 
-		if ( !isset( $myParserOptions ) ) {
-			$myParserOptions = ParserOptions::newFromUser( $user );
-		}
+		$myParserOptions ??= ParserOptions::newFromUser( $user );
 
 		$result = $myParser->parse( $wikiText, $wgTitle, $myParserOptions );
 
@@ -803,7 +797,7 @@ class DataTable2 {
 	/**
 	 * @brief Render data records in (more or less) tabular form.
 	 *
-	 * @param array|null $records Numerically-indexed array of associative
+	 * @param array[]|null $records Numerically-indexed array of associative
 	 * arrays, each of which represents a record.
 	 *
 	 * @param DataTable2Parser $dataParser Parser object for the
@@ -822,7 +816,7 @@ class DataTable2 {
 		$isToBeWrapped = $dataParser->isToBeWrapped();
 
 		if ( $isToBeWrapped ) {
-			if ( !isset( $head ) ) {
+			if ( $head === null ) {
 				$head = '';
 			} elseif ( substr( $head, -1 ) != "\n" ) {
 				/** If there is a user-supplied head that does not
@@ -848,7 +842,7 @@ class DataTable2 {
 		/** Call DataTable2::renderRecord() to create wikitext
 		 *	from each record.
 		 */
-		if ( isset( $records ) ) {
+		if ( $records ) {
 			foreach ( $records as $record ) {
 				$wikitext .= $this->renderRecord( $record,
 					$dataParser->getArg( 'template' ),
@@ -914,7 +908,7 @@ class DataTable2 {
 	public function renderRecord( array $record, $template,
 		$templateText, $args, Parser $parser ) {
 		/** Prepend $args to $record, if set. */
-		if ( isset( $args ) ) {
+		if ( $args !== null ) {
 			$record = $this->mergeArgs( $args, $record );
 		}
 
@@ -927,16 +921,16 @@ class DataTable2 {
 			/** If as template name or text is provided, append the
 			 *	data about the source page to the record.
 			 */
-			if ( isset( $template ) || isset( $templateText ) ) {
+			if ( $template !== null || $templateText !== null ) {
 				$record += $this->title2array( $sourceTitle );
 			}
 		}
 
-		if ( isset( $template ) ) {
+		if ( $template !== null ) {
 			/** If a template name is given, use that template. */
 			$result = '{{' . "$template|"
 				. $this->implodeArgs( $record ) . '}}';
-		} elseif ( isset( $templateText ) ) {
+		} elseif ( $templateText !== null ) {
 			/** Else if a template text is given, use it. */
 			$result = $parser->recursivePreprocess( $templateText,
 				$parser->getPreprocessor()->newCustomFrame( $record ) );
