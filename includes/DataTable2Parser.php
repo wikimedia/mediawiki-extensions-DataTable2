@@ -139,7 +139,7 @@ class DataTable2Parser {
 		 *	variable @ref $wgDataTable2Args and merge with $args,
 		 *	excluding arguments which are empty or null.
 		 */
-		$this->args_ = array_filter( (array)$args, 'self::isNotEmpty' )
+		$this->args_ = array_filter( (array)$args, [ self::class, 'isNotEmpty' ] )
 			+ (array)$wgDataTable2Args;
 
 		/** Transform the `table`argument to a Title object, if
