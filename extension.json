@@ -13,6 +13,7 @@
 		"DataTable2": "includes/DataTable2.php",
 		"DataTable2Database": "includes/DataTable2Database.php",
 		"DataTable2Exception": "includes/DataTable2Exception.php",
+		"DataTable2Hooks": "includes/DataTable2Hooks.php",
 		"DataTable2Parser": "includes/DataTable2Parser.php",
 		"DataTable2ParserWithRecords": "includes/DataTable2Parser.php",
 		"DataTable2SqlTransformer": "includes/DataTable2SqlTransformer.php",
@@ -27,6 +28,17 @@
 		"DataTable2TablesPager": "includes/SpecialDataTable2Tables.php"
 	},
 	"ExtensionFunctions": [ "DataTable2::init" ],
+	"Hooks": {
+		"ArticleDelete": "main",
+		"LoadExtensionSchemaUpdates": "main",
+		"ParserFirstCallInit": "main",
+		"RevisionFromEditComplete": "main"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "DataTable2Hooks"
+		}
+	},
 	"MessagesDirs": {
 		"DataTable2": [
 			"i18n"

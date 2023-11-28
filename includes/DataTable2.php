@@ -108,13 +108,6 @@ class DataTable2 {
 		if ( !isset( $wgDataTable2MetaReadSrc ) ) {
 			$wgDataTable2MetaReadSrc = $wgDataTable2MetaWriteDest;
 		}
-
-		$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
-		$handler = self::singleton();
-		$hookContainer->register( 'ArticleDelete', [ $handler, 'onArticleDelete' ] );
-		$hookContainer->register( 'LoadExtensionSchemaUpdates', [ $handler, 'onLoadExtensionSchemaUpdates' ] );
-		$hookContainer->register( 'RevisionFromEditComplete', [ $handler, 'onRevisionFromEditComplete' ] );
-		$hookContainer->register( 'ParserFirstCallInit', [ $handler, 'onParserFirstCallInit' ] );
 	}
 
 	/**
