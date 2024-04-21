@@ -110,7 +110,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 		return $this->msg( 'datatable2pages-row',
 			Title::makeTitle( $row->page_namespace,
 				$row->page_title ), $this->tablename,
-			$row->records )->text();
+			$row->records )->text() . "\n";
 	}
 
 	/**

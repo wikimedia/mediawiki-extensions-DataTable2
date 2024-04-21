@@ -92,7 +92,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 			$table->getText() )->inContentLanguage()->text();
 
 		return $this->msg( 'datatable2tables-row', $table->getText(),
-			$row->pages, $row->records, $detailCateg )->text();
+			$row->pages, $row->records, $detailCateg )->text() . "\n";
 	}
 
 	/**
