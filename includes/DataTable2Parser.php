@@ -282,11 +282,11 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 * @return array Components.
 	 */
 	public static function split( $delim, $input ) {
-	  if ( $delim[0] == '/' ) {
-		  return preg_split( $delim, $input );
-	  }
+		if ( $delim[0] == '/' ) {
+			return preg_split( $delim, $input );
+		}
 
-	  return explode( $delim, $input );
+		return explode( $delim, $input );
 	}
 
 	/* == private data members == */

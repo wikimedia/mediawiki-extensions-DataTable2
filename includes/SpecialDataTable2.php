@@ -89,7 +89,7 @@ abstract class DataTable2Pager extends AlphabeticPager {
 		/** Include a hidden field with the page title, needed as a
 		 *	GET parameter to index.php.
 		 */
-		list( $title ) = explode( '/',
+		[ $title ] = explode( '/',
 			$this->getTitle()->getPrefixedDBkey(), 2 );
 
 		return Xml::openElement( 'form',

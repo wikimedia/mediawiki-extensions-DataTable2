@@ -213,7 +213,7 @@ class DataTable2Database {
 
 		/** Loop through the \<datatable2> tags found. */
 		foreach ( $datatables as $datatable ) {
-			list( $element, $content, $args ) = $datatable;
+			[ $element, $content, $args ] = $datatable;
 
 			if ( !isset( $args['table'] ) || $args['table'] == '' ) {
 				/** Nothing to do if the `table` argument is not
