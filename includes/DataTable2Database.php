@@ -13,6 +13,8 @@
  *
  */
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @brief Auxiliary class to access the database tables of the @ref
  * Extensions-DataTable2.
@@ -95,7 +97,7 @@ class DataTable2Database {
 			return $this->columns_[$table];
 		}
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
 		/** The table to select column names from is specified in
 		 *	the global variable @ref $wgDataTable2MetaReadSrc.
@@ -150,7 +152,7 @@ class DataTable2Database {
 		 */
 		global $wgDataTable2WriteDest;
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		// $dbw->begin( $fname );
 
@@ -207,7 +209,7 @@ class DataTable2Database {
 		 */
 		$this->delete( $article->getId(), $fname );
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_PRIMARY );
 
 		// $dbw->begin( $fname );
 
@@ -362,7 +364,7 @@ class DataTable2Database {
 		}
 
 		/** Get the database records. */
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
 		$res = $dbr->select( $wgDataTable2ReadSrc, $dbColumns, $conds,
 			$fname, $orderBy ? [ 'ORDER BY' => $orderBy ] : [] );

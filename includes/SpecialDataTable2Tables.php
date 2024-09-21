@@ -14,6 +14,8 @@
  * @sa Largely inspired by SpecialListusers.php.
  */
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @brief Pager used in SpecialDataTable2Tables.
  *
@@ -54,7 +56,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 
 		$conds = [];
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
 		if ( $this->tablename != '' ) {
 			$conds[] = 'dtd_table >= '

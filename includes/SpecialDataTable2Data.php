@@ -14,6 +14,8 @@
  * @sa Largely inspired from SpecialListusers.php.
  */
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * @brief Pager used in SpecialDataTable2Data.
  *
@@ -106,7 +108,7 @@ class DataTable2DataPager extends DataTable2Pager {
 		$conds = [ 'dtd_table' => $this->tableDbKey,
 			'dtd_page = page_id' ];
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = MediaWikiServices::getInstance()->getDBLoadBalancer()->getConnection( DB_REPLICA );
 
 		if ( $this->pagename != '' ) {
 			$title = Title::newFromText( $this->pagename );
