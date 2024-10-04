@@ -176,8 +176,7 @@ class DataTable2Parser {
 	public function isToBeWrapped() {
 		return isset( $this->head_ )
 			|| isset( $this->args_['class'] )
-			|| !isset( $this->args_['template'] )
-			&& !isset( $this->templateText_ );
+			|| ( !isset( $this->args_['template'] ) && !isset( $this->templateText_ ) );
 	}
 
 	/**
