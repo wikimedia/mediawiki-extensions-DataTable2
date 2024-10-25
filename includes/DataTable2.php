@@ -11,6 +11,7 @@
  * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  */
 
+use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LuaEngine;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\SlotRecord;
@@ -293,7 +294,7 @@ class DataTable2 {
 	/**
 	 * @brief ScribuntoExternalLibraries hook.
 	 *
-	 * @param Scribunto_LuaEngine $engine Scribunto engine.
+	 * @param LuaEngine $engine Scribunto engine.
 	 *
 	 * @param array &$extraLibraries Libraries to register.
 	 *

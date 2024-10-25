@@ -19,7 +19,10 @@
  * @ingroup Extensions-DataTable2
  */
 
-class Scribunto_LuaDataTable2Library extends Scribunto_LuaLibraryBase {
+use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LibraryBase;
+use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LuaEngine;
+
+class Scribunto_LuaDataTable2Library extends LibraryBase {
 
 	/* == private data members == */
 
@@ -32,7 +35,7 @@ class Scribunto_LuaDataTable2Library extends Scribunto_LuaLibraryBase {
 	 *
 	 * Initialize data members.
 	 *
-	 * @param Scribunto_LuaEngine $engine Scribunto engine.
+	 * @param LuaEngine $engine Scribunto engine.
 	 */
 	public function __construct( $engine ) {
 		parent::__construct( $engine );
