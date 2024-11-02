@@ -73,7 +73,7 @@ class DataTable2DataPager extends DataTable2Pager {
 	 * given table and page those records where the content of the
 	 * first field is greater or equal to the given one.
 	 */
-	public function __construct( IContextSource $context = null,
+	public function __construct( ?IContextSource $context = null,
 		$par = null ) {
 		global $wgSpecialDataTable2PageParSep;
 

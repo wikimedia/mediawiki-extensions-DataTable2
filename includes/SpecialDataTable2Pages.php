@@ -57,7 +57,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 	 * will display for the given table those pages whose titles are
 	 * greater or equal to the given one (regardless of the namespace).
 	 */
-	public function __construct( IContextSource $context = null,
+	public function __construct( ?IContextSource $context = null,
 		$par = null ) {
 		global $wgSpecialDataTable2PageParSep;
 

@@ -49,7 +49,7 @@ abstract class DataTable2Pager extends AlphabeticPager {
 	 *
 	 * @param string|null $tablename Logical table name.
 	 */
-	public function __construct( IContextSource $context = null,
+	public function __construct( ?IContextSource $context = null,
 		$tablename = null ) {
 		if ( $context ) {
 			$this->setContext( $context );

@@ -43,7 +43,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 	 * precedence. The page will display tables whose names are
 	 * greater or equal to this.
 	 */
-	public function __construct( IContextSource $context = null,
+	public function __construct( ?IContextSource $context = null,
 		$tablename = null ) {
 		parent::__construct( $context, $tablename );
 	}
