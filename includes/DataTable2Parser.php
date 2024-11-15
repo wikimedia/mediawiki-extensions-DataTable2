@@ -317,7 +317,7 @@ class DataTable2ParserWithRecords extends DataTable2Parser {
 	 *
 	 * @sa DataTable2Parser::getArg() for a description of valid arguments.
 	 */
-	public function __construct( $input, array $args = null, $assoc = true ) {
+	public function __construct( $input, ?array $args = null, $assoc = true ) {
 		parent::__construct( $input, $args );
 
 		$this->parseWiki( $assoc );
