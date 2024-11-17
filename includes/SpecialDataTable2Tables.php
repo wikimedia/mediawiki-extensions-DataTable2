@@ -15,6 +15,7 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use Wikimedia\Rdbms\Subquery;
 
 /**
  * @brief Pager used in SpecialDataTable2Tables.
@@ -68,7 +69,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 			$conds, __METHOD__,
 			[ 'GROUP BY' => [ 'dtd_table', 'dtd_page' ] ] );
 
-		return [ 'tables' => [ 'd' => "($table)" ],
+		return [ 'tables' => [ 'd' => new Subquery( $table ) ],
 			'fields' => [ 'dtd_table', 'pages' => 'count(*)',
 				'records' => 'sum(records)' ],
 			'options' => [ 'GROUP BY' => 'dtd_table' ]
