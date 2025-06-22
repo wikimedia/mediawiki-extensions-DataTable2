@@ -14,6 +14,7 @@
  * @sa Largely inspired from SpecialListusers.php.
  */
 
+use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
 
 /**
@@ -77,7 +78,7 @@ class DataTable2DataPager extends DataTable2Pager {
 		$par = null ) {
 		global $wgSpecialDataTable2PageParSep;
 
-		$param = explode( $wgSpecialDataTable2PageParSep, $par, 3 );
+		$param = explode( $wgSpecialDataTable2PageParSep, $par ?? '', 3 );
 
 		$this->pagename = isset( $param[1] ) && $param[1] != ''
 			? $param[1] :

@@ -14,6 +14,8 @@
  * @sa Largely inspired by SpecialListusers.php.
  */
 
+use MediaWiki\Html\Html;
+
 /**
  * @brief Pager base class for the @ref Extensions-DataTable2.
  *

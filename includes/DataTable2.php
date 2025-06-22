@@ -999,12 +999,7 @@ class DataTable2 {
 
 			if ( $detailTrackingCategory ) {
 				$parserOutput = $parser->getOutput();
-				if ( method_exists( $parserOutput, 'getPageProperty' ) ) {
-					// MW 1.38+
-					$defaultSort = $parserOutput->getPageProperty( 'defaultsort' ) ?? '';
-				} else {
-					$defaultSort = $parserOutput->getProperty( 'defaultsort' ) ?: '';
-				}
+				$defaultSort = $parserOutput->getPageProperty( 'defaultsort' ) ?? '';
 				$parserOutput->addCategory(
 					$detailTrackingCategory->getDBkey(),
 					$defaultSort );
@@ -1019,12 +1014,7 @@ class DataTable2 {
 		 * on those pages where data is taken from.
 		 */
 		$revisionLookup = MediaWikiServices::getInstance()->getRevisionLookup();
-		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-			// MediaWiki 1.36+
-			$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
-		} else {
-			$wikiPageFactory = null;
-		}
+		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
 		foreach ( $pages as $pageId ) {
 			/** Disable caching completely if the page uses data
 			 *	from a non-wiki source.
@@ -1034,12 +1024,7 @@ class DataTable2 {
 				continue;
 			}
 
-			if ( $wikiPageFactory !== null ) {
-				// MediaWiki 1.36+
-				$page = $wikiPageFactory->newFromID( $pageId );
-			} else {
-				$page = WikiPage::newFromID( $pageId );
-			}
+			$page = $wikiPageFactory->newFromID( $pageId );
 
 			if ( isset( $page ) ) {
 				$revisionRecord = $revisionLookup->getRevisionByPageId( $pageId );
