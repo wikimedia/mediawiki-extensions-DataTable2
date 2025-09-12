@@ -12,6 +12,8 @@
  *
  */
 
+use MediaWiki\Title\Title;
+
 /**
  * @brief Auxiliary class to parse the content of a \<datatable2> or
  * \<dt2-showtable> tag for the @ref Extensions-DataTable2.
