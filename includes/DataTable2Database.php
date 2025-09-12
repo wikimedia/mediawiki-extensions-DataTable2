@@ -14,6 +14,7 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 /**
  * @brief Auxiliary class to access the database tables of the @ref
