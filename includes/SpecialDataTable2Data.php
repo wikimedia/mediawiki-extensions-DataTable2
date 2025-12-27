@@ -194,18 +194,18 @@ class DataTable2DataPager extends DataTable2Pager {
 		$content = Html::rawElement( 'label',
 			[ 'for' => 'data' ],
 			$this->msg( 'datatable2data-from' )->parse() ) . '&#160'
-			. Xml::input( 'data', 20, $this->dataFrom,
-				[ 'id' => 'data' ] ) . ' '
+			. Html::input( 'data', $this->dataFrom, 'text',
+				[ 'size' => 20, 'id' => 'data' ] ) . ' '
 			. Html::rawElement( 'label',
 				[ 'for' => 'tablename' ],
 				$this->msg( 'datatable2data-table' )->parse() ) . '&#160'
-			. Xml::input( 'tablename', 20, $this->tablename ?? '',
-				[ 'id' => 'tablename' ] ) . ' '
+			. Html::input( 'tablename', $this->tablename ?? '', 'text',
+				[ 'size' => 20, 'id' => 'tablename' ] ) . ' '
 			. Html::rawElement( 'label',
 				[ 'for' => 'pagename' ],
 				$this->msg( 'datatable2data-page' )->parse() ) . '&#160'
-			. Xml::input( 'pagename', 20, $this->pagename,
-				[ 'id' => 'pagename' ] );
+			. Html::input( 'pagename', $this->pagename, 'text',
+				[ 'size' => 20, 'id' => 'pagename' ] );
 
 		return $this->buildPageHeader( 'data', $content );
 	}

@@ -102,7 +102,7 @@ abstract class DataTable2Pager extends AlphabeticPager {
 			. Html::hidden( 'title', $title )
 			. Html::hidden( 'limit', $this->mLimit )
 			. $content . ' '
-			. Xml::submitButton( $this->msg( 'allpagessubmit' )->text() )
+			. Html::submitButton( $this->msg( 'allpagessubmit' )->text(), [] )
 			. Xml::closeElement( 'fieldset' )
 			. Xml::closeElement( 'form' );
 	}
