@@ -77,9 +77,9 @@ class DataTable2DataPager extends DataTable2Pager {
 	 */
 	public function __construct( ?IContextSource $context = null,
 		$par = null ) {
-		global $wgSpecialDataTable2PageParSep;
+		$specialPageParSep = $this->getConfig()->get( 'SpecialDataTable2PageParSep' );
 
-		$param = explode( $wgSpecialDataTable2PageParSep, $par ?? '', 3 );
+		$param = explode( $specialPageParSep, $par ?? '', 3 );
 
 		$this->pagename = isset( $param[1] ) && $param[1] != ''
 			? $param[1] :
@@ -105,7 +105,7 @@ class DataTable2DataPager extends DataTable2Pager {
 
 	/// Specify the database query to be run by AlphabeticPager.
 	public function getQueryInfo() {
-		global $wgDataTable2ReadSrc;
+		$readSrc = $this->getConfig()->get( 'DataTable2ReadSrc' );
 
 		$conds = [ 'dtd_table' => $this->tableDbKey,
 			'dtd_page = page_id' ];
@@ -125,7 +125,7 @@ class DataTable2DataPager extends DataTable2Pager {
 		}
 
 		return [
-			'tables' => [ 'd' => $wgDataTable2ReadSrc, 'page' ],
+			'tables' => [ 'd' => $readSrc, 'page' ],
 			'fields' => [ 'page_namespace', 'page_title', 'd.*' ],
 			'conds' => $conds
 		];
@@ -147,9 +147,9 @@ class DataTable2DataPager extends DataTable2Pager {
 		$text = '';
 
 		if ( $this->firstRow_ ) {
-			global $wgSpecialDataTable2DataClasses;
+			$tableClasses = $this->getConfig()->get( 'SpecialDataTable2DataClasses' );
 
-			$classes = implode( ' ', $wgSpecialDataTable2DataClasses );
+			$classes = implode( ' ', $tableClasses );
 			$text .= "<table class='$classes'>\n<tr>\n";
 
 			foreach ( $this->columns_ as $name ) {

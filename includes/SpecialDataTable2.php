@@ -133,9 +133,14 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage {
 	 * tablename to display data.
 	 */
 	public function __construct( $name, $needsTablename = true ) {
-		parent::__construct( $name, 'datatable2-specialpages' );
+		parent::__construct( $name );
 
 		$this->needsTablename_ = $needsTablename;
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'datatable2-specialpages';
 	}
 
 	/* == operations == */
@@ -143,7 +148,7 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage {
 	/**
 	 * @brief Execute the special page.
 	 *
-	 * @param string $par Parameter passed to the pager class.
+	 * @param string|null $par Parameter passed to the pager class.
 	 */
 	public function execute( $par ) {
 		if ( !$this->including()
@@ -161,7 +166,7 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage {
 		 */
 		$pagerClass = "{$this->getName()}Pager";
 		/** @var DataTable2Pager $pager */
-		$pager = new $pagerClass( $this->getContext(), $par );
+		$pager = new $pagerClass( $this->getContext(), $par ?? '' );
 
 		$html = '';
 

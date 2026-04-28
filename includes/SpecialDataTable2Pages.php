@@ -61,9 +61,9 @@ class DataTable2PagesPager extends DataTable2Pager {
 	 */
 	public function __construct( ?IContextSource $context = null,
 		$par = null ) {
-		global $wgSpecialDataTable2PageParSep;
+		$specialPageParSep = $this->getConfig()->get( 'SpecialDataTable2PageParSep' );
 
-		$param = explode( $wgSpecialDataTable2PageParSep, $par, 2 );
+		$param = explode( $specialPageParSep, $par, 2 );
 
 		$this->pagename = isset( $param[1] ) && $param[1] != ''
 			? $param[1] : $this->getRequest()->getText( 'pagename' );
@@ -75,7 +75,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 
 	/// Specify the database query to be run by AlphabeticPager.
 	public function getQueryInfo() {
-		global $wgDataTable2ReadSrc;
+		$readSrc = $this->getConfig()->get( 'DataTable2ReadSrc' );
 
 		$conds = [ 'dtd_table' => $this->tableDbKey,
 			'dtd_page = page_id' ];
@@ -90,7 +90,7 @@ class DataTable2PagesPager extends DataTable2Pager {
 		}
 
 		return [
-			'tables' => [ $wgDataTable2ReadSrc, 'page' ],
+			'tables' => [ $readSrc, 'page' ],
 			'fields' => [ 'page_namespace', 'page_title',
 				'records' => 'count(*)' ],
 			'conds' => $conds,

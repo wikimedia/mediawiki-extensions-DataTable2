@@ -11,7 +11,6 @@
  * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  */
 
-use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LuaEngine;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\SlotRecord;
@@ -137,7 +136,7 @@ class DataTable2 {
 
 		$result = $myParser->parse( $wikiText, $wgTitle, $myParserOptions );
 
-		return $result->getText();
+		return $result->getContentHolderText();
 	}
 
 	/* == private data members == */
@@ -175,13 +174,11 @@ class DataTable2 {
 	 *
 	 * @param string &$error If the requested article deletion was
 	 * prohibited, the (raw HTML) error message to display.
-	 *
-	 * @return bool|string Success or failure.
 	 */
 	public function onArticleDelete( WikiPage &$article, User &$user,
 		&$reason, &$error ) {
 		/** Call DataTable2Database::delete(). */
-		return $this->database_->delete( $article->getId(), __METHOD__ );
+		$this->database_->delete( $article->getId(), __METHOD__ );
 	}
 
 	/**
@@ -193,16 +190,12 @@ class DataTable2 {
 	 * the updater process.
 	 *
 	 * @param DatabaseUpdater $updater Object that updates the database.
-	 *
-	 * @return bool Always TRUE.
 	 */
 	public function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
 		$updater->addExtensionTable( 'datatable2_data',
 			__DIR__ . '/../sql/datatable2_data.sql', true );
 		$updater->addExtensionTable( 'datatable2_meta',
 			__DIR__ . '/../sql/datatable2_meta.sql', true );
-
-		return true;
 	}
 
 	/**
@@ -219,15 +212,13 @@ class DataTable2 {
 	 *
 	 * @param WikiPage $article The article edited.
 	 *
-	 * @param Revision $rev The new revision.
+	 * @param RevisionRecord $rev The new revision.
 	 *
 	 * @param int $baseID The revision ID this was based off, if any. For
 	 * example, for a rollback, this will be the rev_id that is being
 	 * rolled back to.
 	 *
 	 * @param User $user The revision author.
-	 *
-	 * @return bool Always true.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation"
 	 * Since data are <b>saved to the database</b> using the <a
@@ -243,7 +234,7 @@ class DataTable2 {
 		$article, RevisionRecord $rev, $baseID, User $user
 	) {
 		/** Call DataTable2Database::save(). */
-		return $this->database_->save(
+		$this->database_->save(
 			$article, $rev->getContent( SlotRecord::MAIN )->getWikitextForTransclusion(),
 			__METHOD__
 		);
@@ -254,12 +245,8 @@ class DataTable2 {
 	 * (https://www.mediawiki.org/wiki/Manual:Hooks/ParserFirstCallInit) hook.
 	 *
 	 * @param Parser &$parser Parser object being cleared.
-	 *
-	 * @return bool Always TRUE.
 	 */
 	public function onParserFirstCallInit( Parser &$parser ) {
-		global $wgExtensionCredits, $wgHooks;
-
 		/** Set [tag hooks](https://www.mediawiki.org/wiki/Manual:Tag
 		 * extensions) and [parser function hooks]
 		 * (https://www.mediawiki.org/wiki/Manual:Parser functions).
@@ -279,17 +266,6 @@ class DataTable2 {
 		$parser->setFunctionHook( 'dt2-lastget',
 			[ $this, 'renderLastGet' ],
 			SFH_OBJECT_ARGS );
-
-		/**
-		 * Add Scribunto support if the [Scribunto
-		 * Extension](https://www.mediawiki.org/wiki/Extension:Scribunto) is
-		 * installed.
-		 */
-		if ( isset( $wgExtensionCredits['parserhook']['Scribunto'] ) ) {
-			$wgHooks['ScribuntoExternalLibraries'][] = $this;
-		}
-
-		return true;
 	}
 
 	/**
@@ -298,15 +274,11 @@ class DataTable2 {
 	 * @param LuaEngine $engine Scribunto engine.
 	 *
 	 * @param array &$extraLibraries Libraries to register.
-	 *
-	 * @return bool Always TRUE.
 	 */
 	public function onScribuntoExternalLibraries( $engine,
 		array &$extraLibraries ) {
 		$extraLibraries['mw.ext.datatable2']
 			= 'Scribunto_LuaDataTable2Library';
-
-		return true;
 	}
 
 	/* == other public methods == */
