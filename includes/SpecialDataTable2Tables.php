@@ -55,7 +55,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 
 	/// Specify the database query to be run by AlphabeticPager.
 	public function getQueryInfo() {
-		global $wgDataTable2ReadSrc;
+		$readSrc = $this->getConfig()->get( 'DataTable2ReadSrc' );
 
 		$conds = [];
 
@@ -66,7 +66,7 @@ class DataTable2TablesPager extends DataTable2Pager {
 				. $dbr->addQuotes( $this->tableDbKey );
 		}
 
-		$table = $dbr->selectSQLText( $wgDataTable2ReadSrc,
+		$table = $dbr->selectSQLText( $readSrc,
 			[ 'dtd_table', 'dtd_page', 'records' => 'count(*)' ],
 			$conds, __METHOD__,
 			[ 'GROUP BY' => [ 'dtd_table', 'dtd_page' ] ] );

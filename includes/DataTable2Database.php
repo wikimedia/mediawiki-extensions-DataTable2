@@ -80,7 +80,7 @@ class DataTable2Database {
 	/**
 	 * @brief Return the array of logical column names for a table.
 	 *
-	 * @param string $table Logical table name.
+	 * @param string|null $table Logical table name.
 	 *
 	 * @param string $fname Caller function name.
 	 *
@@ -91,6 +91,9 @@ class DataTable2Database {
 	 * meta data are found for the table.
 	 */
 	public function getColumns( $table, $fname = __METHOD__ ) {
+		if ( $table === null ) {
+			return [];
+		}
 		/** If the result is already cached in @ref $columns_, get
 		 *	it from the cache and return.
 		 */
@@ -144,8 +147,6 @@ class DataTable2Database {
 	 * @param int $pageId Page ID.
 	 *
 	 * @param string $fname Name of the calling function.
-	 *
-	 * @return bool Always TRUE.
 	 */
 	public function delete( $pageId, $fname = __METHOD__ ) {
 		/** The table to delete from is specified in the global
@@ -176,8 +177,6 @@ class DataTable2Database {
 			[ "dtm_table not in ($subquery)" ], $fname );
 
 		// $dbw->commit( $fname );
-
-		return true;
 	}
 
 	/**
@@ -190,8 +189,6 @@ class DataTable2Database {
 	 * @param string $text The new article text.
 	 *
 	 * @param string $fname Name of the calling function.
-	 *
-	 * @return bool Always TRUE.
 	 */
 	public function save( $article, $text, $fname = __METHOD__ ) {
 		/** The table to save to is specified in the global
@@ -279,8 +276,6 @@ class DataTable2Database {
 		}
 
 		// $dbw->commit( $fname );
-
-		return true;
 	}
 
 	/**
