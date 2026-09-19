@@ -11,10 +11,13 @@
  * @author [RV1971](https://www.mediawiki.org/wiki/User:RV1971)
  */
 
+use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LuaEngine;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\SlotRecord;
 use MediaWiki\Title\Title;
+use MediaWiki\User\User;
+use MediaWiki\User\UserIdentity;
 
 /**
  * @brief Class implementing the @ref Extensions-DataTable2.
@@ -193,9 +196,9 @@ class DataTable2 {
 	 */
 	public function onLoadExtensionSchemaUpdates( DatabaseUpdater $updater ) {
 		$updater->addExtensionTable( 'datatable2_data',
-			__DIR__ . '/../sql/datatable2_data.sql', true );
+			__DIR__ . '/../sql/datatable2_data.sql' );
 		$updater->addExtensionTable( 'datatable2_meta',
-			__DIR__ . '/../sql/datatable2_meta.sql', true );
+			__DIR__ . '/../sql/datatable2_meta.sql' );
 	}
 
 	/**
@@ -218,7 +221,7 @@ class DataTable2 {
 	 * example, for a rollback, this will be the rev_id that is being
 	 * rolled back to.
 	 *
-	 * @param User $user The revision author.
+	 * @param UserIdentity $user The revision author.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation"
 	 * Since data are <b>saved to the database</b> using the <a
@@ -231,7 +234,7 @@ class DataTable2 {
 	 * get the data actually saved.
 	 */
 	public function onRevisionFromEditComplete(
-		$article, RevisionRecord $rev, $baseID, User $user
+		$article, RevisionRecord $rev, $baseID, UserIdentity $user
 	) {
 		/** Call DataTable2Database::save(). */
 		$this->database_->save(
@@ -612,7 +615,7 @@ class DataTable2 {
 	 *
 	 * @param array $args PPNode objects for the template arguments.
 	 *
-	 * @return string Content of the selected column.
+	 * @return string|array Content of the selected column.
 	 *
 	 * @xrefitem userdoc "User Documentation" "User Documentation" The
 	 * <b>dt2-get</b> parser function returns the content of the
@@ -747,7 +750,7 @@ class DataTable2 {
 			/** Return default if there is no record available; empty
 			 *	string if default is unset.
 			 */
-			if ( !isset( $this->lastGet_ ) ) {
+			if ( $this->lastGet_ === null ) {
 				return isset( $args[1] ) ? $frame->expand( $args[1] ) : '';
 			}
 
@@ -844,10 +847,7 @@ class DataTable2 {
 			} else {
 				$name = trim( substr( $arg, 0, $eqpos ) );
 				$value = trim( substr( $arg, $eqpos + 1 ) );
-				if ( $value === false ) {
-					$value = '';
-				}
-				if ( $name !== false ) {
+				if ( $name !== '' ) {
 					$assocArgs[$name] = $value;
 				}
 			}
@@ -1000,7 +1000,7 @@ class DataTable2 {
 
 			$page = $wikiPageFactory->newFromID( $pageId );
 
-			if ( isset( $page ) ) {
+			if ( $page !== null ) {
 				$revisionRecord = $revisionLookup->getRevisionByPageId( $pageId );
 				if ( $revisionRecord !== null ) {
 					$parser->getOutput()->AddTemplate(

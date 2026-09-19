@@ -176,9 +176,9 @@ class DataTable2Parser {
 	 * @return bool
 	 */
 	public function isToBeWrapped() {
-		return isset( $this->head_ )
+		return $this->head_ !== null
 			|| isset( $this->args_['class'] )
-			|| ( !isset( $this->args_['template'] ) && !isset( $this->templateText_ ) );
+			|| ( !isset( $this->args_['template'] ) && $this->templateText_ === null );
 	}
 
 	/**

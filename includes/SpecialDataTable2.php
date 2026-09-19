@@ -154,7 +154,6 @@ abstract class SpecialDataTable2 extends IncludableSpecialPage {
 		if ( !$this->including()
 			&& !$this->userCanExecute( $this->getUser() ) ) {
 			$this->displayRestrictionError();
-			return;
 		}
 
 		$this->setHeaders();

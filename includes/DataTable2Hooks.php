@@ -4,6 +4,8 @@ use MediaWiki\Hook\ParserFirstCallInitHook;
 use MediaWiki\Installer\Hook\LoadExtensionSchemaUpdatesHook;
 use MediaWiki\Page\Hook\ArticleDeleteHook;
 use MediaWiki\Page\Hook\RevisionFromEditCompleteHook;
+use MediaWiki\Status\Status;
+use MediaWiki\User\User;
 
 class DataTable2Hooks implements
 	ArticleDeleteHook,
@@ -15,10 +17,10 @@ class DataTable2Hooks implements
 	/** @inheritDoc */
 	public function onArticleDelete(
 		WikiPage $wikiPage,
-		\MediaWiki\User\User $user,
+		User $user,
 		&$reason,
 		&$error,
-		\MediaWiki\Status\Status &$status,
+		Status &$status,
 		$suppress
 	) {
 		DataTable2::singleton()->onArticleDelete( $wikiPage, $user, $reason, $error );

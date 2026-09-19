@@ -139,8 +139,8 @@ class DataTable2PagesPager extends DataTable2Pager {
 
 	// Re-implement IndexPager::getBody().
 	public function getBody() {
-		/** Return null if no table specified. */
-		return $this->tablename ? parent::getBody() : null;
+		/** Return empty string if no table specified. */
+		return $this->tablename ? parent::getBody() : '';
 	}
 }
 
